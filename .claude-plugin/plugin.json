@@ -1,0 +1,10 @@
+{
+  "name": "midu-design-system",
+  "description": "MIDU MenaQ7 brand design system: tokens, component recipes, FZ Rubik typography, MIGI mascot assets, and a brand-review checklist for AI-assisted web development",
+  "version": "1.0.0",
+  "author": {
+    "name": "HaPQ"
+  },
+  "keywords": ["design-system", "midu", "brand", "ui", "vibecoding"],
+  "skills": ["./skills/midu-design-system", "./skills/midu-brand-review"]
+}

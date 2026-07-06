@@ -1,0 +1,65 @@
+/* MIDU MenaQ7 — design tokens. Source of truth: DESIGN.md frontmatter (kit root). */
+:root {
+  /* Brand core */
+  --midu-primary: #384B98;
+  --midu-magenta: #C1368D;
+  --midu-on-primary: #FFFFFF;
+  --midu-grad-brand: linear-gradient(90deg, #384B98 0%, #C1368D 100%);
+  --midu-grad-brand-reverse: linear-gradient(90deg, #C1368D 0%, #384B98 100%);
+  --midu-sun: #EFCA3D;
+  --midu-lime: #E4E254;
+  --midu-grad-sun: linear-gradient(90deg, #EFCA3D 0%, #E4E254 100%);
+
+  /* Surfaces & text */
+  --midu-ink: #221F1F;
+  --midu-ink-soft: #4A4660;
+  --midu-canvas: #FFFFFF;
+  --midu-surface-soft: #EEF1FA;
+  --midu-surface-tint: #F7F4FB;
+  --midu-hairline: #DDE2F0;
+
+  /* Mascot palette (illustration only — not UI chrome) */
+  --migi-yellow: #FFDA69;
+  --migi-purple: #5F469B;
+  --migi-magenta: #B84190;
+  --migi-deep: #432C79;
+  --migi-orange: #F68500;
+
+  /* Nutrient bubbles (decorative spheres) */
+  --midu-bubble-purple-light: #8A6CC7;
+  --midu-grad-bubble: radial-gradient(circle at 32% 28%, var(--midu-bubble-purple-light), #5F469B 45%, #432C79);
+  --midu-grad-bubble-orange: radial-gradient(circle at 32% 28%, #FFB259, #F68500 55%, #D96C00);
+
+  /* Semantic */
+  --midu-success: #2E7D46;
+  --midu-error: #C93A3A;
+  --midu-scrim: rgba(34, 31, 31, 0.5); /* ink @ 50% */
+
+  /* Type */
+  /* FZ Rubik ships in design-system/fonts/ (register via fonts/fzrubik.css).
+     Never substitute Google-Fonts Rubik for Vietnamese copy (no vietnamese subset). */
+  --midu-font-ui: "Fz Rubik", system-ui, sans-serif;
+  --midu-font-tagline: "Quicksand", var(--midu-font-ui);
+  --midu-font-sticker: "Patrick Hand", cursive;
+
+  /* Radius */
+  --midu-r-sm: 8px;
+  --midu-r-md: 12px;
+  --midu-r-lg: 20px;
+  --midu-r-xl: 28px;
+  --midu-r-pill: 999px;
+
+  /* Spacing (8px base) */
+  --midu-s-xxs: 4px;
+  --midu-s-xs: 8px;
+  --midu-s-sm: 12px;
+  --midu-s-md: 16px;
+  --midu-s-lg: 24px;
+  --midu-s-xl: 32px;
+  --midu-s-xxl: 48px;
+  --midu-s-section: 80px;
+
+  /* Elevation (indigo-tinted, never grey) */
+  --midu-shadow-card: 0 8px 24px rgba(56, 75, 152, 0.10);
+  --midu-shadow-float: 0 16px 40px rgba(56, 75, 152, 0.16);
+}

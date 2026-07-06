@@ -1,0 +1,471 @@
+<meta charset="utf-8">
+<title>MIDU MenaQ7 — Design System</title>
+<!--
+  Source template for ../preview.html — rebuild with: python build-preview.py
+  Placeholders (double-underscore FONT_CSS / IMG_xxx markers) are inlined at build time.
+  Deliberately light-only: the brand defines no dark mode (DESIGN.md → Known Gaps),
+  and a style guide must not show surface colors the brand doesn't have.
+  Vietnamese strings in specimens are intentional: they are real brand copy and
+  double as the diacritics rendering test ("Chuyên gia chiều cao").
+-->
+<style>
+__FONT_CSS__
+
+/* ============ TOKENS (mirror of tokens.css values) ============ */
+:root{
+  --primary:#384B98; --magenta:#C1368D; --on-primary:#FFFFFF;
+  --sun:#EFCA3D; --lime:#E4E254;
+  --grad-brand:linear-gradient(90deg,#384B98,#C1368D);
+  --grad-brand-rev:linear-gradient(90deg,#C1368D,#384B98);
+  --grad-sun:linear-gradient(90deg,#EFCA3D,#E4E254);
+  --grad-bubble:radial-gradient(circle at 32% 28%,#8A6CC7,#5F469B 45%,#432C79);
+  --grad-bubble-orange:radial-gradient(circle at 32% 28%,#FFB259,#F68500 55%,#D96C00);
+  --ink:#221F1F; --ink-soft:#4A4660;
+  --canvas:#FFFFFF; --surface-soft:#EEF1FA; --surface-tint:#F7F4FB;
+  --hairline:#DDE2F0;
+  --success:#2E7D46; --error:#C93A3A;
+  --shadow-card:0 8px 24px rgba(56,75,152,.10);
+  --shadow-float:0 16px 40px rgba(56,75,152,.16);
+  --swatch-ring:rgba(34,31,31,.08);
+  --font-ui:'Fz Rubik',system-ui,sans-serif;
+  --font-tagline:'Quicksand',var(--font-ui);
+  --font-sticker:'Patrick Hand',cursive;
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  margin:0;background:var(--canvas);color:var(--ink);
+  font:400 16px/1.6 var(--font-ui);
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+img{max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:80px 0}
+.sec-tint{background:var(--surface-soft)}
+.sec-title{font-size:30px;font-weight:700;line-height:1.25;margin-bottom:8px}
+.sec-sub{color:var(--ink-soft);max-width:62ch;margin-bottom:36px}
+
+/* ============ TYPE SCALE (tokens from DESIGN.md) ============ */
+.eyebrow,.t-eyebrow,.pal-group,.type-meta b{
+  font:700 13px/1.3 var(--font-ui);letter-spacing:1.5px;text-transform:uppercase;
+}
+.t-display-xl{font-size:clamp(40px,6vw,64px);font-weight:900;line-height:1.05;letter-spacing:-.5px}
+.t-display{font-size:44px;font-weight:900;line-height:1.1;letter-spacing:-.25px}
+.t-headline{font-size:30px;font-weight:700;line-height:1.25}
+.t-title{font-size:22px;font-weight:700;line-height:1.35}
+.t-tagline{font:400 22px/1.35 var(--font-tagline);letter-spacing:1px}
+.t-body-lg{font-size:18px;font-weight:500;line-height:1.55}
+.t-body{font-size:16px;line-height:1.6}
+.t-eyebrow{color:var(--magenta)}
+.t-caption{font-size:12px;font-weight:500;letter-spacing:.3px;color:var(--ink-soft)}
+.t-sticker{font:400 24px/1.2 var(--font-sticker);letter-spacing:.5px}
+.grad-text{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--magenta);background:var(--canvas);
+  border:1px solid var(--hairline);
+  padding:6px 14px;border-radius:999px;margin-bottom:16px;
+}
+.pal-group{color:var(--ink-soft);margin:32px 0 14px}
+
+/* ============ NAV ============ */
+nav{
+  position:sticky;top:0;z-index:50;height:64px;
+  background:var(--canvas);box-shadow:var(--shadow-card);
+}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:28px}
+.nav-logo{height:34px;width:auto;display:block}
+.nav-links{display:flex;gap:22px;margin-left:auto;font:500 14px/1 var(--font-ui)}
+.nav-links a{text-decoration:none;color:var(--ink-soft)}
+.nav-links a:hover,.nav-links a:focus-visible{color:var(--magenta)}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:700 16px/1.2 var(--font-ui);letter-spacing:.2px;
+  border-radius:999px;border:0;cursor:pointer;text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.btn-primary{background:var(--grad-brand);color:#fff;padding:14px 28px;box-shadow:var(--shadow-card)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-float)}
+.btn-secondary{background:var(--canvas);color:var(--primary);padding:12px 26px;border:2px solid var(--primary)}
+.btn-secondary:hover{background:var(--surface-soft)}
+.btn-sun{background:var(--sun);color:#221F1F;padding:14px 28px}
+.btn-sun:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(239,202,61,.4)}
+
+/* ============ HERO ============ */
+.hero{padding:48px 0 80px}
+.hero-panel{
+  position:relative;background:var(--grad-brand);border-radius:28px;
+  padding:56px 48px;color:#fff;
+  display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;
+}
+.hero-panel .eyebrow{background:rgba(255,255,255,.16);color:#fff;border:0;backdrop-filter:blur(4px)}
+.hero-title{margin:0 0 12px}
+.hero-tagline{opacity:.92;margin-bottom:20px}
+.hero-copy{opacity:.9;max-width:48ch;margin-bottom:28px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-cta .btn-secondary{border-color:#fff;color:#fff;background:transparent}
+.hero-cta .btn-secondary:hover{background:rgba(255,255,255,.12)}
+.hero-art{position:relative;min-height:300px}
+.hero-art img{
+  position:absolute;bottom:-90px;right:0;width:min(340px,100%);
+  filter:drop-shadow(0 20px 30px rgba(34,31,31,.3));
+}
+@media(max-width:860px){
+  .hero-panel{grid-template-columns:1fr;padding:40px 28px}
+  .hero-art{min-height:240px}
+  .hero-art img{position:static;display:block;margin:0 auto;width:min(260px,80%)}
+}
+
+/* nutrient bubbles */
+.bubble{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;color:#fff;font:700 13px/1 var(--font-ui);letter-spacing:.5px;
+  background:var(--grad-bubble);
+  position:relative;
+}
+.bubble::after{
+  content:"";position:absolute;top:14%;right:18%;width:22%;height:14%;
+  background:rgba(255,255,255,.8);border-radius:50%;transform:rotate(-28deg);
+}
+.bubble.orange{background:var(--grad-bubble-orange)}
+.hero-bubbles{position:absolute;inset:0;pointer-events:none}
+.hero-bubbles .bubble{position:absolute;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ============ PALETTE ============ */
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.swatch{border-radius:20px;overflow:hidden;background:var(--canvas);box-shadow:var(--shadow-card)}
+.swatch-chip{height:88px;box-shadow:inset 0 0 0 1px var(--swatch-ring)}
+.swatch-meta{padding:12px 16px}
+.swatch-name{font-weight:700;font-size:14px}
+.swatch-hex{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--ink-soft)}
+.swatch-role{font-size:12px;color:var(--ink-soft);margin-top:4px}
+.grad-strip{height:64px;border-radius:20px;margin-bottom:12px;display:flex;align-items:center;padding:0 24px;color:#fff;font-weight:700}
+.grad-label-dark{color:#221F1F}
+
+/* ============ LOGO ============ */
+.logo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.logo-card{background:var(--canvas);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-card)}
+.logo-stage{display:flex;align-items:center;justify-content:center;padding:32px;min-height:170px;background:var(--canvas)}
+.logo-stage img{max-width:220px;max-height:120px;object-fit:contain}
+.logo-meta{padding:12px 16px;border-top:1px solid var(--hairline)}
+
+/* ============ TYPO SPECIMEN ============ */
+.type-row{display:grid;grid-template-columns:210px 1fr;gap:24px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--hairline)}
+.type-row:last-child{border-bottom:0}
+.type-meta{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--ink-soft)}
+.type-meta b{display:block;color:var(--magenta)}
+@media(max-width:700px){.type-row{grid-template-columns:1fr;gap:6px}}
+
+/* ============ COMPONENT SPECIMENS ============ */
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.spec{background:var(--canvas);border-radius:20px;padding:24px;box-shadow:var(--shadow-card)}
+.spec h3{font-size:22px;margin-bottom:16px}
+.spec .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.stat{background:var(--canvas);border-radius:20px;padding:24px;box-shadow:var(--shadow-card)}
+.stat .lbl{margin-top:6px}
+.stat .src{font-size:12px;color:var(--ink-soft);margin-top:10px}
+
+.input-demo{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.input-demo label{font-size:14px;font-weight:500}
+.input-demo input{
+  font:400 16px/1.4 var(--font-ui);color:var(--ink);background:var(--canvas);
+  border:1px solid var(--hairline);border-radius:12px;padding:12px 16px;width:100%;
+}
+.input-demo input:focus{outline:0;border-color:var(--primary);box-shadow:0 0 0 3px rgba(56,75,152,.15)}
+.input-demo.err input{border-color:var(--error)}
+.input-demo.err .msg{font-size:12px;color:var(--error)}
+
+.ruler{margin-top:8px}
+.ruler-track{
+  height:12px;border-radius:999px;background:var(--surface-soft);position:relative;overflow:hidden;
+}
+.ruler-track::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--hairline) calc(10% - 1px) 10%);
+}
+.ruler-fill{height:100%;width:65%;border-radius:999px;background:var(--grad-sun);position:relative}
+.ruler-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);margin-top:6px}
+
+/* ============ MASCOT MAP ============ */
+.migi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
+.migi-card{background:var(--surface-tint);border-radius:28px;padding:20px;text-align:center;transition:transform .15s ease}
+.migi-card:hover{transform:translateY(-3px)}
+.migi-card img{width:130px;height:130px;object-fit:contain}
+.migi-cap{margin-top:8px}
+.migi-use{font-size:12px;color:var(--ink-soft);margin-top:4px}
+.migi-file{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--ink-soft);opacity:.7;margin-top:6px}
+
+/* ============ DO / DON'T ============ */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.dd{grid-template-columns:1fr}}
+.dd-col{border-radius:20px;padding:24px 28px}
+.dd-do{background:var(--surface-soft)}
+.dd-dont{background:var(--surface-tint)}
+.dd h3{font-size:22px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.dd-do h3{color:var(--success)}
+.dd-dont h3{color:var(--error)}
+.dd ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:15px}
+
+/* ============ FOOTER ============ */
+footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0;margin-top:80px}
+.foot-in{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot-brand{font-size:22px;font-weight:700}
+.foot-tag{font:400 18px/1.3 var(--font-tagline);letter-spacing:1px;opacity:.9}
+.foot-note{font-size:14px;opacity:.85}
+</style>
+
+<nav aria-label="Demo top-nav">
+  <div class="nav-in">
+    <img class="nav-logo" src="__IMG_logo__" alt="MIDU — Chuyên gia chiều cao">
+    <div class="nav-links">
+      <a href="#colors">Colors</a>
+      <a href="#logo">Logo</a>
+      <a href="#type">Typography</a>
+      <a href="#components">Components</a>
+      <a href="#mascot">Mascot</a>
+    </div>
+    <a class="btn btn-primary" href="#" style="padding:10px 22px;font-size:14px" onclick="return false">Buy now</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-panel">
+    <div class="hero-bubbles" aria-hidden="true">
+      <span class="bubble" style="width:52px;height:52px;top:8%;right:38%">K2</span>
+      <span class="bubble" style="width:40px;height:40px;top:58%;left:44%;animation-delay:-2s">D3</span>
+      <span class="bubble" style="width:46px;height:46px;bottom:10%;left:30%;animation-delay:-4s">Ca+</span>
+      <span class="bubble orange" style="width:36px;height:36px;top:20%;left:38%;animation-delay:-5s;font-size:11px">Arg</span>
+    </div>
+    <div>
+      <span class="eyebrow">Vibecoder Kit · DESIGN.md</span>
+      <h1 class="t-display-xl hero-title">MIDU MenaQ7</h1>
+      <p class="t-tagline hero-tagline">Chuyên gia chiều cao</p>
+      <p class="t-body-lg hero-copy">The design system for a children's height-growth brand: trustworthy science in a cartoon shell kids love instantly. One signature gradient, one giraffe doctor, and floating nutrient bubbles.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#colors">Explore the system</a>
+        <a class="btn btn-secondary" href="#mascot">Meet MIGI</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="__IMG_hello__" alt="MIGI — the giraffe doctor mascot waving hello">
+    </div>
+  </div>
+</header>
+
+<section id="colors" class="wrap">
+  <span class="eyebrow">01 · Colors</span>
+  <h2 class="sec-title">Color Palette</h2>
+  <p class="sec-sub">The official palette: two gradient poles, the energy-yellow pair, and the mascot's own palette (illustration only — never UI chrome).</p>
+
+  <div class="grad-strip" style="background:var(--grad-brand)">Brand gradient · #384B98 → #C1368D — primary CTAs, heroes, wordmark</div>
+  <div class="grad-strip grad-label-dark" style="background:var(--grad-sun)">Sun gradient · #EFCA3D → #E4E254 — highlights, progress fill</div>
+
+  <p class="pal-group">Brand core</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-chip" style="background:#384B98"></div><div class="swatch-meta"><div class="swatch-name">Indigo</div><div class="swatch-hex">#384B98</div><div class="swatch-role">Trust — headings, secondary buttons, links</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#C1368D"></div><div class="swatch-meta"><div class="swatch-name">Magenta</div><div class="swatch-hex">#C1368D</div><div class="swatch-role">Warm gradient pole — eyebrows, active states</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#EFCA3D"></div><div class="swatch-meta"><div class="swatch-name">Sun</div><div class="swatch-hex">#EFCA3D</div><div class="swatch-role">Energy — badges, highlights (ink text only)</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#E4E254"></div><div class="swatch-meta"><div class="swatch-name">Lime</div><div class="swatch-hex">#E4E254</div><div class="swatch-role">Bright pole of the sun gradient</div></div></div>
+  </div>
+
+  <p class="pal-group">Surfaces &amp; text</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-chip" style="background:#FFFFFF"></div><div class="swatch-meta"><div class="swatch-name">Canvas</div><div class="swatch-hex">#FFFFFF</div><div class="swatch-role">Default ground — the clinical credibility layer</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#EEF1FA"></div><div class="swatch-meta"><div class="swatch-name">Surface Soft</div><div class="swatch-hex">#EEF1FA</div><div class="swatch-role">Alternating tinted sections</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#F7F4FB"></div><div class="swatch-meta"><div class="swatch-name">Surface Tint</div><div class="swatch-hex">#F7F4FB</div><div class="swatch-role">Mascot stages, testimonials</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#221F1F"></div><div class="swatch-meta"><div class="swatch-name">Ink</div><div class="swatch-hex">#221F1F</div><div class="swatch-role">Text on light surfaces + MIGI's comic outlines</div></div></div>
+  </div>
+
+  <p class="pal-group">Mascot palette (illustration only)</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-chip" style="background:#FFDA69"></div><div class="swatch-meta"><div class="swatch-name">MIGI Yellow</div><div class="swatch-hex">#FFDA69</div><div class="swatch-role">The coat — warmer than Sun, never swap them</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#5F469B"></div><div class="swatch-meta"><div class="swatch-name">MIGI Purple</div><div class="swatch-hex">#5F469B</div><div class="swatch-role">Spots, shoes, nutrient bubbles</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:linear-gradient(180deg,#B84190,#432C79)"></div><div class="swatch-meta"><div class="swatch-name">MIGI Shirt</div><div class="swatch-hex">#B84190 → #432C79</div><div class="swatch-role">Shirt gradient — echoes the brand gradient</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#F68500"></div><div class="swatch-meta"><div class="swatch-name">MIGI Orange</div><div class="swatch-hex">#F68500</div><div class="swatch-role">Ears, blush, the Arg bubble</div></div></div>
+  </div>
+
+  <p class="pal-group">Semantic</p>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-chip" style="background:#2E7D46"></div><div class="swatch-meta"><div class="swatch-name">Success</div><div class="swatch-hex">#2E7D46</div><div class="swatch-role">Growth-on-track, confirmations — AA 5.1:1</div></div></div>
+    <div class="swatch"><div class="swatch-chip" style="background:#C93A3A"></div><div class="swatch-meta"><div class="swatch-name">Error</div><div class="swatch-hex">#C93A3A</div><div class="swatch-role">Form errors, missed doses — AA 5.1:1</div></div></div>
+  </div>
+</section>
+
+<section id="logo" class="sec-tint">
+  <div class="wrap">
+    <span class="eyebrow">02 · Logo</span>
+    <h2 class="sec-title">Logo</h2>
+    <p class="sec-sub">Three ideas hide inside the wordmark: a lightbulb (the idea) dotting the "i", a ruler (height measurement) in the letter stem, and a child reaching upward inside the "U". Color version on light grounds; white version on the brand gradient or dark imagery.</p>
+    <div class="logo-grid">
+      <div class="logo-card">
+        <div class="logo-stage"><img src="__IMG_logofull__" alt="MIDU logo, color version on white"></div>
+        <div class="logo-meta"><div class="swatch-name">Primary — color</div><div class="swatch-role">White / light grounds · file: logo-midu.png</div></div>
+      </div>
+      <div class="logo-card">
+        <div class="logo-stage" style="background:var(--grad-brand)"><img src="__IMG_logowhite__" alt="MIDU logo, white version on brand gradient"></div>
+        <div class="logo-meta"><div class="swatch-name">White</div><div class="swatch-role">Gradient / dark imagery · file: logo-midu-white.png</div></div>
+      </div>
+      <div class="logo-card">
+        <div class="logo-stage"><img src="__IMG_logotagline__" alt="MIDU logo lockup with tagline Chuyên gia chiều cao"></div>
+        <div class="logo-meta"><div class="swatch-name">Tagline lockup</div><div class="swatch-role">Prefer on first appearance · file: logo-midu-tagline.png</div></div>
+      </div>
+    </div>
+    <p class="t-caption" style="margin-top:16px">Clearspace = the height of the "m" on all sides · minimum width 96px · never stretch, recolor, or detach the lightbulb / ruler / child from the wordmark.</p>
+  </div>
+</section>
+
+<section id="type">
+  <div class="wrap">
+    <span class="eyebrow">03 · Typography</span>
+    <h2 class="sec-title">Typography</h2>
+    <p class="sec-sub">Official face: <strong>FZ Rubik</strong> — a Vietnamese-complete Rubik cut bundled in <code style="font-family:ui-monospace,Consolas,monospace">design-system/fonts/</code> (weights 400/500/700/900). Never use Google-Fonts Rubik for Vietnamese copy (no diacritics). Weight 900 for moments, 700 for structure, 400–500 for reading. Vietnamese samples below are deliberate — they test diacritic rendering.</p>
+    <div class="spec" style="padding:8px 28px">
+      <div class="type-row"><div class="type-meta"><b>display-xl</b>64px · 900 · 1.05</div><div class="t-display-xl grad-text">Cao lớn mỗi ngày</div></div>
+      <div class="type-row"><div class="type-meta"><b>display</b>44px · 900 · 1.10</div><div class="t-display">Chuyên gia chiều cao</div></div>
+      <div class="type-row"><div class="type-meta"><b>headline</b>30px · 700 · 1.25</div><div class="t-headline">Bộ ba Ca+ D3 K2 hấp thu tối ưu</div></div>
+      <div class="type-row"><div class="type-meta"><b>title</b>22px · 700 · 1.35</div><div class="t-title">Vì sao trẻ cần vitamin K2 MenaQ7?</div></div>
+      <div class="type-row"><div class="type-meta"><b>tagline</b>Quicksand 22px · 400</div><div class="t-tagline">Chuyên gia chiều cao — logo lockups only</div></div>
+      <div class="type-row"><div class="type-meta"><b>body-lg</b>18px · 500 · 1.55</div><div class="t-body-lg">Đồng hành cùng con trong 1.000 ngày vàng phát triển chiều cao.</div></div>
+      <div class="type-row"><div class="type-meta"><b>body</b>16px · 400 · 1.60</div><div class="t-body">Canxi chỉ là nguyên liệu — K2 mới là người dẫn đường đưa canxi vào đúng xương. Đó là lý do MenaQ7 có mặt trong từng ống MIDU.</div></div>
+      <div class="type-row"><div class="type-meta"><b>eyebrow</b>13px · 700 · +1.5px</div><div class="t-eyebrow">Dưỡng chất chuẩn Âu</div></div>
+      <div class="type-row"><div class="type-meta"><b>caption</b>12px · 500</div><div class="t-caption">*Specimen figures are illustrative — always cite a source in production.</div></div>
+      <div class="type-row"><div class="type-meta"><b>sticker</b>Patrick Hand 24px</div><div class="t-sticker">Cố lên! Wow! Ngủ ngon nhé!</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="components" class="wrap">
+  <span class="eyebrow">04 · Components</span>
+  <h2 class="sec-title">Buttons, cards &amp; controls</h2>
+  <p class="sec-sub">Everything is rounded — pills for buttons, 20px+ for cards. There is no square corner anywhere in this system.</p>
+
+  <div class="spec-grid">
+    <div class="spec">
+      <h3>Buttons</h3>
+      <div class="row" style="margin-bottom:14px">
+        <button class="btn btn-primary">Mua ngay</button>
+        <button class="btn btn-secondary">Tìm hiểu thêm</button>
+      </div>
+      <div class="row" style="margin-bottom:14px">
+        <button class="btn btn-sun">Nhận ưu đãi ☀</button>
+      </div>
+      <p class="t-caption">Primary = the gradient pill, exactly one per viewport. Sun is for promos &amp; gamification only.</p>
+    </div>
+
+    <div class="spec">
+      <h3>Nutrient bubbles</h3>
+      <div class="row" style="margin-bottom:14px;align-items:flex-end">
+        <span class="bubble" style="width:56px;height:56px">K2</span>
+        <span class="bubble" style="width:48px;height:48px">Ca+</span>
+        <span class="bubble" style="width:44px;height:44px">D3</span>
+        <span class="bubble" style="width:40px;height:40px;font-size:11px">Mg</span>
+        <span class="bubble orange" style="width:38px;height:38px;font-size:11px">Arg</span>
+      </div>
+      <p class="t-caption">Clusters of 3–5, varied sizes, at most one orange. Decorative — never a text-bearing control.</p>
+    </div>
+
+    <div class="spec">
+      <h3>Inputs</h3>
+      <div class="input-demo">
+        <label for="in1">Chiều cao của bé (cm)</label>
+        <input id="in1" type="text" inputmode="decimal" placeholder="VD: 112.5">
+      </div>
+      <div class="input-demo err">
+        <label for="in2">Email nhận tư vấn</label>
+        <input id="in2" type="email" value="me@" aria-invalid="true" aria-describedby="in2-msg">
+        <span class="msg" id="in2-msg">Email chưa đúng định dạng — kiểm tra lại giúp mẹ nhé.</span>
+      </div>
+    </div>
+
+    <div class="spec">
+      <h3>"Ruler" progress</h3>
+      <p class="t-body" style="margin-bottom:10px">Mục tiêu chiều cao năm nay</p>
+      <div class="ruler">
+        <div class="ruler-track"><div class="ruler-fill"></div></div>
+        <div class="ruler-labels"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+      </div>
+      <p class="t-caption" style="margin-top:10px">Tick marks = the ruler motif from the logo's "i". Fill uses the sun gradient.</p>
+    </div>
+  </div>
+
+  <p class="pal-group">Stat tiles</p>
+  <div class="stat-row">
+    <div class="stat"><div class="t-display grad-text">180</div><div class="t-eyebrow lbl">ngày MenaQ7 chuẩn Âu</div><div class="src">*Illustrative specimen figure</div></div>
+    <div class="stat"><div class="t-display grad-text">5</div><div class="t-eyebrow lbl">dưỡng chất vàng</div><div class="src">Ca+ · D3 · K2 · Mg · Arg</div></div>
+    <div class="stat"><div class="t-display grad-text">1.000</div><div class="t-eyebrow lbl">ngày vàng phát triển</div><div class="src">*Illustrative specimen figure</div></div>
+  </div>
+</section>
+
+<section id="mascot" class="sec-tint">
+  <div class="wrap">
+    <span class="eyebrow">05 · Mascot</span>
+    <h2 class="sec-title">MIGI — the giraffe doctor</h2>
+    <p class="sec-sub">15+ poses available, each mapped to a UX moment. Rules: one MIGI per viewport · never mirror-flip · never recolor · minimum render height 120px so the glasses stay legible.</p>
+    <div class="migi-grid">
+      <div class="migi-card"><img src="__IMG_measure__" alt="MIGI measuring height with a ruler"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Height input · growth chart</div><div class="migi-file">migi-measure.png</div></div>
+      <div class="migi-card"><img src="__IMG_medicine__" alt="MIGI taking a supplement vial"><div class="t-sticker migi-cap">Đến giờ rồi!</div><div class="migi-use">Dose reminders · usage guide</div><div class="migi-file">migi-medicine.png</div></div>
+      <div class="migi-card"><img src="__IMG_cheer__" alt="MIGI cheering with both fists up"><div class="t-sticker migi-cap">Cố lên!</div><div class="migi-use">Goals reached · streaks</div><div class="migi-file">migi-cheer.png</div></div>
+      <div class="migi-card"><img src="__IMG_wow__" alt="MIGI surprised"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Achievements · feature reveals</div><div class="migi-file">migi-wow.png</div></div>
+      <div class="migi-card"><img src="__IMG_love__" alt="MIGI making finger hearts"><div class="t-sticker migi-cap">Thương ghê!</div><div class="migi-use">Reviews · thank-you · social proof</div><div class="migi-file">migi-love.png</div></div>
+      <div class="migi-card"><img src="__IMG_cry__" alt="MIGI crying, wiping tears"><div class="t-sticker migi-cap">Húhu…</div><div class="migi-use">Error pages · empty results (soft, never blaming)</div><div class="migi-file">migi-cry.png</div></div>
+      <div class="migi-card"><img src="__IMG_goodnight__" alt="MIGI sleeping on a pillow"><div class="t-sticker migi-cap">Ngủ ngon!</div><div class="migi-use">Evening reminders · sleep content</div><div class="migi-file">migi-goodnight.png</div></div>
+      <div class="migi-card"><img src="__IMG_exercise__" alt="MIGI jumping rope"><div class="t-sticker migi-cap">1… 2… 3!</div><div class="migi-use">Activity tips · challenges</div><div class="migi-file">migi-exercise.png</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <span class="eyebrow">06 · Rules</span>
+  <h2 class="sec-title">Do &amp; Don't</h2>
+  <p class="sec-sub">Digest from DESIGN.md — the rules that keep every screen unmistakably MIDU.</p>
+  <div class="dd">
+    <div class="dd-col dd-do">
+      <h3>✓ Do</h3>
+      <ul>
+        <li>Route every primary action through <strong>one</strong> gradient pill.</li>
+        <li>Gradient always flows indigo → magenta (only the footer may reverse it, as a "closing bracket").</li>
+        <li>Alternate white and lavender-tint sections so long pages breathe.</li>
+        <li><strong>Ink</strong> text on yellow surfaces — white on yellow fails contrast at every size.</li>
+        <li>Nutrient bubbles are the default decoration before inventing any new shape.</li>
+        <li>Every growth claim gets a caption source line.</li>
+      </ul>
+    </div>
+    <div class="dd-col dd-dont">
+      <h3>✗ Don't</h3>
+      <ul>
+        <li>No gradient on body text, icons, borders, or a second CTA.</li>
+        <li>No black borders on UI — comic outlines belong to MIGI and illustration.</li>
+        <li>Never swap Sun (#EFCA3D) with MIGI Yellow (#FFDA69).</li>
+        <li>No new hues beyond the defined system.</li>
+        <li>No square corners, no rectangular buttons.</li>
+        <li>No tiny MIGI (favicons) — use the lightbulb dot or the logo "m".</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <div class="foot-brand">MIDU MenaQ7</div>
+      <div class="foot-tag">Chuyên gia chiều cao</div>
+    </div>
+    <div class="foot-note">Vibecoder Kit · full spec in <strong>DESIGN.md</strong> · tokens in <strong>design-system/tokens.css</strong> · assets in <strong>design-system/assets/</strong></div>
+  </div>
+</footer>

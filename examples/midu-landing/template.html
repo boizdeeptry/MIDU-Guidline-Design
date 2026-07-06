@@ -1,0 +1,322 @@
+<meta charset="utf-8">
+<title>MIDU MenaQ7 — Chuyên gia chiều cao</title>
+<!--
+  Example landing page built WITH the midu-design-system skill rules.
+  Source template — rebuild with: python build.py
+  Consumer copy is Vietnamese (product audience); illustrative figures are marked.
+-->
+<style>
+__FONT_CSS__
+
+/* ============ TOKENS (from design-system/tokens.css) ============ */
+:root{
+  --primary:#384B98; --magenta:#C1368D;
+  --sun:#EFCA3D;
+  --grad-brand:linear-gradient(90deg,#384B98,#C1368D);
+  --grad-brand-rev:linear-gradient(90deg,#C1368D,#384B98);
+  --grad-sun:linear-gradient(90deg,#EFCA3D,#E4E254);
+  --grad-bubble:radial-gradient(circle at 32% 28%,#8A6CC7,#5F469B 45%,#432C79);
+  --grad-bubble-orange:radial-gradient(circle at 32% 28%,#FFB259,#F68500 55%,#D96C00);
+  --ink:#221F1F; --ink-soft:#4A4660;
+  --canvas:#FFFFFF; --surface-soft:#EEF1FA; --surface-tint:#F7F4FB;
+  --hairline:#DDE2F0;
+  --shadow-card:0 8px 24px rgba(56,75,152,.10);
+  --shadow-float:0 16px 40px rgba(56,75,152,.16);
+  --font-ui:'Fz Rubik',system-ui,sans-serif;
+  --font-tagline:'Quicksand',var(--font-ui);
+  --font-sticker:'Patrick Hand',cursive;
+}
+
+/* ============ BASE ============ */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.6 var(--font-ui);-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+img{max-width:100%;height:auto}
+a{color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:80px 0}
+.sec-tint{background:var(--surface-soft)}
+.sec-title{font-size:30px;font-weight:700;line-height:1.25;margin-bottom:8px}
+.sec-sub{color:var(--ink-soft);max-width:62ch;margin-bottom:36px}
+.center{text-align:center}
+.center .sec-sub{margin-left:auto;margin-right:auto}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font:700 13px/1.3 var(--font-ui);letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--magenta);background:var(--canvas);
+  border:1px solid var(--hairline);
+  padding:6px 14px;border-radius:999px;margin-bottom:16px;
+}
+.t-caption{font-size:12px;font-weight:500;letter-spacing:.3px;color:var(--ink-soft)}
+.t-sticker{font:400 24px/1.2 var(--font-sticker);letter-spacing:.5px}
+.grad-text{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ============ NAV ============ */
+nav{position:sticky;top:0;z-index:50;height:64px;background:var(--canvas);box-shadow:var(--shadow-card)}
+.nav-in{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:28px}
+.nav-logo{height:34px;width:auto;display:block}
+.nav-links{display:flex;gap:22px;margin-left:auto;font:500 14px/1 var(--font-ui)}
+.nav-links a{text-decoration:none;color:var(--ink-soft)}
+.nav-links a:hover,.nav-links a:focus-visible{color:var(--magenta)}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:700 16px/1.2 var(--font-ui);letter-spacing:.2px;
+  border-radius:999px;border:0;cursor:pointer;text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.btn-primary{background:var(--grad-brand);color:#fff;padding:14px 28px;box-shadow:var(--shadow-card)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-float)}
+.btn-secondary{background:var(--canvas);color:var(--primary);padding:12px 26px;border:2px solid var(--primary)}
+.btn-secondary:hover{background:var(--surface-soft)}
+
+/* ============ HERO ============ */
+.hero{padding:48px 0 80px}
+.hero-panel{
+  position:relative;background:var(--grad-brand);border-radius:28px;
+  padding:56px 48px;color:#fff;
+  display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;
+}
+.hero-panel .eyebrow{background:rgba(255,255,255,.16);color:#fff;border:0}
+.hero-title{font-size:clamp(40px,6vw,64px);font-weight:900;line-height:1.05;letter-spacing:-.5px;margin:0 0 16px}
+.hero-copy{font-size:18px;font-weight:500;line-height:1.55;opacity:.9;max-width:48ch;margin-bottom:28px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-cta .btn-secondary{border-color:#fff;color:#fff;background:transparent}
+.hero-cta .btn-secondary:hover{background:rgba(255,255,255,.12)}
+.hero-art{display:flex;justify-content:center;align-items:flex-end;align-self:end;min-height:260px}
+.hero-art img{width:min(320px,100%);margin-bottom:-76px;filter:drop-shadow(0 20px 30px rgba(34,31,31,.3))}
+@media(max-width:860px){
+  .hero-panel{grid-template-columns:1fr;padding:40px 28px}
+  .hero-art{min-height:0;margin-top:8px}
+  .hero-art img{width:min(240px,70%);margin-bottom:-56px}
+  .hero-bubbles{display:none}
+}
+.bubble{
+  display:inline-flex;align-items:center;justify-content:center;
+  border-radius:50%;color:#fff;font:700 13px/1 var(--font-ui);letter-spacing:.5px;
+  background:var(--grad-bubble);position:relative;
+}
+.bubble::after{content:"";position:absolute;top:14%;right:18%;width:22%;height:14%;background:rgba(255,255,255,.8);border-radius:50%;transform:rotate(-28deg)}
+.bubble.orange{background:var(--grad-bubble-orange)}
+.hero-bubbles{position:absolute;inset:0;pointer-events:none}
+.hero-bubbles .bubble{position:absolute;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ============ STATS ============ */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+.stat{background:var(--canvas);border-radius:20px;padding:24px;box-shadow:var(--shadow-card);text-align:center}
+.stat .num{font-size:44px;font-weight:900;line-height:1.1;letter-spacing:-.25px}
+.stat .lbl{font:700 13px/1.3 var(--font-ui);letter-spacing:1.5px;text-transform:uppercase;color:var(--magenta);margin-top:6px}
+.stat .src{font-size:12px;color:var(--ink-soft);margin-top:10px}
+
+/* ============ BENEFITS ============ */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:var(--canvas);border-radius:20px;padding:24px;box-shadow:var(--shadow-card)}
+.card h3{font-size:22px;margin:14px 0 8px}
+.card p{font-size:15px;color:var(--ink-soft)}
+
+/* ============ HOW TO ============ */
+.howto{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:center}
+@media(max-width:860px){.howto{grid-template-columns:1fr}}
+.howto-art{text-align:center}
+.howto-art img{width:min(300px,80%)}
+.step{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--hairline)}
+.step:last-child{border-bottom:0}
+.step-n{
+  flex:none;width:40px;height:40px;border-radius:50%;
+  background:var(--primary);color:#fff;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+}
+.step h3{font-size:18px;margin-bottom:4px}
+.step p{font-size:15px;color:var(--ink-soft)}
+.ruler{margin-top:10px;max-width:420px}
+.ruler-track{height:12px;border-radius:999px;background:var(--surface-soft);position:relative;overflow:hidden}
+.ruler-track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--hairline) calc(10% - 1px) 10%)}
+.ruler-fill{height:100%;width:58%;border-radius:999px;background:var(--grad-sun)}
+
+/* ============ TESTIMONIALS ============ */
+.quote-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;align-items:start}
+.quote{background:var(--canvas);border-radius:20px;padding:24px;box-shadow:var(--shadow-card)}
+.quote p{font-size:15px;line-height:1.6}
+.quote .who{margin-top:14px;font-weight:700;font-size:14px}
+.quote .meta{font-size:12px;color:var(--ink-soft)}
+.quote-art{text-align:center}
+.quote-art img{width:min(240px,70%)}
+
+/* ============ FAQ ============ */
+.faq{max-width:760px;margin:0 auto}
+details{background:var(--canvas);border:1px solid var(--hairline);border-radius:20px;padding:18px 24px;margin-bottom:12px}
+details[open]{box-shadow:var(--shadow-card)}
+summary{font-weight:700;cursor:pointer;list-style-position:outside}
+summary:focus-visible{outline:3px solid var(--sun);outline-offset:2px;border-radius:8px}
+details p{margin-top:10px;font-size:15px;color:var(--ink-soft)}
+
+/* ============ FOOTER ============ */
+footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0;margin-top:80px}
+.foot-in{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.foot-logo{height:44px;width:auto}
+.foot-tag{font:400 18px/1.3 var(--font-tagline);letter-spacing:1px;opacity:.9;margin-top:8px}
+.foot-note{font-size:13px;opacity:.85;max-width:44ch}
+</style>
+
+<nav aria-label="Điều hướng chính">
+  <div class="nav-in">
+    <img class="nav-logo" src="__IMG_logo__" alt="MIDU — Chuyên gia chiều cao">
+    <div class="nav-links">
+      <a href="#visao">Vì sao MIDU</a>
+      <a href="#cachdung">Cách dùng</a>
+      <a href="#cauhoi">Câu hỏi</a>
+    </div>
+    <a class="btn btn-secondary" href="#mua" style="padding:10px 22px;font-size:14px">Mua ngay</a>
+  </div>
+</nav>
+
+<header class="hero wrap" id="mua">
+  <div class="hero-panel">
+    <div class="hero-bubbles" aria-hidden="true">
+      <span class="bubble" style="width:52px;height:52px;top:10%;right:6%">K2</span>
+      <span class="bubble" style="width:40px;height:40px;top:16%;right:38%;animation-delay:-2s">D3</span>
+      <span class="bubble" style="width:46px;height:46px;bottom:16%;right:40%;animation-delay:-4s">Ca+</span>
+      <span class="bubble orange" style="width:36px;height:36px;bottom:36%;right:4%;animation-delay:-5s;font-size:11px">Arg</span>
+    </div>
+    <div>
+      <span class="eyebrow">Chuyên gia chiều cao</span>
+      <h1 class="hero-title">Cao lớn mỗi ngày cùng MIGI</h1>
+      <p class="hero-copy">MIDU MenaQ7 kết hợp Canxi, D3 và K2 MenaQ7® chuẩn Âu — đưa canxi vào đúng xương, để mỗi tháng đo lại là một lần "wow" của cả nhà.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#cachdung">Mua ngay</a>
+        <a class="btn btn-secondary" href="#visao">Tìm hiểu thêm</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="__IMG_hello__" alt="MIGI — chú hươu cao cổ bác sĩ vẫy tay chào">
+    </div>
+  </div>
+</header>
+
+<section class="wrap" style="padding-top:0">
+  <div class="stat-row">
+    <div class="stat"><div class="num grad-text">5</div><div class="lbl">dưỡng chất vàng</div><div class="src">Ca+ · D3 · K2 · Mg · Arg</div></div>
+    <div class="stat"><div class="num grad-text">K2</div><div class="lbl">MenaQ7® chuẩn Âu</div><div class="src">Nguyên liệu nhập khẩu Na Uy*</div></div>
+    <div class="stat"><div class="num grad-text">1.000</div><div class="lbl">ngày vàng phát triển</div><div class="src">*Thông tin minh họa — thay bằng số liệu công bố</div></div>
+  </div>
+</section>
+
+<section id="visao" class="sec-tint">
+  <div class="wrap center">
+    <span class="eyebrow">Vì sao MIDU</span>
+    <h2 class="sec-title">Canxi chỉ là nguyên liệu — K2 mới là người dẫn đường</h2>
+    <p class="sec-sub">Uống nhiều canxi không đồng nghĩa xương nhận đủ. Bộ ba dưỡng chất của MIDU làm việc như một đội: mỗi chất một nhiệm vụ, đủ mặt thì canxi mới về đúng đích.</p>
+    <div class="card-grid" style="text-align:left">
+      <div class="card">
+        <span class="bubble" style="width:48px;height:48px">Ca+</span>
+        <h3>Canxi — nguyên liệu xây xương</h3>
+        <p>Khối vật liệu chính của khung xương đang lớn. Thiếu canxi, mọi thứ khác đều vô nghĩa.</p>
+      </div>
+      <div class="card">
+        <span class="bubble" style="width:48px;height:48px">D3</span>
+        <h3>Vitamin D3 — mở cửa hấp thu</h3>
+        <p>Giúp ruột hấp thu canxi từ thức ăn vào máu. Không có D3, canxi đi qua rồi… đi luôn.</p>
+      </div>
+      <div class="card">
+        <span class="bubble" style="width:48px;height:48px">K2</span>
+        <h3>K2 MenaQ7® — dẫn canxi vào xương</h3>
+        <p>Kích hoạt osteocalcin, "chở" canxi từ máu gắn vào xương — đúng chỗ cần, không lạc đường.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cachdung" class="wrap">
+  <span class="eyebrow">Cách dùng</span>
+  <h2 class="sec-title">Ba bước, một thói quen</h2>
+  <p class="sec-sub">Đơn giản đến mức MIGI cũng làm được — và bé sẽ muốn tự làm.</p>
+  <div class="howto">
+    <div class="howto-art">
+      <img src="__IMG_medicine__" alt="MIGI uống một ống MIDU">
+      <div class="t-sticker">Đến giờ rồi!</div>
+    </div>
+    <div>
+      <div class="step">
+        <div class="step-n">1</div>
+        <div><h3>Mỗi ngày một ống</h3><p>Sau bữa sáng, vị dễ uống, không cần pha. Bé từ 2 tuổi trở lên*.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-n">2</div>
+        <div><h3>Vận động &amp; ngủ đủ</h3><p>Nhảy dây, bơi, ngủ trước 22h — hormone tăng trưởng làm việc mạnh nhất khi bé ngủ sâu.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-n">3</div>
+        <div>
+          <h3>Đo chiều cao mỗi tháng</h3>
+          <p>Đánh dấu lên tường, nhìn vạch nhích dần — động lực tốt nhất của cả mẹ và bé.</p>
+          <div class="ruler" aria-hidden="true"><div class="ruler-track"><div class="ruler-fill"></div></div></div>
+        </div>
+      </div>
+      <p class="t-caption" style="margin-top:14px">*Thông tin minh họa — thay bằng hướng dẫn sử dụng công bố của sản phẩm.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec-tint">
+  <div class="wrap">
+    <span class="eyebrow" style="background:var(--canvas)">Mẹ kể lại</span>
+    <h2 class="sec-title">Cả nhà cùng "wow"</h2>
+    <p class="sec-sub">Trích lời minh họa cho bản demo — thay bằng đánh giá thật khi công bố.</p>
+    <div class="quote-grid">
+      <div class="quote">
+        <p>"Bé nhà mình tự nhắc 'đến giờ MIGI rồi mẹ ơi'. Sáu tháng, vạch trên tường nhích thấy rõ."</p>
+        <div class="who">Chị Ngọc Anh</div><div class="meta">Mẹ bé 5 tuổi · Hà Nội</div>
+      </div>
+      <div class="quote">
+        <p>"Mình chọn vì có K2 MenaQ7 chuẩn Âu — đọc kỹ mới biết canxi không tự vào xương được."</p>
+        <div class="who">Chị Thu Hằng</div><div class="meta">Mẹ bé 7 tuổi · TP.HCM</div>
+      </div>
+      <div class="quote-art">
+        <img src="__IMG_love__" alt="MIGI bắn tim cảm ơn">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cauhoi" class="wrap">
+  <div class="center">
+    <span class="eyebrow">Câu hỏi thường gặp</span>
+    <h2 class="sec-title">Mẹ hỏi — MIGI trả lời</h2>
+    <p class="sec-sub">Nội dung minh họa — thay bằng Q&amp;A đã duyệt y khoa trước khi công bố.</p>
+  </div>
+  <div class="faq">
+    <details>
+      <summary>Bé mấy tuổi dùng được MIDU MenaQ7?</summary>
+      <p>Theo khuyến nghị in trên bao bì của sản phẩm — vui lòng đọc kỹ hướng dẫn sử dụng và tham khảo ý kiến chuyên gia y tế.</p>
+    </details>
+    <details>
+      <summary>K2 MenaQ7® khác gì K2 thông thường?</summary>
+      <p>MenaQ7® là dạng MK-7 tự nhiên có nghiên cứu lâm sàng về sinh khả dụng — thông tin chi tiết theo tài liệu công bố của nhà sản xuất.</p>
+    </details>
+    <details>
+      <summary>Dùng bao lâu thì thấy khác biệt?</summary>
+      <p>Chiều cao là hành trình dài — hãy đo mỗi tháng và duy trì đủ dinh dưỡng, vận động, giấc ngủ. Không có sản phẩm nào thay thế được cả ba yếu tố đó.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div>
+      <img class="foot-logo" src="__IMG_logowhite__" alt="MIDU">
+      <div class="foot-tag">Chuyên gia chiều cao</div>
+    </div>
+    <p class="foot-note">Trang minh họa dựng bằng MIDU Vibecoder Kit. Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.</p>
+  </div>
+</footer>

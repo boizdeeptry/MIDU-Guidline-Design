@@ -1,0 +1,7 @@
+/* FZ Rubik — bản Rubik Việt hóa (bộ font công ty, đủ dấu tiếng Việt).
+   Weights 400/500/700/900 only — the type scale never uses 300/600/800.
+   Import file này rồi dùng: font-family: "Fz Rubik", system-ui, sans-serif; */
+@font-face { font-family: "Fz Rubik"; font-weight: 400; font-style: normal; font-display: swap; src: url("FzRubik/FzRubik-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Fz Rubik"; font-weight: 500; font-style: normal; font-display: swap; src: url("FzRubik/FzRubik-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Fz Rubik"; font-weight: 700; font-style: normal; font-display: swap; src: url("FzRubik/FzRubik-Bold.ttf") format("truetype"); }
+@font-face { font-family: "Fz Rubik"; font-weight: 900; font-style: normal; font-display: swap; src: url("FzRubik/FzRubik-Black.ttf") format("truetype"); }

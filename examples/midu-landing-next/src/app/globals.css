@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* MIDU MenaQ7 design tokens — source of truth: kit DESIGN.md / tokens.css */
+@theme {
+  --color-primary: #384b98;
+  --color-magenta: #c1368d;
+  --color-sun: #efca3d;
+  --color-lime: #e4e254;
+  --color-ink: #221f1f;
+  --color-ink-soft: #4a4660;
+  --color-canvas: #ffffff;
+  --color-surface-soft: #eef1fa;
+  --color-surface-tint: #f7f4fb;
+  --color-hairline: #dde2f0;
+  --color-success: #2e7d46;
+  --color-error: #c93a3a;
+
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 8px 24px rgba(56, 75, 152, 0.1);
+  --shadow-float: 0 16px 40px rgba(56, 75, 152, 0.16);
+
+  --font-ui: var(--font-fz-rubik), system-ui, sans-serif;
+  --font-tagline: var(--font-quicksand), var(--font-ui);
+  --font-sticker: var(--font-patrick-hand), cursive;
+}
+
+/* Brand gradients (never on body text, icons, borders, or a second CTA) */
+:root {
+  --bubble-purple-light: #8a6cc7;
+  --grad-brand: linear-gradient(90deg, #384b98, #c1368d);
+  --grad-brand-rev: linear-gradient(90deg, #c1368d, #384b98);
+  --grad-sun: linear-gradient(90deg, #efca3d, #e4e254);
+  --grad-bubble: radial-gradient(circle at 32% 28%, var(--bubble-purple-light), #5f469b 45%, #432c79);
+  --grad-bubble-orange: radial-gradient(circle at 32% 28%, #ffb259, #f68500 55%, #d96c00);
+}
+
+@layer utilities {
+  .bg-grad-brand { background: var(--grad-brand); }
+  .bg-grad-brand-rev { background: var(--grad-brand-rev); }
+  .bg-grad-sun { background: var(--grad-sun); }
+  .bg-grad-bubble { background: var(--grad-bubble); }
+  .bg-grad-bubble-orange { background: var(--grad-bubble-orange); }
+  .text-grad-brand {
+    background: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* The one gradient CTA pill — exactly one per viewport (Hero + LeadForm submit). */
+  .btn-primary {
+    background: var(--grad-brand);
+    border-radius: var(--radius-pill);
+    padding: 0.875rem 1.75rem;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-float);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes bubble-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}

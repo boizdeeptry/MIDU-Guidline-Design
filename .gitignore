@@ -1,0 +1,11 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Python (design-system/preview-src build scripts)
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+.idea/
