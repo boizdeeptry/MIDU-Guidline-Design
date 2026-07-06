@@ -1,10 +1,15 @@
 {
-  "name": "midu-design-system",
-  "description": "MIDU MenaQ7 brand design system: tokens, component recipes, FZ Rubik typography, MIGI mascot assets, and a brand-review checklist for AI-assisted web development",
-  "version": "1.0.0",
+  "name": "midu-vibecoder-kit",
+  "description": "MIDU MenaQ7 vibecoder kit: brand design system (tokens, FZ Rubik, MIGI mascot, brand-review checklist) plus a general Next.js/React frontend and TypeScript backend engineering standard, for AI-assisted web development",
+  "version": "1.1.0",
   "author": {
     "name": "HaPQ"
   },
-  "keywords": ["design-system", "midu", "brand", "ui", "vibecoding"],
-  "skills": ["./skills/midu-design-system", "./skills/midu-brand-review"]
+  "keywords": ["design-system", "midu", "brand", "ui", "vibecoding", "nextjs", "typescript"],
+  "skills": [
+    "./skills/midu-design-system",
+    "./skills/midu-brand-review",
+    "./skills/nextjs-frontend",
+    "./skills/typescript-backend"
+  ]
 }

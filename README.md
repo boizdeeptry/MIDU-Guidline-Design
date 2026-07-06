@@ -1,6 +1,6 @@
 # MIDU MenaQ7 — Vibecoder Kit
 
-A packaged design system that lets AI coding tools (Claude Code, Cursor, Windsurf…) build on-brand MIDU MenaQ7 web UI without a designer in the loop.
+A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…) build on-brand, well-engineered MIDU MenaQ7 web projects without a designer or a senior reviewer in every loop: brand tokens/mascot on one side, a Next.js/React frontend standard and a TypeScript backend standard on the other.
 
 ## Contents
 
@@ -15,8 +15,10 @@ A packaged design system that lets AI coding tools (Claude Code, Cursor, Windsur
 | `examples/midu-landing/` | Example landing page as self-contained HTML (template + build script). |
 | `examples/midu-landing-next/` | Production-grade example: Next.js 15 + Tailwind 4 + Supabase lead form, deploy-ready for Vercel. |
 | `.claude-plugin/` | Plugin + marketplace manifests — makes this repo installable via `/plugin marketplace add`. |
-| `skills/midu-design-system/` | **Claude skill** — auto-activates when building MIDU UI (rules digest + DESIGN.md + tokens.css + all assets at 560px). |
-| `skills/midu-brand-review/` | **Claude skill** — audits UI against the brand with a 3-severity checklist (Blocker / Major / Minor). |
+| `skills/midu-design-system/` | **Claude skill** (brand) — auto-activates when building MIDU UI (rules digest + DESIGN.md + tokens.css + all assets at 560px). |
+| `skills/midu-brand-review/` | **Claude skill** (brand) — audits UI against the brand with a 3-severity checklist (Blocker / Major / Minor). |
+| `skills/nextjs-frontend/` | **Claude skill** (engineering) — Vercel Engineering's React/Next.js performance rules (MIT) + Next.js framework conventions + component-architecture patterns. Brand-agnostic, reusable on any React/Next.js codebase. |
+| `skills/typescript-backend/` | **Claude skill** (engineering) — TypeScript code-style standard (errors, async, validation, types) + API/architecture patterns (repository, caching, auth, rate limiting), with a "Before You Build" checklist and this repo's own `api/leads` route as the reference implementation. |
 
 ## Usage
 
@@ -24,12 +26,12 @@ A packaged design system that lets AI coding tools (Claude Code, Cursor, Windsur
 
 ```
 /plugin marketplace add <company-org>/<repo>
-/plugin install midu-design-system@midu-skills
+/plugin install midu-vibecoder-kit@midu-skills
 ```
 
-One plugin ships both skills (build + review) — they auto-activate on MIDU UI work; invoke directly with `/midu-design-system` or `/midu-brand-review`. Updates flow to everyone on `/plugin update`.
+One plugin ships all four skills — they auto-activate on matching work; invoke directly with `/midu-design-system`, `/midu-brand-review`, `/nextjs-frontend`, or `/typescript-backend`. Updates flow to everyone on `/plugin update`.
 
-**Option 2 — manual copy (no Git):** copy both skill folders into a project or globally:
+**Option 2 — manual copy (no Git):** copy the skill folders you need into a project or globally:
 
 ```powershell
 # Into a specific project
