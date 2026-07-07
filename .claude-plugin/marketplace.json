@@ -2,7 +2,7 @@
   "name": "midu-skills",
   "id": "midu-skills",
   "owner": {
-    "name": "HaPQ"
+    "name": "TruongMV"
   },
   "metadata": {
     "description": "MIDU MenaQ7 vibecoder kit — brand design system + Next.js/TypeScript engineering standard for AI-assisted web development",
@@ -11,11 +11,12 @@
   "plugins": [
     {
       "name": "midu-vibecoder-kit",
+      "displayName": "MIDU Vibecoder Kit",
       "source": "./",
       "description": "Build on-brand MIDU MenaQ7 web UI (tokens, FZ Rubik, MIGI mascot) with a full Next.js/React frontend and TypeScript backend engineering standard, and audit output against both the brand and the engineering rules",
       "version": "1.1.0",
       "author": {
-        "name": "HaPQ"
+        "name": "TruongMV"
       },
       "keywords": [
         "design-system",
