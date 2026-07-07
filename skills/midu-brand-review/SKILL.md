@@ -24,6 +24,10 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - **Vietnamese typography:** Google-Fonts Rubik used for Vietnamese copy (it has no Vietnamese subset — diacritics fall back to a mismatched face); body line-height < 1.5 clipping stacked diacritics. Correct face: FZ Rubik, bundled in the kit (`design-system/fonts/`).
 - **Logo misuse:** logo stretched, rotated, recolored, outlined, or with elements (lightbulb/ruler/child) detached; color logo on the gradient (must be the white version); rendered under 96px wide.
 - **Mascot abuse:** MIGI mirror-flipped, recolored, rendered under 120px height, or more than one MIGI per viewport.
+- **No focus indicator:** any interactive element with `outline: none`/`outline: 0` and no replacement `:focus-visible` style — this is a WCAG 2.4.7 failure, not a style choice. Check especially for the brand's "no black outline" rule being misapplied to suppress ALL outlines (it only bans decorative `#221F1F` comic strokes, not the `:focus-visible` ring).
+- **Color-only signaling:** a bare colored dot/pill/row-highlight conveying success or error with no glyph, icon, or text alongside it. `#2E7D46`/`#C93A3A` have near-identical luminance and sit on the color-blind-hardest axis — color alone is not sufficient.
+- **Mascot as sole state carrier:** an error/empty/success screen showing only a MIGI pose with no real, in-DOM text saying the same thing (`alt=""` decorative image + no text sibling = screen-reader user gets zero information).
+- **Fixed-px containers clipping text:** `chip-nutrient`/`top-nav`/similar using a hard `size`/`height` instead of `min-*` + `aspect-ratio`/`overflow: visible` — clips labels at 200% zoom or large-text overrides.
 
 ### 🟠 Majors (visibly off-brand)
 
@@ -42,8 +46,12 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - Growth or health claims without a 12px caption source line.
 - Mascot slot with `overflow:hidden` cropping MIGI's overflow (allowed up to 15%).
 - Wrong MIGI pose for the moment (e.g. cheerful pose on an error page — errors get `migi-cry`/`migi-sulk`, soft and never blaming).
-- Missing hover/focus states: primary pills lift 1px + deepen shadow; focus ring `0 0 0 3px rgba(56,75,152,.15)`.
+- Missing hover states: primary pills lift 1px + deepen shadow on hover, darken to indigo-700/magenta-700 on press; secondary hover-fills indigo-50; sun hover swaps to sun-500.
+- Missing disabled states on buttons/inputs (should be `disabled-bg` `#EBECEF` / `disabled-text` `#9C9FAB`, not a faded brand color).
+- `text-input` border using plain `hairline` (`#DDE2F0`, 1.3:1) instead of `hairline-strong` (`#8A8F9E`, 3.2:1) — fails WCAG 1.4.11 for an interactive boundary.
 - ALL-CAPS body copy (uppercase is eyebrow-only).
+- Decorative animation (bubble float, mascot idle-loop) not fully disabled under `prefers-reduced-motion: reduce` — partial slowdown isn't enough, it must stop.
+- Voice/tone violations: fear or scarcity framing ("chỉ còn X suất", shortfall shaming), or mascot exclamations ("Wow!", "Cố lên!") used in body paragraphs or button labels instead of `{typography.sticker}` captions.
 
 ## Output Format
 

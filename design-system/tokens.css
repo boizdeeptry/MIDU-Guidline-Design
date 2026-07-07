@@ -10,6 +10,41 @@
   --midu-lime: #E4E254;
   --midu-grad-sun: linear-gradient(90deg, #EFCA3D 0%, #E4E254 100%);
 
+  /* Tint/shade ramps — same hue/saturation as the base token, lightness only.
+     indigo-600 = --midu-primary, magenta-500 = --midu-magenta, sun-400 = --midu-sun. */
+  --midu-indigo-50: #F4F5FB;
+  --midu-indigo-100: #E5E8F5;
+  --midu-indigo-200: #C7CEEA;
+  --midu-indigo-300: #9EAADB;
+  --midu-indigo-400: #6A7DC8;
+  --midu-indigo-500: #455CBA;
+  --midu-indigo-600: #384B98;
+  --midu-indigo-700: #2D3D7B;
+  --midu-indigo-800: #243061;
+  --midu-indigo-900: #192143;
+
+  --midu-magenta-50: #FCF3F9;
+  --midu-magenta-100: #F7E3F0;
+  --midu-magenta-200: #EEC3DF;
+  --midu-magenta-300: #E298C7;
+  --midu-magenta-400: #D260A8;
+  --midu-magenta-500: #C1368D;
+  --midu-magenta-600: #9F2D75;
+  --midu-magenta-700: #7F245E;
+  --midu-magenta-800: #5F1B46;
+  --midu-magenta-900: #40122F;
+
+  --midu-sun-50: #FDFAEC;
+  --midu-sun-100: #FCF3D5;
+  --midu-sun-200: #F9EAB4;
+  --midu-sun-300: #F4DB7B;
+  --midu-sun-400: #EFCA3D;
+  --midu-sun-500: #ECBF13;
+  --midu-sun-600: #C6A010;
+  --midu-sun-700: #A0820D;
+  --midu-sun-800: #7A630A;
+  --midu-sun-900: #554507;
+
   /* Surfaces & text */
   --midu-ink: #221F1F;
   --midu-ink-soft: #4A4660;
@@ -17,6 +52,9 @@
   --midu-surface-soft: #EEF1FA;
   --midu-surface-tint: #F7F4FB;
   --midu-hairline: #DDE2F0;
+  --midu-hairline-strong: #8A8F9E; /* ~3.2:1 on white — for text-input & interactive boundaries (WCAG 1.4.11) */
+  --midu-disabled-bg: #EBECEF;
+  --midu-disabled-text: #9C9FAB; /* ~2.6:1 — WCAG-exempt for disabled controls; always pair w/ cursor:not-allowed */
 
   /* Mascot palette (illustration only — not UI chrome) */
   --migi-yellow: #FFDA69;
@@ -35,6 +73,12 @@
   --midu-error: #C93A3A;
   --midu-scrim: rgba(34, 31, 31, 0.5); /* ink @ 50% */
 
+  /* Data visualization (zero new hues — reuses brand + ramp tokens) */
+  --midu-chart-line: var(--midu-primary);
+  --midu-chart-area: var(--midu-indigo-100);
+  --midu-chart-band: var(--midu-sun-200);
+  --midu-chart-band-line: var(--midu-sun-700);
+
   /* Type */
   /* FZ Rubik ships in design-system/fonts/ (register via fonts/fzrubik.css).
      Never substitute Google-Fonts Rubik for Vietnamese copy (no vietnamese subset). */
@@ -42,12 +86,23 @@
   --midu-font-tagline: "Quicksand", var(--midu-font-ui);
   --midu-font-sticker: "Patrick Hand", cursive;
 
+  /* Fluid type — clamp(min, min + slope*vw, max), anchored 360px -> 1440px */
+  --midu-text-display-xl: clamp(2.5rem, 2rem + 2.222vw, 4rem);     /* 40px -> 64px */
+  --midu-text-display: clamp(2rem, 1.75rem + 1.111vw, 2.75rem);    /* 32px -> 44px */
+  --midu-text-headline: clamp(1.5rem, 1.375rem + 0.556vw, 1.875rem); /* 24px -> 30px */
+
+  /* Link (decoration overlay — inherits whatever body/caption role it sits in) */
+  --midu-link-color: var(--midu-primary);
+  --midu-link-color-hover: var(--midu-magenta);
+  --midu-link-decoration-color: rgba(56, 75, 152, 0.4);
+
   /* Radius */
   --midu-r-sm: 8px;
   --midu-r-md: 12px;
   --midu-r-lg: 20px;
   --midu-r-xl: 28px;
   --midu-r-pill: 999px;
+  --midu-r-full: 9999px;
 
   /* Spacing (8px base) */
   --midu-s-xxs: 4px;
@@ -58,8 +113,61 @@
   --midu-s-xl: 32px;
   --midu-s-xxl: 48px;
   --midu-s-section: 80px;
+  --midu-touch-target-min: 48px;
+  --midu-touch-target-min-decorative: 44px;
+
+  /* Breakpoints (reference values — media queries can't consume custom properties
+     directly, but keep these as the single source implementers copy from) */
+  --midu-bp-desktop-xl: 1440px;
+  --midu-bp-desktop: 1200px;
+  --midu-bp-tablet: 960px;
+  --midu-bp-mobile-l: 768px;
+  --midu-bp-mobile: 560px;
+  --midu-bp-mobile-s: 400px;
+
+  /* Container */
+  --midu-container-max: 1200px;
+  --midu-container-reading: 760px;
+
+  /* Motion */
+  --midu-duration-fast: 120ms;
+  --midu-duration-base: 200ms;
+  --midu-duration-slow: 400ms;
+  --midu-duration-float: 7000ms;
+  --midu-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --midu-easing-emphasized: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Focus */
+  --midu-focus-ring-color: var(--midu-primary);
+  --midu-focus-ring-color-on-gradient: var(--midu-on-primary);
+  --midu-focus-ring-width: 2px;
+  --midu-focus-ring-offset: 2px;
 
   /* Elevation (indigo-tinted, never grey) */
   --midu-shadow-card: 0 8px 24px rgba(56, 75, 152, 0.10);
   --midu-shadow-float: 0 16px 40px rgba(56, 75, 152, 0.16);
+}
+
+/* Global focus-visible — the one outline permitted on UI chrome (see DESIGN.md > Accessibility).
+   Different color/purpose/pseudo-class from the "no black outline" brand rule, which bans
+   decorative comic-ink strokes only. */
+:focus-visible {
+  outline: var(--midu-focus-ring-width) solid var(--midu-focus-ring-color);
+  outline-offset: var(--midu-focus-ring-offset);
+}
+.on-brand-gradient :focus-visible {
+  outline-color: var(--midu-focus-ring-color-on-gradient);
+}
+
+/* Decorative/ambient motion (bubble float, mascot idle-loops) is removed entirely;
+   functional state-feedback motion collapses to near-zero but is never removed. */
+@media (prefers-reduced-motion: reduce) {
+  [data-motion="decorative"] {
+    animation: none !important;
+  }
+  :root {
+    --midu-duration-fast: 1ms;
+    --midu-duration-base: 1ms;
+    --midu-duration-slow: 1ms;
+  }
 }
