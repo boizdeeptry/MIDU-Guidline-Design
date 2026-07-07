@@ -20,12 +20,12 @@ Full specification: `references/DESIGN.md` (token frontmatter + complete spec). 
 
 For any NEW page or app, do NOT write code yet. First resolve the points below — use the **AskUserQuestion** tool (one round, max 4 questions) when available, otherwise ask in chat. Skip anything the request already answers.
 
-1. **Deliverable & stack** — static HTML (kit default for one-pagers) · Next.js + Tailwind · React SPA · email template?
-2. **Deployment** — Vercel · Netlify · company server · files only? (decides font loading, analytics, form handling)
-3. **Data & backend** — pure static · lead-capture form (submissions go where: Supabase, Google Sheets, existing API?) · CMS content?
+1. **Goal & audience** — what should this surface accomplish (drive a purchase, educate parents on height growth, in-app dashboard for existing customers), and who's it for (new visitor, existing customer, healthcare partner)? Decides which CTA leads, the tone of the copy, and how much disclaimer/citation weight it needs.
+2. **Deliverable & stack** — static HTML (kit default for one-pagers) · Next.js + Tailwind · React SPA · email template?
+3. **Deployment & data** — Vercel · Netlify · company server · files only (decides font loading, analytics, form handling)? If there's a form, submissions go where — Supabase, Google Sheets, existing API? Otherwise pure static or CMS content?
 4. **Content readiness** — approved copy/figures available, or build with placeholders? All placeholder claims MUST carry an `*Illustrative` caption; health copy needs the "not a medicine" disclaimer in the footer.
 
-Defaults when the user says "up to you": static HTML for one-pagers; Next.js + Tailwind on Vercel for anything with routes/data; Supabase for form storage. State the chosen stack in one line before building.
+Defaults when the user says "up to you": static HTML for one-pagers; Next.js + Tailwind on Vercel for anything with routes/data; Supabase for form storage. State the chosen goal/audience and stack in one line before building.
 
 ### Stack notes
 
