@@ -7,7 +7,7 @@ description: Design system for the MIDU MenaQ7 brand (Vietnamese children's heig
 
 One signature gradient, one giraffe doctor, floating nutrient bubbles, everything rounded. Clinical credibility wrapped in cartoon warmth.
 
-Full specification: `references/DESIGN.md` (token frontmatter + complete spec). Ready-to-paste CSS variables: `references/tokens.css`. Mascot art + logo lockup: `assets/`.
+Full specification: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` (token frontmatter + complete spec). Ready-to-paste CSS variables: `${CLAUDE_SKILL_DIR}/references/tokens.css`. Mascot art + logo lockup: `${CLAUDE_SKILL_DIR}/assets/`.
 
 ## When to Activate
 
@@ -29,9 +29,9 @@ Defaults when the user says "up to you": static HTML for one-pagers; Next.js + T
 
 ### Stack notes
 
-- **Static HTML**: self-contained page; embed FZ Rubik as woff2 data URIs or copy `design-system/fonts/`. Always start with `<meta charset="utf-8">` — Vietnamese text renders as mojibake without it when opened locally.
+- **Static HTML**: self-contained page; embed FZ Rubik as woff2 data URIs or copy `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/`. Always start with `<meta charset="utf-8">` — Vietnamese text renders as mojibake without it when opened locally.
 - **Tailwind**: map tokens into `theme.extend` (colors from the quick-reference table, `borderRadius: {pill:'999px'}`, `boxShadow` with the indigo-tinted values). Do not use default Tailwind grays/shadows.
-- **Next.js**: load FZ Rubik via `next/font/local` (weights 400/500/700/900) from `design-system/fonts/FzRubik/`; expose as a CSS variable and wire it into Tailwind `fontFamily`.
+- **Next.js**: load FZ Rubik via `next/font/local` (weights 400/500/700/900) from `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/`; expose as a CSS variable and wire it into Tailwind `fontFamily`.
 - **Vercel/Netlify**: nothing brand-specific; confirm the FZ Rubik license covers public web embedding before deploying.
 - **Supabase forms**: validate inputs client + server side; error states use `#C93A3A` with a helpful Vietnamese message, never a bare red banner — pair empty/error states with MIGI cry/sulk poses.
 
@@ -45,7 +45,7 @@ These rules are load-bearing. Violating any of them breaks the brand:
 4. **Black outlines belong to illustration only.** MIGI and stickers have comic outlines; UI chrome never gets black borders (use `#DDE2F0` hairline).
 5. **Two yellows, never swapped.** UI yellow = `#EFCA3D` (Sun). Giraffe coat = `#FFDA69` (MIGI Yellow). Different temperatures on purpose.
 6. **No new hues.** The palette is closed: indigo, magenta, sun/lime, the mascot's purple family, and two semantic tones.
-7. **Vietnamese-safe typography.** The brand face is **FZ Rubik**, bundled in the kit at `design-system/fonts/FzRubik/` (weights 400/500/700/900, full Vietnamese) — register with `design-system/fonts/fzrubik.css`, stack `"Fz Rubik", system-ui, sans-serif`. NEVER substitute Google-Fonts Rubik (it has no Vietnamese subset — diacritics render in a mismatched fallback face mid-word). Body line-height ≥ 1.75, caption ≥ 1.667, eyebrow ≥ 1.54 so stacked diacritics (ắ ễ ộ, especially uppercase Ắ Ễ Ộ) don't clip. Test string: "Chuyên gia chiều cao".
+7. **Vietnamese-safe typography.** The brand face is **FZ Rubik**, bundled in the kit at `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/` (weights 400/500/700/900, full Vietnamese) — register with `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/fzrubik.css`, stack `"Fz Rubik", system-ui, sans-serif`. NEVER substitute Google-Fonts Rubik (it has no Vietnamese subset — diacritics render in a mismatched fallback face mid-word). Body line-height ≥ 1.75, caption ≥ 1.667, eyebrow ≥ 1.54 so stacked diacritics (ắ ễ ộ, especially uppercase Ắ Ễ Ộ) don't clip. Test string: "Chuyên gia chiều cao".
 8. **Focus rings are mandatory, not a brand-rule violation.** Every interactive element gets a `:focus-visible` ring (`#384B98`, 2px, swaps to white on gradient surfaces). This is a different pseudo-class/purpose than the "no black outline" rule — never suppress it to satisfy that rule.
 9. **Disabled state ≠ opacity hack.** Use `#EBECEF` background / `#9C9FAB` text + `cursor: not-allowed` — a faded brand color reads as "still clickable," not "inert."
 10. **Color is never the only signal.** Success/error always pair with a glyph or text, never a bare colored dot/pill. Mascot poses that communicate state (error, success, reminder) always ship with a real text string alongside — the illustration is reinforcement, never the sole carrier.
@@ -71,9 +71,9 @@ These rules are load-bearing. Violating any of them breaks the brand:
 | success / error | `#2E7D46` / `#C93A3A` | AA-compliant on white — always pair with a glyph, never color-only |
 | hairline-strong | `#8A8F9E` | Interactive borders (text-input) — plain hairline is only 1.3:1, fails WCAG 1.4.11 |
 | disabled-bg / disabled-text | `#EBECEF` / `#9C9FAB` | Inert state for any button/input — pair with `cursor:not-allowed` |
-| indigo/magenta/sun ramps (50–900) | see `references/DESIGN.md` | Lightness variants of the 3 base hues — hover fills (50), pressed states (700), dark surfaces (800–900). Not new colors. |
+| indigo/magenta/sun ramps (50–900) | see `${CLAUDE_SKILL_DIR}/references/DESIGN.md` | Lightness variants of the 3 base hues — hover fills (50), pressed states (700), dark surfaces (800–900). Not new colors. |
 
-Focus, motion, breakpoint, and container tokens (new in v0.2.0) live in `references/DESIGN.md` frontmatter — read it for exact values (`focus.ring-*`, `motion.duration-*`/`easing-*`, `breakpoints.*`, `container.*`).
+Focus, motion, breakpoint, and container tokens (new in v0.2.0) live in `${CLAUDE_SKILL_DIR}/references/DESIGN.md` frontmatter — read it for exact values (`focus.ring-*`, `motion.duration-*`/`easing-*`, `breakpoints.*`, `container.*`).
 
 ### Typography (FZ Rubik)
 
@@ -100,7 +100,7 @@ Weights: 900 for moments, 700 for structure, 400–500 for reading. Skip 600. Fl
 
 ## Component Recipes
 
-Recipes use the variables from `references/tokens.css` — paste that file into the project first, so token values live in exactly one place.
+Recipes use the variables from `${CLAUDE_SKILL_DIR}/references/tokens.css` — paste that file into the project first, so token values live in exactly one place.
 
 ```css
 /* Global focus ring — the one outline permitted on UI chrome (not the "no black outline" rule) */
@@ -142,17 +142,17 @@ Recipes use the variables from `references/tokens.css` — paste that file into 
 .toast.success { background: var(--midu-success); } .toast.error { background: var(--midu-error); }
 ```
 
-Full component specs — including new v0.2.0 additions (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`, `product-grid`): `references/DESIGN.md` → Components.
+Full component specs — including new v0.2.0 additions (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`, `product-grid`): `${CLAUDE_SKILL_DIR}/references/DESIGN.md` → Components.
 
 ## Logo
 
-Files in `assets/`: `logo-midu.png` (color, light grounds), `logo-midu-white.png` (on gradient/dark imagery), `logo-midu-tagline.png` (lockup — prefer on first appearance per surface).
+Files in `${CLAUDE_SKILL_DIR}/assets/`: `logo-midu.png` (color, light grounds), `logo-midu-white.png` (on gradient/dark imagery), `logo-midu-tagline.png` (lockup — prefer on first appearance per surface).
 
 Rules: clearspace = height of the "m" on all sides · min width 96px · never stretch, rotate, outline, recolor, or detach the lightbulb/ruler/child elements from the wordmark.
 
 ## Mascot: MIGI
 
-Transparent PNGs in `assets/` (560px; full-res 1871px lives in the source project's `design-system/assets/`). Map pose to UX moment:
+Transparent PNGs in `${CLAUDE_SKILL_DIR}/assets/` (560px; full-res 1871px lives in the kit's source repo at `design-system/assets/`, not bundled with the skill). Map pose to UX moment:
 
 <!-- Canonical table: references/DESIGN.md → "Mascot Usage (MIGI)". Keep in sync. -->
 

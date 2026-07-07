@@ -10,11 +10,11 @@ Three reference bundles, loaded on demand — this file is the router, not the c
 
 | Reference | Use for |
 |---|---|
-| `references/vercel-performance.md` | Performance rules: waterfalls, bundle size, server/client data fetching, re-renders, rendering, raw JS perf. **Read first** for any perf-sensitive change. |
-| `references/nextjs/*.md` | Next.js framework conventions — see topic index below. |
-| `references/component-patterns.md` | Component-API architecture: composition vs. inheritance, compound components, render props, custom hooks, context+reducer, error boundaries, forms, a11y. |
+| `${CLAUDE_SKILL_DIR}/references/vercel-performance.md` | Performance rules: waterfalls, bundle size, server/client data fetching, re-renders, rendering, raw JS perf. **Read first** for any perf-sensitive change. |
+| `${CLAUDE_SKILL_DIR}/references/nextjs/*.md` | Next.js framework conventions — see topic index below. |
+| `${CLAUDE_SKILL_DIR}/references/component-patterns.md` | Component-API architecture: composition vs. inheritance, compound components, render props, custom hooks, context+reducer, error boundaries, forms, a11y. |
 
-### `references/nextjs/` topic index
+### `${CLAUDE_SKILL_DIR}/references/nextjs/` topic index
 
 | File | Topic |
 |---|---|
@@ -45,18 +45,18 @@ Three reference bundles, loaded on demand — this file is the router, not the c
 - Touching bundle size, load performance, or re-render behavior
 - Anything under `app/` or `pages/` in a Next.js project
 
-## Non-Negotiables (from `vercel-performance.md` — read the file for the full rule + example)
+## Non-Negotiables (from `${CLAUDE_SKILL_DIR}/references/vercel-performance.md` — read the file for the full rule + example)
 
 1. **No data waterfalls.** Independent fetches go through `Promise.all`; don't `await` sequentially when nothing depends on the prior result. Start promises early, await late in Route Handlers/Server Actions.
 2. **No barrel-file imports** for anything non-trivial — import directly from the source module. Use `next/dynamic` for heavy/rarely-shown components.
 3. **Cache server-side reads.** `React.cache()` for per-request dedup, an LRU cache for cross-request. Never re-fetch the same data twice in one render pass.
 4. **Minimize what crosses the server→client boundary.** Serialize only what the client component actually needs.
 5. **Don't subscribe to state you only read in a callback.** Read via ref/latest-value pattern instead of adding it to a dependency array that re-renders the tree.
-6. **`next/image` and `next/font` are mandatory** — never a bare `<img>` or manual `@font-face` for anything `next/font` covers (see `references/nextjs/image.md`, `references/nextjs/font.md`).
+6. **`next/image` and `next/font` are mandatory** — never a bare `<img>` or manual `@font-face` for anything `next/font` covers (see `${CLAUDE_SKILL_DIR}/references/nextjs/image.md`, `${CLAUDE_SKILL_DIR}/references/nextjs/font.md`).
 7. **Ternary over `&&` for conditional rendering** — `cond && <Foo/>` renders a stray `0`/`NaN` when `cond` is a non-boolean falsy value.
 
 ## Workflow
 
-1. Know the task shape first: perf fix → `vercel-performance.md`; "how does Next.js do X" → the matching `references/nextjs/*.md` file; "how should this component be structured" → `component-patterns.md`.
+1. Know the task shape first: perf fix → `${CLAUDE_SKILL_DIR}/references/vercel-performance.md`; "how does Next.js do X" → the matching `${CLAUDE_SKILL_DIR}/references/nextjs/*.md` file; "how should this component be structured" → `${CLAUDE_SKILL_DIR}/references/component-patterns.md`.
 2. If the project also has the `midu-design-system` skill installed, brand tokens/components win for anything visual — this skill only governs *how* the React/Next.js code is written, not colors/spacing/typography.
 3. Don't apply a performance rule speculatively — most of `vercel-performance.md` is impact-ranked (CRITICAL → LOW); fix waterfalls and bundle size before reaching for `js-*` micro-optimizations.

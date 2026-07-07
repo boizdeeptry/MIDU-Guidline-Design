@@ -5,7 +5,7 @@ description: Audit UI, pages, or components against the MIDU MenaQ7 brand system
 
 # MIDU Brand Review
 
-Audit a screen, page, or component against the MIDU MenaQ7 design system. Token source of truth: the `midu-design-system` skill (`references/DESIGN.md`) — install both skills together. Hex values below are transcribed from DESIGN.md; re-verify them after any token change.
+Audit a screen, page, or component against the MIDU MenaQ7 design system. Token source of truth: the `midu-design-system` skill (`${CLAUDE_PLUGIN_ROOT}/skills/midu-design-system/references/DESIGN.md`) — install both skills together. Hex values below are transcribed from DESIGN.md; re-verify them after any token change.
 
 ## How to Run a Review
 
@@ -21,7 +21,7 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - **Gradient discipline:** more than one indigo→magenta gradient CTA per viewport; gradient on body text, icons, borders, or secondary buttons; gradient flowing the wrong way (must be indigo left/top → magenta right/bottom; only the footer may reverse).
 - **Contrast traps:** white text on Sun `#EFCA3D` (must be ink `#221F1F`); magenta eyebrow directly on `#EEF1FA` tint (use the `eyebrow-badge-on-tint` component — white badge ground; bare magenta-on-tint is 4.45:1, fails AA); text-bearing controls on bubble-orange `#F68500`; semantic colors other than `#2E7D46` / `#C93A3A` for small text.
 - **Foreign hues:** any color outside the system (indigo `#384B98`, magenta `#C1368D`, sun `#EFCA3D`, lime `#E4E254`, surfaces `#FFFFFF`/`#EEF1FA`/`#F7F4FB`, hairline `#DDE2F0`, ink `#221F1F`, mascot family, 2 semantic tones).
-- **Vietnamese typography:** Google-Fonts Rubik used for Vietnamese copy (it has no Vietnamese subset — diacritics fall back to a mismatched face); body line-height < 1.5 clipping stacked diacritics. Correct face: FZ Rubik, bundled in the kit (`design-system/fonts/`).
+- **Vietnamese typography:** Google-Fonts Rubik used for Vietnamese copy (it has no Vietnamese subset — diacritics fall back to a mismatched face); body line-height < 1.5 clipping stacked diacritics. Correct face: FZ Rubik, bundled in the kit (`${CLAUDE_PLUGIN_ROOT}/design-system/fonts/`).
 - **Logo misuse:** logo stretched, rotated, recolored, outlined, or with elements (lightbulb/ruler/child) detached; color logo on the gradient (must be the white version); rendered under 96px wide.
 - **Mascot abuse:** MIGI mirror-flipped, recolored, rendered under 120px height, or more than one MIGI per viewport.
 - **No focus indicator:** any interactive element with `outline: none`/`outline: 0` and no replacement `:focus-visible` style — this is a WCAG 2.4.7 failure, not a style choice. Check especially for the brand's "no black outline" rule being misapplied to suppress ALL outlines (it only bans decorative `#221F1F` comic strokes, not the `:focus-visible` ring).
