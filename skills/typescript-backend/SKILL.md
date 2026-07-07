@@ -17,8 +17,8 @@ Two reference files, loaded on demand.
 
 Don't write code before resolving these — ask via **AskUserQuestion** if not already answered by the request:
 
-1. **Where does this run?** Next.js Route Handler / Server Action, standalone Node service, or serverless function — changes error-response shape and cold-start concerns.
-2. **What's the data store?** Supabase/Postgres, another DB, or an external API — decides whether the repository pattern in `api-patterns.md` is worth the layer or overkill for a single query.
+1. **Purpose & contract** — what business action does this perform, and what request/response shape does it promise callers? Decides whether it's a thin CRUD passthrough or needs real domain logic worth its own layer — the "why" a stack question alone won't surface.
+2. **Runtime & data store** — Next.js Route Handler / Server Action / standalone Node service / serverless function — and Supabase/Postgres / another DB / external API? Changes error-response shape, cold-start concerns, and whether the repository pattern in `api-patterns.md` is worth the layer or overkill for a single query.
 3. **Who calls this?** Public internet (needs rate limiting + input validation at the boundary) vs. internal-only (still validate, but auth/rate-limit needs differ).
 4. **What's the failure mode users see?** A friendly message + logged detail (see `typescript-style.md` → Errors), never a raw stack trace or raw DB error to the client.
 
