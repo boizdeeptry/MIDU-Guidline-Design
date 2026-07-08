@@ -20,18 +20,20 @@ Full specification: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` (token frontmatte
 
 This skill runs a self-contained pipeline — **brainstorm → brief → plan → build → review** — the same shape as `/discuss → /plan → /execute → /ship`, but bundled in the plugin so it works for anyone, with no `.planning/` folder or external skill needed. Run the phases in order. The phases are lightweight (a small edit is one quick loop; a full site is a fuller one) but **none is skippable for a new surface**.
 
-**HARD-GATE: do not write a single line of markup or CSS until Phase 2's brief is confirmed by the user.** Auto-defaulting the deliverable (e.g. "it's a static HTML file so I'll just rebuild it") is the failure this gate exists to prevent — a source file's format is a hint, not a confirmed brief. If the request already answers a question, say so and skip only that question; never skip the whole gate.
+**HARD-GATE: do not write a single line of markup or CSS until you've stated the brief and the user has confirmed (a simple "OK" counts).** The gate is on *confirming the plan*, not on interrogating the user — the failure it prevents is silently auto-defaulting the deliverable (e.g. "it's a static HTML file so I'll just rebuild it") and shipping before anyone agreed to it.
 
-### Phase 1 — Brainstorm (ask, don't assume)
+### Phase 1 — Brainstorm (infer first, ask only what's load-bearing)
 
-Resolve these via the **AskUserQuestion** tool (one round, up to 4) when available, else ask in chat. Skip only what the request already pins down, and state what you inferred.
+**Don't interrogate. Asking a stack of questions you could answer yourself is its own failure** — it annoys the user and stalls the work. Infer aggressively from the request, the source files, and the context; then ask **only the genuinely load-bearing unknowns** — usually 0–2, one AskUserQuestion round at most. If nothing is truly ambiguous, ask nothing: state your assumptions in the brief and let the user correct them.
 
-1. **Goal & audience** — what should this surface accomplish (drive a purchase, educate parents on height growth, in-app dashboard for existing customers), and who's it for (new visitor, existing customer, healthcare partner)? Decides which CTA leads, tone, and how much disclaimer/citation weight it needs.
-2. **Deliverable & stack** — static HTML (kit default for one-pagers) · Next.js + Tailwind · React SPA · email template?
-3. **Deployment & data** — Vercel · Netlify · company server · files only (decides font loading, analytics, form handling)? If there's a form, submissions go where (Supabase, Sheets, existing API)? Otherwise pure static or CMS?
-4. **Content & data source** — is approved copy/figures available? **Where do the real facts come from?** For any MIDU product/medical/stat claim, the source is the company knowledge base (`Z:\DU LIEU MIDU\MIDU BRAIN` when present) or material the user provides — **never invented** (see Non-Negotiable #13 and DESIGN.md Voice §5). If a real figure isn't available, plan a labelled placeholder, not a fabricated number.
+The four things the brief must resolve (infer each unless it's genuinely unclear *and* the wrong guess would be costly to redo):
 
-Defaults when the user says "up to you": static HTML for one-pagers; Next.js + Tailwind on Vercel for anything with routes/data; Supabase for form storage.
+1. **Goal & audience** — what the surface accomplishes and who it's for. Usually inferable from the request/source; ask only if it flips the whole design.
+2. **Deliverable & stack** — static HTML (default for one-pagers; an existing `.html` source strongly implies this) · Next.js + Tailwind · React SPA · email. Infer from the source/context; default static HTML for a one-pager.
+3. **Deployment & data** — matters only if there's a form or routing. No form → don't ask; it's static.
+4. **Content & data source** — **this one is non-negotiable to get right, but it's usually answerable without asking:** real facts come from the user's provided material or the company KB (`Z:\DU LIEU MIDU\MIDU BRAIN` when present) — **never invented** (Non-Negotiable #13, DESIGN.md Voice §5). No real figure available → labelled placeholder, not a fabricated number.
+
+Rule of thumb: a rebuild of a provided document needs ~0 questions (infer, state assumptions); a brand-new site from a one-line request may warrant 1–2. When you do ask, batch into a single AskUserQuestion round.
 
 ### Phase 2 — Brief (confirm before building)
 
@@ -230,6 +232,7 @@ Transparent PNGs in `${CLAUDE_SKILL_DIR}/assets/` (560px; full-res 1871px lives 
 - [ ] Success/error signaling pairs color with a glyph or text — never a bare colored dot/pill
 - [ ] Every clickable element shows `cursor: pointer`; no emoji used as a UI icon
 - [ ] Product-facing pages carry the legal disclaimer band in the footer ("Thực phẩm này không phải là thuốc…")
+- [ ] Logo, mascot, and other brand assets use the **real files** from `assets/` (e.g. footer/nav shows `logo-midu-white.png` on the gradient, not a typed "Midu" text stand-in) — never a paraphrased look-alike
 - [ ] `<html lang="vi">` set
 
 ## What Do I Use For…
