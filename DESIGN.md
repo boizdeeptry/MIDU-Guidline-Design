@@ -1,5 +1,5 @@
 ---
-version: 0.3.0
+version: 0.4.0
 status: alpha
 name: MIDU-MenaQ7-design-system
 description: "A joyful pediatric-health brand built on one signature move: an indigo-to-magenta gradient that carries every hero, every primary CTA, and the wordmark itself — cooled down by white clinical surfaces and warmed up by MIGI, a bespectacled giraffe doctor in a lab coat. Sunshine yellow is the energy accent, floating nutrient bubbles (Ca+, D3, K2, Mg, Arg) are the decorative vocabulary, and a ruler motif runs through the identity because the product's whole promise is measurable height growth for kids. Science you can trust, drawn like a cartoon your child already loves."
@@ -105,21 +105,21 @@ typography:
     letterSpacing: 1px
     fontFeature: kern
   body-lg:
-    fontFamily: Fz Rubik
+    fontFamily: Lexend
     fontSize: 18px
     fontWeight: 500
     lineHeight: 1.55
     letterSpacing: 0
     fontFeature: kern
   body:
-    fontFamily: Fz Rubik
+    fontFamily: Lexend
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.75
     letterSpacing: 0
     fontFeature: kern
   body-sm:
-    fontFamily: Fz Rubik
+    fontFamily: Lexend
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.55
@@ -140,7 +140,7 @@ typography:
     letterSpacing: 1.5px
     fontFeature: kern
   caption:
-    fontFamily: Fz Rubik
+    fontFamily: Lexend
     fontSize: 12px
     fontWeight: 500
     lineHeight: 1.667
@@ -581,7 +581,10 @@ No chart exists yet, but the product's core premise is a height-growth chart, so
 
 ### Font Family
 
-- **FZ Rubik** — The brand face, bundled in this kit at `design-system/fonts/FzRubik/` (TTF, weights 400/500/700/900, full Vietnamese coverage — verified; the type scale never uses 300/600/800, so those weights aren't shipped). Register it with `design-system/fonts/fzrubik.css` and use the stack `"Fz Rubik", system-ui, sans-serif`. **Important:** Google Fonts Rubik has *no Vietnamese subset* — never substitute it for Vietnamese copy; the bundled FZ Rubik is the Vietnamese-adapted cut the guideline calls "Rubik MKT".
+The system pairs **two** faces (v0.4.0) — a characterful display face and a clean reading face — both with full Vietnamese:
+
+- **FZ Rubik** (`{typography.*.fontFamily}` = display) — The brand's **display/title** face: `display-xl`, `display`, `headline`, `title`, `button`, `eyebrow`, and stat numerals. Bundled at `design-system/fonts/FzRubik/` (TTF, weights 400/500/700/900, full Vietnamese — verified; the scale never uses 300/600/800). Register with `design-system/fonts/fzrubik.css`, token `{colors...}` — use `var(--midu-font-display)` / stack `"Fz Rubik", system-ui, sans-serif`. **Never** substitute Google-Fonts Rubik (no Vietnamese subset); the bundled cut is the Vietnamese-adapted "Rubik MKT". Its rounded, friendly geometry carries brand personality but reads heavy in long paragraphs — which is why body copy moves to Lexend.
+- **Lexend** (`{typography.body*/caption.fontFamily}`) — The **reading/body** face: `body-lg`, `body`, `body-sm`, `caption`, and link text. A Google Fonts (OFL) humanist sans **tuned for reading fluency**, with a full Vietnamese subset (verified). Bundled at `design-system/fonts/Lexend/` (woff2, weights 400/500/700, vietnamese+latin+latin-ext subsets); register with `design-system/fonts/lexend.css`, use `var(--midu-font-body)` / stack `"Lexend", "Fz Rubik", system-ui, sans-serif` (Rubik is the fallback so a load failure still renders Vietnamese correctly). The pairing rule: **Rubik for anything display-sized or a title; Lexend for anything you actually read.**
 - **Quicksand** — Substitute for the thin rounded tagline face used in "Chuyên gia chiều cao" lockups. Logo-adjacent use only.
 - **Patrick Hand** (or any casual hand-print face with Vietnamese support) — Substitute for the sticker lettering ("WOW", "Cố LÊN!", "GOOD NIGHT") that accompanies MIGI poses. Decorative callouts only, never body copy.
 
@@ -1152,6 +1155,10 @@ Copy-pasteable starting points — each names the components/tokens so the outpu
 - **Vector sources are not in this kit.** The original `.ai`/`.pdf` files (mascot vectors, logo, guideline) live in the brand team's Drive folder; the kit ships rasterized PNGs (1871px mascot poses, 1224px logo), which cover web use but not large-format print. Request the vector files from the brand team for print work.
 
 ## Changelog
+
+### 0.4.0 — this round
+- Changed: typography is now a **two-font pairing** — FZ Rubik for display/titles (`display-xl`/`display`/`headline`/`title`/`button`/`eyebrow` + stat numerals), **Lexend** for reading text (`body-lg`/`body`/`body-sm`/`caption`/link). Both carry full Vietnamese.
+- Added: Lexend bundled at `design-system/fonts/Lexend/` (woff2, weights 400/500/700, vietnamese+latin+latin-ext) + `design-system/fonts/lexend.css`; tokens `--midu-font-display` / `--midu-font-body` (`--midu-font-ui` kept as a back-compat alias of display).
 
 ### 0.3.0 — this round
 - Added: `stat-counter`, `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-primary-on-gradient`, `button-secondary-on-gradient` components.

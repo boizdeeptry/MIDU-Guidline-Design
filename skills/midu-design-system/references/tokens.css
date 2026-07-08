@@ -80,11 +80,13 @@
   --midu-chart-band: var(--midu-sun-200);
   --midu-chart-band-line: var(--midu-sun-700);
 
-  /* Type */
-  /* FZ Rubik ships in design-system/fonts/ (register via fonts/fzrubik.css).
-     Never substitute Google-Fonts Rubik for Vietnamese copy (no vietnamese subset). */
-  --midu-font-ui: "Fz Rubik", system-ui, sans-serif;
-  --midu-font-tagline: "Quicksand", var(--midu-font-ui);
+  /* Type — two-font pairing (v0.4.0): FZ Rubik for display/titles, Lexend for reading text.
+     Both ship in design-system/fonts/ (register via fonts/fzrubik.css + fonts/lexend.css) and
+     carry full Vietnamese. Never substitute Google-Fonts Rubik (no vietnamese subset). */
+  --midu-font-display: "Fz Rubik", system-ui, sans-serif;                 /* display-xl, display, headline, title, button, eyebrow, stat numerals */
+  --midu-font-body: "Lexend", "Fz Rubik", system-ui, sans-serif;          /* body, body-lg, body-sm, caption, link — the reading font */
+  --midu-font-ui: var(--midu-font-display);                               /* back-compat alias */
+  --midu-font-tagline: "Quicksand", var(--midu-font-display);
   --midu-font-sticker: "Patrick Hand", cursive;
 
   /* Fluid type — clamp(min, min + slope*vw, max), anchored 360px -> 1440px */
