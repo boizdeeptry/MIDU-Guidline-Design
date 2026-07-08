@@ -839,7 +839,64 @@ No icon system existed before this revision — a real gap the moment any nav, f
 **`card`** — White, `{rounded.lg}`, `{spacing.lg}` padding, level-2 indigo shadow. Benefit cards, article cards, product tiles.
 **`card-tinted`** — `{colors.surface-soft}` ground, no shadow. Use inside white sections for FAQs, testimonials.
 **`stat-tile`** — White card whose number is set in `{typography.display}` `{colors.primary}` (or gradient-filled) with tabular figures, label in `{typography.eyebrow}` `{colors.magenta}`. For "+3–5cm/năm"-style claims, always with a source footnote in `{typography.caption}` — see Voice and Tone §2.
+**`stat-counter`** — A `stat-tile` whose number **counts up from 0 to its target when it scrolls into view** (see Motion for the timing contract). The trust-number workhorse for the stat/CTA row.
+
+- Markup — the label is the accessible source of truth; the animated numeral is hidden from screen readers so they never hear intermediate frames:
+
+```html
+<div class="stat-counter" data-target="10000" data-suffix="+" aria-label="10.000+ khách hàng tin dùng">
+  <span class="stat-counter__value" aria-hidden="true">0</span>
+  <span class="stat-counter__label">khách hàng tin dùng</span>
+</div>
+```
+
+- `.stat-counter__value` uses `font-variant-numeric: tabular-nums` so digit width is fixed and the layout doesn't jitter while counting. Value in `{typography.display}` `{colors.primary}`, label in `{typography.body-sm}` `{colors.ink-soft}`.
+- Decimal precision is inferred from the `data-target` string: `data-target="4.9"` counts in tenths (0.0 → 4.9), never rounding through a wrong whole number. `data-suffix` appends `+`, `%`, etc.
+- Counts **once** (the observer unobserves after firing); under `prefers-reduced-motion` it paints the final value immediately with no rAF loop; with no `IntersectionObserver` it also paints the final value (progressive enhancement). Any placeholder figure still carries an `*Illustrative` caption.
+
+```js
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DURATION = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--midu-duration-count')) || 1600;
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function decimalPlaces(s) { var i = s.indexOf('.'); return i === -1 ? 0 : s.length - i - 1; }
+  function paint(el, v, d) {
+    el.querySelector('.stat-counter__value').textContent =
+      v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) + (el.dataset.suffix || '');
+  }
+  function animate(el) {
+    var t = parseFloat(el.dataset.target); if (isNaN(t)) return;
+    var d = decimalPlaces(el.dataset.target);
+    if (prefersReduced) { paint(el, t, d); return; }
+    var start = null;
+    requestAnimationFrame(function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / DURATION, 1);
+      paint(el, t * easeOutCubic(p), d);
+      if (p < 1) requestAnimationFrame(step); else paint(el, t, d);
+    });
+  }
+  var counters = document.querySelectorAll('.stat-counter[data-target]');
+  if (!('IntersectionObserver' in window)) { counters.forEach(function (el) { paint(el, parseFloat(el.dataset.target), decimalPlaces(el.dataset.target)); }); return; }
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  counters.forEach(function (el) { obs.observe(el); });
+})();
+```
+
 **`mascot-slot`** — `{colors.surface-tint}` rounded-`{rounded.xl}` stage for a MIGI pose + `{typography.sticker}` hand-lettered caption. The pose may overflow the slot edge by up to 15%. The mascot illustration is reinforcement only — a real text string carrying the same information sits alongside it; see Accessibility.
+
+### Commerce & Data
+
+**`product-card`** — The online-store tile for a MenaQ7 SKU. Slots, top-to-bottom:
+1. **Image slot** — 1:1, clipped to `{rounded.md}`, `opacity {motion.duration-base} {motion.easing-standard}` fade-in on load. Optional promo badge top-right on `{colors.sun}` with `{colors.ink}` text (ink-on-yellow law — never white).
+2. **Name** — `{typography.title}`.
+3. **Price** — đ-format, `{typography.body-lg}` weight 700 `{colors.primary}`.
+4. **CTA** — "Mua ngay". **In a `{components.product-grid}` the cards use `{components.button-secondary}`** so the page keeps its single gradient CTA elsewhere (one-gradient-CTA law); a lone featured product outside a grid may use `{components.button-primary}`.
+- States: default / hover (`{components.card-hover-lift}`) / out-of-stock (`{colors.disabled-bg}` image veil + `{colors.disabled-text}` "Hết hàng" text — never color-only).
+
+**`ingredient-facts-table`** — The dosage/composition table (Ca, D3, K2 MenaQ7, Mg, Arg per serving) — MIDU's whole premise is ingredient science, so this is a first-class component, not a generic table. Nutrient label left, per-dose value right. Row rule 1px `{colors.hairline}` below each row; header `{typography.body-sm}` weight 700; cells `{typography.body-sm}` with unit qualifiers in `{typography.caption}`; outer clip `{rounded.md}` (the ≥8px table-corner rule holds); optional zebra `{colors.surface-soft}`. Every efficacy claim printed next to the table keeps its own `{typography.caption}` source line (Voice §2).
 
 ### Hero & Sections
 
@@ -1016,7 +1073,7 @@ This is the one outline permitted on UI chrome — a different color, purpose, a
 - **The guideline PDF documents only palette, logo variations, and font weights** — spacing, radii, elevation, components, breakpoints, motion, focus, and the tint/shade ramps in this file are *derived* from the brand's visual logic, not from an official spec. Treat them as the proposed system, adjustable as the brand team weighs in.
 - **Dark mode: starting palette only, no component pass.** Canvas `{colors.indigo-900}`, surface `{colors.indigo-800}` — not `{colors.migi-deep}`, which is a saturated brand purple that would vibrate against gradient CTAs on a dark ground. Text/link accents: `{colors.indigo-300}`/`{colors.magenta-300}`; larger fills: `{colors.indigo-400}`/`{colors.magenta-400}`. `{colors.sun}`/`{colors.ink}` pairing (`button-sun`) is already dark-mode-agnostic — no change needed there. This commits only the palette; no component has an actual dark variant built yet.
 - **Photography is out of scope for this round.** The system as specified is 100% illustrated (MIGI + nutrient bubbles); zero real-photo guidance exists. Before any real parent+child photography ships (testimonials, packaging, ads), this file needs a Photography section — color grade to sit next to the indigo/magenta palette, cropping against the shape system, and whether bubbles/gradient may overlay a photo.
-- **Form controls beyond text-input and date-picker are backlog, not spec'd.** `select-dropdown`, `checkbox`/`radio`, `toggle-switch`, `textarea`, `inline-alert`, `tooltip`, `avatar`, `skeleton`/`loading`, `accordion`, `stepper`, `table`, `tag`/`badge` (non-nutrient), `breadcrumb`/`pagination` are all real, identified needs — see the component gap-analysis that produced this revision — but capped at the top 5 highest-priority specs (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`) to keep this round focused. Track as v0.3.
+- **Form controls beyond text-input and date-picker are backlog, not spec'd.** `select-dropdown`, `checkbox`/`radio`, `toggle-switch`, `textarea`, `inline-alert`, `tooltip`, `avatar`, `skeleton`/`loading`, `accordion`, `stepper`, `tag`/`badge` (non-nutrient), `breadcrumb`/`pagination` are all real, identified needs — see the component gap-analysis that produced this revision. (`table` shipped in v0.3.0 as `{components.ingredient-facts-table}`; the generic-`table` and remaining form controls stay backlog.) Track as a future round.
 - **Print values**: the guideline lists CMYK equivalents (e.g. indigo 95/82/3/0, magenta 6/93/1/0); this file is screen-first and records hex only.
 - **Vector sources are not in this kit.** The original `.ai`/`.pdf` files (mascot vectors, logo, guideline) live in the brand team's Drive folder; the kit ships rasterized PNGs (1871px mascot poses, 1224px logo), which cover web use but not large-format print. Request the vector files from the brand team for print work.
 
