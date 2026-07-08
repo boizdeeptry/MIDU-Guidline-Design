@@ -1072,6 +1072,38 @@ This is the one outline permitted on UI chrome — a different color, purpose, a
 
 ## Iteration Guide
 
+### What do I use for…
+
+The fastest way to stay on-system: pick the component by the job, not by eyeballing a layout.
+
+| You want | Use |
+|---|---|
+| Primary CTA | `{components.button-primary}` (one per viewport; on a gradient ground use `{components.button-primary-on-gradient}`) |
+| Secondary action | `{components.button-secondary}` (`-on-gradient` variant on gradient grounds) |
+| Promo / gamified action | `{components.button-sun}` (max one per viewport) |
+| Section kicker / label | `{components.eyebrow-badge}` (`-on-tint` variant on `{colors.surface-soft}`) |
+| Trust number that counts up | `{components.stat-counter}` |
+| Progress toward a height goal | `{components.progress-ruler}` |
+| Product tile with price + buy | `{components.product-card}` |
+| Dosage / composition facts | `{components.ingredient-facts-table}` |
+| Parent quote | `{components.testimonial-card}` |
+| Doctor endorsement | `{components.expert-endorsement-card}` |
+| Decorative delight | `{components.chip-nutrient}` cluster (one per section, one orange max) |
+| Emotional state (error/empty/success) | MIGI pose per Mascot table + real text alongside |
+
+#### Worked prompts
+
+Copy-pasteable starting points — each names the components/tokens so the output stays on-system:
+
+1. "Build a MIDU hero: `{components.hero-gradient}` slots in order — display-xl white headline left (~55%), `migi-hello.png` right at ≥120px, one bubble cluster, `{components.button-primary-on-gradient}` + `{components.button-secondary-on-gradient}`."
+2. "Build a benefits band on white: three columns, each `{components.card}` with an icon-lg glyph, headline title, body copy, and a `{typography.caption}` source line under every efficacy claim."
+3. "Add a stat row: three `{components.stat-counter}` on white — 10.000+ khách hàng, 98% phụ huynh hài lòng, 4.9 điểm — tabular numerals, `*Illustrative` caption if figures are placeholders."
+4. "Build a product grid: `{components.product-grid}` of `{components.product-card}` — cards use `{components.button-secondary}`, the page keeps its single gradient CTA in the hero."
+5. "Build a testimonial band on `{colors.surface-tint}`: three `{components.testimonial-card}` with avatar, name + tuổi con, 3-line excerpt; one `{components.expert-endorsement-card}` with credential + source line."
+6. "Build an error state: `{components.empty-state}` with `migi-cry.png`, a soft never-blaming headline, real body text explaining the fix, and a `{components.button-secondary}` retry — no gradient CTA on error surfaces."
+
+### Working rules
+
 1. Reference components by token name (`{components.button-primary}`, `{components.progress-ruler}`) when asking for changes.
 2. Choose the section ground first — `{colors.canvas}` or `{colors.surface-soft}` — before styling anything inside it.
 3. Default text to `{typography.body}`; escalate to display sizes only for the one focal message per viewport.
@@ -1090,10 +1122,20 @@ This is the one outline permitted on UI chrome — a different color, purpose, a
 - **Dark mode: starting palette only, no component pass.** Canvas `{colors.indigo-900}`, surface `{colors.indigo-800}` — not `{colors.migi-deep}`, which is a saturated brand purple that would vibrate against gradient CTAs on a dark ground. Text/link accents: `{colors.indigo-300}`/`{colors.magenta-300}`; larger fills: `{colors.indigo-400}`/`{colors.magenta-400}`. `{colors.sun}`/`{colors.ink}` pairing (`button-sun`) is already dark-mode-agnostic — no change needed there. This commits only the palette; no component has an actual dark variant built yet.
 - **Photography is out of scope for this round.** The system as specified is 100% illustrated (MIGI + nutrient bubbles); zero real-photo guidance exists. Before any real parent+child photography ships (testimonials, packaging, ads), this file needs a Photography section — color grade to sit next to the indigo/magenta palette, cropping against the shape system, and whether bubbles/gradient may overlay a photo.
 - **Form controls beyond text-input and date-picker are backlog, not spec'd.** `select-dropdown`, `checkbox`/`radio`, `toggle-switch`, `textarea`, `inline-alert`, `tooltip`, `avatar`, `skeleton`/`loading`, `accordion`, `stepper`, `tag`/`badge` (non-nutrient), `breadcrumb`/`pagination` are all real, identified needs — see the component gap-analysis that produced this revision. (`table` shipped in v0.3.0 as `{components.ingredient-facts-table}`; the generic-`table` and remaining form controls stay backlog.) Track as a future round.
+- **Legal disclaimer wording pending confirmation.** The footer `legal-band` ships the standard Ministry-of-Health supplement formula ("Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."); confirm the exact required wording with the brand/legal team before print or paid-media use.
 - **Print values**: the guideline lists CMYK equivalents (e.g. indigo 95/82/3/0, magenta 6/93/1/0); this file is screen-first and records hex only.
 - **Vector sources are not in this kit.** The original `.ai`/`.pdf` files (mascot vectors, logo, guideline) live in the brand team's Drive folder; the kit ships rasterized PNGs (1871px mascot poses, 1224px logo), which cover web use but not large-format print. Request the vector files from the brand team for print work.
 
 ## Changelog
+
+### 0.3.0 — this round
+- Added: `stat-counter`, `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-primary-on-gradient`, `button-secondary-on-gradient` components.
+- Added: `colors.on-primary-soft` (contrast-verified 4.61:1 at the magenta pole) and `motion.duration-count` (1600ms, single-purpose) tokens.
+- Added: Page Anatomy section (canonical landing order + density table); Motion scroll-reveal / card-hover-lift / stat-counter contracts; footer `legal-band` with the mandatory Vietnamese supplement disclaimer.
+- Added: `cursor: pointer` rule for enabled interactive elements; explicit no-emoji-as-icons rule (Icons + Do/Don't).
+- Added: mascot framing standard (85% canvas-height, 54:46 margins) + `design-system/scripts/normalize_mascots.py`; all 19 MIGI poses normalized.
+- Added: Iteration Guide role→token lookup table and six worked prompts.
+- Changed: `hero-gradient`, `empty-state`, `footer-gradient` rewritten as numbered slot lists; `table` need shipped as `ingredient-facts-table` (removed from backlog).
 
 ### 0.2.0 — this round
 - Added: indigo/magenta/sun tint-shade ramps (50–900), `disabled-bg`/`disabled-text`, `hairline-strong`.
