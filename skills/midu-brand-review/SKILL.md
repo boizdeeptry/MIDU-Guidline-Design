@@ -29,6 +29,7 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - **Mascot as sole state carrier:** an error/empty/success screen showing only a MIGI pose with no real, in-DOM text saying the same thing (`alt=""` decorative image + no text sibling = screen-reader user gets zero information).
 - **Fixed-px containers clipping text:** `chip-nutrient`/`top-nav`/similar using a hard `size`/`height` instead of `min-*` + `aspect-ratio`/`overflow: visible` — clips labels at 200% zoom or large-text overrides.
 - **Missing legal disclaimer:** any MIDU product-facing page whose footer lacks the mandatory Vietnamese supplement disclaimer band ("Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."). This is a regulatory requirement, not a style preference — its absence is a compliance liability.
+- **Fabricated data:** any invented ingredient dosage, price, customer count, satisfaction %, rating, doctor name, or citation. K2 (MenaQ7) exists only in 45/180/360 mcg — a made-up mg value is a health-claim fabrication (the worst offender). Expert endorsements must name a real advisory-board doctor with a real cited source; testimonials must be real (Midu rule: "không bịa social proof") or a clearly-labelled placeholder. An "*illustrative" tag does NOT license an invented number — see DESIGN.md Voice §5.
 
 ### 🟠 Majors (visibly off-brand)
 
