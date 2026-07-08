@@ -1,5 +1,5 @@
 ---
-version: 0.2.0
+version: 0.3.0
 status: alpha
 name: MIDU-MenaQ7-design-system
 description: "A joyful pediatric-health brand built on one signature move: an indigo-to-magenta gradient that carries every hero, every primary CTA, and the wordmark itself — cooled down by white clinical surfaces and warmed up by MIGI, a bespectacled giraffe doctor in a lab coat. Sunshine yellow is the energy accent, floating nutrient bubbles (Ca+, D3, K2, Mg, Arg) are the decorative vocabulary, and a ruler motif runs through the identity because the product's whole promise is measurable height growth for kids. Science you can trust, drawn like a cartoon your child already loves."
@@ -8,6 +8,7 @@ colors:
   primary: "#384B98"
   magenta: "#C1368D"
   on-primary: "#FFFFFF"
+  on-primary-soft: "rgba(255,255,255,0.94)"
   grad-brand-start: "#384B98"
   grad-brand-end: "#C1368D"
   grad-sun-start: "#EFCA3D"
@@ -198,6 +199,7 @@ motion:
   duration-base: 200ms
   duration-slow: 400ms
   duration-float: 7000ms
+  duration-count: 1600ms
   easing-standard: "cubic-bezier(0.4, 0, 0.2, 1)"
   easing-emphasized: "cubic-bezier(0.34, 1.56, 0.64, 1)"
 
@@ -390,6 +392,80 @@ components:
     activeTextColor: "{colors.primary}"
     activeBackgroundColor: "{colors.canvas}"
     inactiveTextColor: "{colors.ink-soft}"
+  button-primary-on-gradient:
+    backgroundColor: "{colors.on-primary}"
+    textColor: "{colors.primary}"
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: 14px 28px
+    hoverBackgroundColor: "{colors.indigo-50}"
+    pressedBackgroundColor: "{colors.indigo-100}"
+    disabledBackgroundColor: "rgba(255,255,255,0.35)"
+    disabledTextColor: "{colors.on-primary-soft}"
+    focusRing: "{focus.ring-color-on-gradient}"
+  button-secondary-on-gradient:
+    backgroundColor: transparent
+    textColor: "{colors.on-primary}"
+    borderColor: "{colors.on-primary}"
+    borderWidth: 2px
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: 12px 26px
+    hoverBackgroundColor: "rgba(255,255,255,0.12)"
+    focusRing: "{focus.ring-color-on-gradient}"
+  stat-counter:
+    valueTypography: "{typography.display}"
+    valueColor: "{colors.primary}"
+    labelTypography: "{typography.body-sm}"
+    labelColor: "{colors.ink-soft}"
+    fontVariantNumeric: tabular-nums
+    duration: "{motion.duration-count}"
+    easing: "{motion.easing-standard}"
+  product-card:
+    backgroundColor: "{colors.canvas}"
+    rounded: "{rounded.lg}"
+    imageRounded: "{rounded.md}"
+    imageAspectRatio: 1
+    imageFadeIn: "{motion.duration-base}"
+    promoBadgeBackground: "{colors.sun}"
+    promoBadgeText: "{colors.ink}"
+    name: "{typography.title}"
+    price: "{typography.body-lg}"
+    priceColor: "{colors.primary}"
+    cta: "{components.button-primary}"
+    hover: "{components.card-hover-lift}"
+    outOfStockBackground: "{colors.disabled-bg}"
+    outOfStockText: "{colors.disabled-text}"
+  ingredient-facts-table:
+    rounded: "{rounded.md}"
+    header: "{typography.body-sm}"
+    cell: "{typography.body-sm}"
+    valueColor: "{colors.ink}"
+    rowRuleColor: "{colors.hairline}"
+    rowRuleWidth: 1px
+    zebraBackground: "{colors.surface-soft}"
+  testimonial-card:
+    backgroundColor: "{colors.surface-tint}"
+    rounded: "{rounded.lg}"
+    avatarSize: 48px
+    avatarRounded: "{rounded.full}"
+    name: "{typography.body-sm}"
+    meta: "{typography.caption}"
+    metaColor: "{colors.ink-soft}"
+    excerpt: "{typography.body}"
+    excerptLineClamp: 3
+    link: "{typography.link}"
+  expert-endorsement-card:
+    backgroundColor: "{colors.surface-tint}"
+    rounded: "{rounded.lg}"
+    avatarSize: 48px
+    avatarRounded: "{rounded.full}"
+    name: "{typography.body-sm}"
+    credential: "{typography.caption}"
+    credentialColor: "{colors.ink-soft}"
+    quote: "{typography.body}"
+    source: "{typography.caption}"
+    mascotAccent: migi-love
 ---
 
 ## Overview
