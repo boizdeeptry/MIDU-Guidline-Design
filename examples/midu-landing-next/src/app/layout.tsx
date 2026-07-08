@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Patrick_Hand, Quicksand } from "next/font/google";
+import { Lexend, Patrick_Hand, Quicksand } from "next/font/google";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import "./globals.css";
@@ -12,6 +12,13 @@ const fzRubik = localFont({
     { path: "../fonts/fzrubik-900.woff2", weight: "900", style: "normal" },
   ],
   variable: "--font-fz-rubik",
+  display: "swap",
+});
+
+const lexend = Lexend({
+  subsets: ["vietnamese", "latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-lexend",
   display: "swap",
 });
 
@@ -37,7 +44,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="vi" className={`${fzRubik.variable} ${quicksand.variable} ${patrickHand.variable}`}>
+    <html
+      lang="vi"
+      className={`${fzRubik.variable} ${lexend.variable} ${quicksand.variable} ${patrickHand.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

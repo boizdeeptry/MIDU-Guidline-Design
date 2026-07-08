@@ -12,7 +12,7 @@ const TONE_CLASS: Record<Tone, string> = {
 export function Eyebrow({ tone = "onTint", children }: { tone?: Tone; children: string }) {
   return (
     <span
-      className={`mb-4 inline-flex rounded-pill px-3.5 py-1.5 text-[13px] font-bold uppercase tracking-[1.5px] ${TONE_CLASS[tone]}`}
+      className={`font-display mb-4 inline-flex rounded-pill px-3.5 py-1.5 text-[13px] font-bold uppercase tracking-[1.5px] ${TONE_CLASS[tone]}`}
     >
       {children}
     </span>

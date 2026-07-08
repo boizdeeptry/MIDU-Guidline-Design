@@ -28,6 +28,7 @@ __FONT_CSS__
   --shadow-float:0 16px 40px rgba(56,75,152,.16);
   --swatch-ring:rgba(34,31,31,.08);
   --font-ui:'Fz Rubik',system-ui,sans-serif;
+  --font-body:"Lexend","Fz Rubik",system-ui,sans-serif;
   --font-tagline:'Quicksand',var(--font-ui);
   --font-sticker:'Patrick Hand',cursive;
 
@@ -56,10 +57,15 @@ html{scroll-behavior:smooth}
 }
 body{
   margin:0;background:var(--canvas);color:var(--ink);
-  font:400 16px/1.6 var(--font-ui);
+  font:400 16px/1.6 var(--font-body);
   -webkit-font-smoothing:antialiased;
 }
 h1,h2,h3{margin:0;text-wrap:balance}
+/* v0.4.0: Lexend (--font-body) carries reading text via body; FZ Rubik (--font-ui) stays on display/titles */
+h1,h2,h3,h4,.sec-title,
+.t-display-xl,.t-display,.t-headline,.t-title,
+.grad-text,.stat-counter__value,
+.prod-name,.prod-price,.foot-brand{font-family:var(--font-ui)}
 p{margin:0}
 img{max-width:100%;height:auto}
 a{color:inherit}

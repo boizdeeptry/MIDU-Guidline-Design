@@ -69,7 +69,7 @@ These rules are load-bearing. Violating any of them breaks the brand:
 4. **Black outlines belong to illustration only.** MIGI and stickers have comic outlines; UI chrome never gets black borders (use `#DDE2F0` hairline).
 5. **Two yellows, never swapped.** UI yellow = `#EFCA3D` (Sun). Giraffe coat = `#FFDA69` (MIGI Yellow). Different temperatures on purpose.
 6. **No new hues.** The palette is closed: indigo, magenta, sun/lime, the mascot's purple family, and two semantic tones.
-7. **Vietnamese-safe typography.** The brand face is **FZ Rubik**, bundled in the kit at `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/` (weights 400/500/700/900, full Vietnamese) — register with `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/fzrubik.css`, stack `"Fz Rubik", system-ui, sans-serif`. NEVER substitute Google-Fonts Rubik (it has no Vietnamese subset — diacritics render in a mismatched fallback face mid-word). Body line-height ≥ 1.75, caption ≥ 1.667, eyebrow ≥ 1.54 so stacked diacritics (ắ ễ ộ, especially uppercase Ắ Ễ Ộ) don't clip. Test string: "Chuyên gia chiều cao".
+7. **Vietnamese-safe typography — a two-face pairing.** Display/titles use **FZ Rubik**; reading text uses **Lexend** — BOTH carry a full Vietnamese subset. FZ Rubik is bundled at `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/` (weights 400/500/700/900) — register with `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/fzrubik.css`; use `var(--midu-font-display)` for display-xl/display/headline/title/button/eyebrow/stat numerals. Lexend is bundled at `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/Lexend/` (weights 400/500/700) — register with `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/lexend.css`; use `var(--midu-font-body)` (`"Lexend","Fz Rubik",system-ui,sans-serif`) for body/body-lg/body-sm/caption/links. NEVER substitute Google-Fonts Rubik (it has no Vietnamese subset — diacritics render in a mismatched fallback face mid-word); FZ Rubik stays the fallback in the body stack so Vietnamese never breaks even if Lexend fails to load. Body line-height ≥ 1.75, caption ≥ 1.667, eyebrow ≥ 1.54 so stacked diacritics (ắ ễ ộ, especially uppercase Ắ Ễ Ộ) don't clip. Test string: "Chuyên gia chiều cao".
 8. **Focus rings are mandatory, not a brand-rule violation.** Every interactive element gets a `:focus-visible` ring (`#384B98`, 2px, swaps to white on gradient surfaces). This is a different pseudo-class/purpose than the "no black outline" rule — never suppress it to satisfy that rule.
 9. **Disabled state ≠ opacity hack.** Use `#EBECEF` background / `#9C9FAB` text + `cursor: not-allowed` — a faded brand color reads as "still clickable," not "inert."
 10. **Color is never the only signal.** Success/error always pair with a glyph or text, never a bare colored dot/pill. Mascot poses that communicate state (error, success, reminder) always ship with a real text string alongside — the illustration is reinforcement, never the sole carrier.
@@ -105,20 +105,23 @@ Motion adds `duration-count` (1600ms) for the stat count-up — single-purpose, 
 
 Focus, motion, breakpoint, and container tokens (new in v0.2.0) live in `${CLAUDE_SKILL_DIR}/references/DESIGN.md` frontmatter — read it for exact values (`focus.ring-*`, `motion.duration-*`/`easing-*`, `breakpoints.*`, `container.*`).
 
-### Typography (FZ Rubik)
+### Typography (FZ Rubik + Lexend)
 
-| Role | Size/Weight | Notes |
-|---|---|---|
-| display-xl | 40–64px fluid / 900 | Heroes; may wear gradient fill; lh 1.125; `clamp(2.5rem, 2rem + 2.222vw, 4rem)` |
-| display | 32–44px fluid / 900 | Section openers, stat numbers; tabular figures (`font-feature-settings: "tnum"`) |
-| headline | 24–30px fluid / 700 | Group titles; lh 1.333 |
-| title | 22px / 700 | Card/modal titles |
-| body-lg | 18px / 500 | Lead paragraphs |
-| body | 16px / 400 | Default; lh 1.75 (raised from 1.6 for Vietnamese diacritic safety) |
-| button | 16px / 700 | All pills |
-| eyebrow | 13px / 700 | UPPERCASE, +1.5px tracking, lh 1.54, magenta, usually in a pill badge |
-| caption | 12px / 500 | Sources, disclaimers; lh 1.667 — highest diacritic-clip risk in the scale |
-| link | inherits size | `color:#384B98`, underline at 40% opacity, hover → magenta, no visited state |
+Two faces, one rule: **FZ Rubik** for display/titles (`var(--midu-font-display)`), **Lexend** for reading text (`var(--midu-font-body)`). Both are full-Vietnamese. The Font column below says which each role uses.
+
+| Role | Font | Size/Weight | Notes |
+|---|---|---|---|
+| display-xl | FZ Rubik | 40–64px fluid / 900 | Heroes; may wear gradient fill; lh 1.125; `clamp(2.5rem, 2rem + 2.222vw, 4rem)` |
+| display | FZ Rubik | 32–44px fluid / 900 | Section openers, stat numbers; tabular figures (`font-feature-settings: "tnum"`) |
+| headline | FZ Rubik | 24–30px fluid / 700 | Group titles; lh 1.333 |
+| title | FZ Rubik | 22px / 700 | Card/modal titles |
+| body-lg | Lexend | 18px / 500 | Lead paragraphs |
+| body | Lexend | 16px / 400 | Default; lh 1.75 (raised from 1.6 for Vietnamese diacritic safety) |
+| body-sm | Lexend | 14px / 400 | Card body, meta text, footer links |
+| button | FZ Rubik | 16px / 700 | All pills |
+| eyebrow | FZ Rubik | 13px / 700 | UPPERCASE, +1.5px tracking, lh 1.54, magenta, usually in a pill badge |
+| caption | Lexend | 12px / 500 | Sources, disclaimers; lh 1.667 — highest diacritic-clip risk in the scale |
+| link | Lexend | inherits size | `color:#384B98`, underline at 40% opacity, hover → magenta, no visited state |
 
 Weights: 900 for moments, 700 for structure, 400–500 for reading. Skip 600. Fluid sizes need no manual breakpoint — `clamp()` scales continuously from 360px to 1440px viewports.
 

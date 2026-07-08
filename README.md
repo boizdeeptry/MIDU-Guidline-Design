@@ -8,7 +8,7 @@ A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…)
 |---|---|
 | `DESIGN.md` | **The core** — design tokens (colors, typography, radius, spacing, components) + full spec in the [getdesign.md](https://getdesign.md) format. AI assistants read this before writing UI. |
 | `design-system/tokens.css` | CSS custom properties — paste straight into any project. |
-| `design-system/fonts/` | **FZ Rubik** (TTF, weights 400/500/700/900, full Vietnamese) + `fzrubik.css` to register it. |
+| `design-system/fonts/` | **FZ Rubik** (display/titles, TTF, weights 400/500/700/900, full Vietnamese) + `fzrubik.css`, and **Lexend** (body/reading text, woff2, weights 400/500/700, full Vietnamese) + `lexend.css` — each `.css` registers its own face. |
 | `design-system/assets/` | Logo (color / white / tagline lockup) + 15 MIGI mascot poses, transparent full-res PNGs with semantic names. |
 | `design-system/preview.html` | Self-contained visual style guide (build artifact — open in a browser). |
 | `design-system/preview-src/` | Template + `build-preview.py` that generate `preview.html`. Edit here, then rebuild. |

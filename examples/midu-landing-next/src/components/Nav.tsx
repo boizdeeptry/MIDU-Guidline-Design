@@ -24,7 +24,7 @@ export function Nav() {
         {/* Nav CTA stays secondary — the hero owns the one gradient pill per viewport */}
         <a
           href="#dangky"
-          className="rounded-pill border-2 border-primary px-5 py-2 text-sm font-bold text-primary hover:bg-surface-soft"
+          className="font-display rounded-pill border-2 border-primary px-5 py-2 text-sm font-bold text-primary hover:bg-surface-soft"
         >
           Mua ngay
         </a>

@@ -10,7 +10,7 @@ export function Stats() {
       <div className="grid gap-5 md:grid-cols-3">
         {STATS.map((stat) => (
           <div key={stat.label} className="rounded-lg bg-canvas p-6 text-center shadow-card">
-            <div className="text-grad-brand text-[44px] font-black leading-[1.1] tracking-[-0.25px]">
+            <div className="font-display text-grad-brand text-[44px] font-black leading-[1.1] tracking-[-0.25px]">
               {stat.value}
             </div>
             <div className="mt-1.5 text-[13px] font-bold uppercase tracking-[1.5px] text-magenta">

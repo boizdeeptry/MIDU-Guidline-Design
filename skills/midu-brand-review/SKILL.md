@@ -58,6 +58,7 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - Emoji used as a UI icon (platform-inconsistent, uncontrollable color) — glyphs come from Lucide; emoji only in `{typography.sticker}` captions.
 - Testimonial without a name + child's age, or an expert-endorsement quote without a credential line and a `{typography.caption}` source — attribution is the trust mechanism; an unattributed quote is decoration.
 - Stat number formatted with `en-US` grouping ("10,000") on Vietnamese copy — use `vi-VN` ("10.000") so the visible value matches the `aria-label`.
+- Reading text set in FZ Rubik instead of Lexend, once the v0.4.0 pairing is in effect — body/body-lg/body-sm/caption/links must use the Lexend stack (`var(--midu-font-body)` = `"Lexend","Fz Rubik",system-ui,sans-serif`); FZ Rubik is display/titles only. Any reading-text block not on the Lexend stack is off-pairing. (Vietnamese is still safe either way — both faces have the subset — so this is polish, not a Blocker.)
 
 ## Output Format
 

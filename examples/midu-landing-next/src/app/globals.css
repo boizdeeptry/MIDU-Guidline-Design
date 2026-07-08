@@ -22,8 +22,11 @@
   --shadow-card: 0 8px 24px rgba(56, 75, 152, 0.1);
   --shadow-float: 0 16px 40px rgba(56, 75, 152, 0.16);
 
-  --font-ui: var(--font-fz-rubik), system-ui, sans-serif;
-  --font-tagline: var(--font-quicksand), var(--font-ui);
+  /* Rubik = display/titles; Lexend = reading text (Rubik stays fallback so
+     Vietnamese never breaks if Lexend fails to load). */
+  --font-display: var(--font-fz-rubik), system-ui, sans-serif;
+  --font-sans: var(--font-lexend), var(--font-fz-rubik), system-ui, sans-serif;
+  --font-tagline: var(--font-quicksand), var(--font-display);
   --font-sticker: var(--font-patrick-hand), cursive;
 }
 
@@ -77,8 +80,14 @@ html {
 body {
   background: var(--color-canvas);
   color: var(--color-ink);
-  font-family: var(--font-ui);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Display type stays on Rubik; eyebrow/button/stat use the .font-display utility. */
+h1, h2, h3, h4, h5, h6,
+.btn-primary {
+  font-family: var(--font-display);
 }
 
 @keyframes bubble-float {

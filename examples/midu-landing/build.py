@@ -9,6 +9,7 @@ from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.normpath(os.path.join(HERE, "..", "..", "design-system", "assets"))
 FONTS_CSS = os.path.normpath(os.path.join(HERE, "..", "..", "design-system", "preview-src", "fonts.css"))
+LEXEND_CSS = os.path.join(HERE, "lexend-embed.css")  # vendored Lexend faces (reading text)
 
 IMAGES = {  # placeholder -> (source in design-system/assets, max box px = 2x render size)
     "__IMG_logo__": ("logo-midu.png", 180),
@@ -19,7 +20,8 @@ IMAGES = {  # placeholder -> (source in design-system/assets, max box px = 2x re
 }
 
 html = open(os.path.join(HERE, "template.html"), encoding="utf-8").read()
-html = html.replace("__FONT_CSS__", open(FONTS_CSS, encoding="utf-8").read())
+fonts = open(FONTS_CSS, encoding="utf-8").read() + "\n" + open(LEXEND_CSS, encoding="utf-8").read()
+html = html.replace("__FONT_CSS__", fonts)
 for placeholder, (name, box) in IMAGES.items():
     im = Image.open(os.path.join(ASSETS, name))
     im.thumbnail((box, box), Image.LANCZOS)

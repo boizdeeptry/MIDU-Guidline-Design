@@ -39,7 +39,7 @@ export function Hero() {
             </a>
             <a
               href="#visao"
-              className="rounded-pill border-2 border-white px-6 py-3 font-bold text-white hover:bg-white/10"
+              className="font-display rounded-pill border-2 border-white px-6 py-3 font-bold text-white hover:bg-white/10"
             >
               Tìm hiểu thêm
             </a>
