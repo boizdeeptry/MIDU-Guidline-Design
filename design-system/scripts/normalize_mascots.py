@@ -53,7 +53,9 @@ TOP_MARGIN_SHARE = 0.54
 # the sides.
 MAX_WIDTH_PCT = 0.92
 
-DEFAULT_CANVAS_SIZE = 560
+# --canvas-size defaults to the INPUT image's own largest dimension (see
+# main()), so running the script without the flag preserves resolution and
+# can never silently downscale a full-res master.
 # ----------------------------------------------------------------------------
 
 
@@ -69,14 +71,20 @@ def measure_bbox(img: Image.Image) -> tuple[int, int, int, int]:
 def normalize_mascot(
     src_path: Path,
     dst_path: Path,
-    canvas_size: int = DEFAULT_CANVAS_SIZE,
+    canvas_size: int | None = None,
     target_height_pct: float = TARGET_HEIGHT_PCT,
     crop_margin_pct: float = CROP_MARGIN_PCT,
     top_margin_share: float = TOP_MARGIN_SHARE,
 ) -> dict:
-    """Normalize one mascot PNG's framing. Returns before/after measurements."""
+    """Normalize one mascot PNG's framing. Returns before/after measurements.
+
+    canvas_size=None (the default) preserves the input's own resolution by
+    using its largest dimension — so the script never downscales a master.
+    """
     img = Image.open(src_path).convert("RGBA")
     orig_size = img.size
+    if canvas_size is None:
+        canvas_size = max(orig_size)
 
     left, top, right, bottom = measure_bbox(img)
     bbox_w, bbox_h = right - left, bottom - top
@@ -189,7 +197,25 @@ def _selftest() -> None:
     # same output bbox ratio - this is the whole point of the script.
     assert abs(out_a["new_bbox_height_pct"] - out_b["new_bbox_height_pct"]) < 0.005
 
-    print("selftest OK:", out_a["new_bbox_height_pct"], out_b["new_bbox_height_pct"])
+    # "wide pose": a short wide rect that would exceed MAX_WIDTH_PCT if scaled
+    # to the height target — the clamp must kick in, so its bbox height lands
+    # BELOW target (never at 85%) and its width must not exceed the clamp.
+    c = Image.new("RGBA", (600, 600), (0, 0, 0, 0))
+    ImageDraw.Draw(c).rectangle([30, 250, 570, 360], fill=(0, 0, 255, 255))  # very wide, short
+    c_path = tmpdir / "c.png"
+    c.save(c_path)
+    out_c = normalize_mascot(c_path, tmpdir / "c_out.png")
+    cw, ch = out_c["new_bbox"]
+    assert cw <= out_c["new_canvas"][0] * MAX_WIDTH_PCT + 1, (
+        f"wide pose: width {cw} exceeded clamp {out_c['new_canvas'][0] * MAX_WIDTH_PCT}"
+    )
+    assert out_c["new_bbox_height_pct"] < TARGET_HEIGHT_PCT, (
+        f"wide pose: height ratio {out_c['new_bbox_height_pct']:.3f} should be BELOW "
+        f"target {TARGET_HEIGHT_PCT} when the width clamp triggers"
+    )
+
+    print("selftest OK:", out_a["new_bbox_height_pct"], out_b["new_bbox_height_pct"],
+          "wide-clamp:", round(out_c["new_bbox_height_pct"], 3))
 
 
 def main() -> None:
@@ -197,7 +223,8 @@ def main() -> None:
     parser.add_argument("src", type=Path, nargs="?", help="source PNG, or source directory with --all")
     parser.add_argument("dst", type=Path, nargs="?", help="output PNG, or output directory with --all")
     parser.add_argument("--all", action="store_true", help="batch mode: process every migi-*.png in src dir")
-    parser.add_argument("--canvas-size", type=int, default=DEFAULT_CANVAS_SIZE)
+    parser.add_argument("--canvas-size", type=int, default=None,
+                        help="output square canvas px; default = input image's own largest dimension (preserves resolution)")
     parser.add_argument("--target-height-pct", type=float, default=TARGET_HEIGHT_PCT)
     parser.add_argument("--selftest", action="store_true", help="run the built-in geometry self-check and exit")
     args = parser.parse_args()

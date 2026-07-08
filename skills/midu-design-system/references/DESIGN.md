@@ -1007,7 +1007,7 @@ Assets live in `design-system/assets/` at 1871×1871 transparent PNG. Map poses 
 
 Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket badge break) · never recolor · minimum render height 120px so the glasses stay legible · `-plain` variants (no floating elements) are for tight layouts where bubbles would collide with UI · **every pose ships with a real, in-DOM text string conveying the same information — the illustration is reinforcement, never the sole carrier of state.** See Accessibility.
 
-**Framing standard (v0.3.0):** every pose PNG is normalized so the character's bounding box fills **85% of canvas height**, horizontally centered, vertical margins split **54:46 top:bottom** (a grounded stance with slight headroom). This keeps mascots visually consistent in any grid regardless of pose (full-body vs close-up). Run `design-system/scripts/normalize_mascots.py` on any new pose before adding it — unnormalized art renders visibly over- or under-sized next to existing poses. Normalization re-frames the transparent canvas only; it never crops into, flips, or recolors the character.
+**Framing standard (v0.3.0):** every pose PNG is normalized so the character's bounding box fills **~85% of canvas height** (less for an unusually wide pose — a width clamp keeps arms/props from clipping the sides), horizontally centered, vertical margins split **54:46 top:bottom** (a grounded stance with slight headroom). This keeps mascots visually consistent in any grid regardless of pose (full-body vs close-up). Run `design-system/scripts/normalize_mascots.py <pose.png> <out.png>` on any new pose before adding it (canvas size defaults to the input's own resolution, so it never downscales a master). Normalization re-frames the transparent canvas only; it never crops into, flips, or recolors the character.
 
 ## Do's and Don'ts
 
@@ -1155,7 +1155,7 @@ Copy-pasteable starting points — each names the components/tokens so the outpu
 - Added: `colors.on-primary-soft` (contrast-verified 4.61:1 at the magenta pole) and `motion.duration-count` (1600ms, single-purpose) tokens.
 - Added: Page Anatomy section (canonical landing order + density table); Motion scroll-reveal / card-hover-lift / stat-counter contracts; footer `legal-band` with the mandatory Vietnamese supplement disclaimer.
 - Added: `cursor: pointer` rule for enabled interactive elements; explicit no-emoji-as-icons rule (Icons + Do/Don't).
-- Added: mascot framing standard (85% canvas-height, 54:46 margins) + `design-system/scripts/normalize_mascots.py`; all 19 MIGI poses normalized.
+- Added: mascot framing standard (~85% canvas-height, 54:46 margins) + `design-system/scripts/normalize_mascots.py`; all MIGI poses normalized (21 full-res masters + 19 skill-bundled copies).
 - Added: Iteration Guide role→token lookup table and six worked prompts.
 - Changed: `hero-gradient`, `empty-state`, `footer-gradient` rewritten as numbered slot lists; `table` need shipped as `ingredient-facts-table` (removed from backlog).
 
