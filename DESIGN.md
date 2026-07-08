@@ -540,6 +540,7 @@ Every brand hue now has a 10-step ramp (50 lightest → 900 darkest), all at the
 - **Hairline** ({colors.hairline}): 1px passive dividers and table rules only — see Elevation for why interactive boundaries use `{colors.hairline-strong}` instead.
 - **Hairline Strong** ({colors.hairline-strong}): 1px borders on `{components.text-input}` and any hairline-only interactive boundary. `{colors.hairline}` measures 1.30:1 against white, which fails WCAG 1.4.11's 3:1 minimum for interactive component boundaries; `{colors.hairline-strong}` clears ~3.2:1.
 - **Disabled Bg / Disabled Text** ({colors.disabled-bg} / {colors.disabled-text}): The inert state for any button or input. Deliberately desaturated indigo-grey so a disabled control reads as "off," not as "a paler brand color." `{colors.disabled-text}` is intentionally sub-AA (~2.6:1) — disabled controls are exempt under WCAG 1.4.3/1.4.11 — but always pair it with `cursor: not-allowed` and `aria-disabled`, since color alone won't communicate "disabled" to everyone.
+- **On-Primary Soft** ({colors.on-primary-soft}): Dimmed white for subcopy, captions, and links sitting on the brand gradient — footer link descriptions, the legal-band disclaimer, hero subheads. Measured **4.61:1 against the magenta pole `{colors.magenta}`** (the weaker end of the gradient) and ~7:1 against indigo, so it clears WCAG AA for text at any size across the whole gradient. It reads as a distinct, softer tier next to full-strength `{colors.on-primary}` headings — most visibly over the indigo half; near the magenta pole it is necessarily close to opaque white (pure white itself is only 5.02:1 there). Headings and buttons on the gradient stay full `{colors.on-primary}`; never drop on-gradient body text below this token.
 
 ### Mascot (illustration-only palette)
 - **MIGI Yellow** ({colors.migi-yellow}): The giraffe's coat. Warmer than `{colors.sun}` — do not swap them.
@@ -792,6 +793,15 @@ No icon system existed before this revision — a real gap the moment any nav, f
 - Hover/active: swap to `{colors.sun-500}` (one ramp step darker; `{colors.ink}` text stays comfortably AA).
 - Disabled: `{colors.disabled-bg}` background, `{colors.disabled-text}` text.
 
+**`button-primary-on-gradient`** — The primary CTA *when the surface behind it is already the brand gradient* (hero panel, footer band). A gradient pill on a gradient ground is invisible, so on these surfaces the primary action inverts: white fill `{colors.on-primary}`, `{colors.primary}` text, same `{typography.button}` / `{rounded.pill}` / `14px 28px` padding as `button-primary`. This does **not** create a second gradient — it *is* the one primary CTA for that view (the one-gradient-CTA law counts the gradient surface itself; the white pill sitting on it is the call to action).
+- Hover: fill `{colors.indigo-50}`. Pressed: `{colors.indigo-100}`.
+- Disabled: `rgba(255,255,255,0.35)` fill, `{colors.on-primary-soft}` text, `cursor: not-allowed`.
+- Focus: global `:focus-visible` ring in `{focus.ring-color-on-gradient}` (white).
+
+**`button-secondary-on-gradient`** — The calm partner beside `button-primary-on-gradient` on a gradient ground. Transparent fill, 2px `{colors.on-primary}` outline, white text.
+- Hover: fill `rgba(255,255,255,0.12)` behind the existing outline/text.
+- Focus: white `:focus-visible` ring. Neither on-gradient variant uses the gradient itself — that keeps the "one gradient per view" rule intact.
+
 ### Nutrient Chips
 
 **`chip-nutrient`** — 48px-minimum circle, radial gradient `{colors.bubble-purple-light}` → `{colors.bubble-purple}` → `{colors.migi-deep}` (top-left to bottom-right), white specular dot top-right, uppercase white label (Ca+, K2, D3, Mg).
@@ -809,7 +819,12 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 ### Hero & Sections
 
-**`hero-gradient`** — Full-width panel, brand gradient, `{rounded.xl}` corners (full-bleed below `{breakpoints.mobile-l}`), `{spacing.xxl}` padding. White display type left, MIGI pose right, bubble cluster scattered between. One per page.
+**`hero-gradient`** — Full-width brand-gradient panel, `{rounded.xl}` corners (full-bleed below `{breakpoints.mobile-l}`), `{spacing.xxl}` padding. One per page. Slots, top-to-bottom / left-to-right:
+1. **Copy column (~55% width)** — `{typography.eyebrow}` badge (use `eyebrow-badge`, white ground) → `{typography.display-xl}` headline in `{colors.on-primary}` → optional subhead in `{colors.on-primary-soft}`.
+2. **CTA row** (in the copy column) — `{components.button-primary-on-gradient}` + optional `{components.button-secondary-on-gradient}`. These are the view's CTAs; do not add a gradient pill here (the panel is already the gradient).
+3. **Mascot column (~45% width)** — one MIGI pose ≥120px (`migi-hello`/`migi-measure` for a landing hero), may overflow the panel edge ≤15%.
+4. **Bubble cluster** — one cluster only, scattered around the mascot, never overlapping the headline or CTAs.
+Below `{breakpoints.mobile-l}` the columns stack (copy above mascot) and the split no longer applies.
 **`section-tint`** — `{colors.surface-soft}` band for alternating rhythm: white → tint → white. Never two tinted sections adjacent.
 
 ### Forms
@@ -830,7 +845,12 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 **`modal-dialog`** — The component that finally uses the elevation-3 + `{colors.overlay-scrim}` tokens this system already reserved. Background `{colors.canvas}`, `{rounded.xl}`, `{spacing.xl}` padding, scrim at ~50% opacity. Title `{typography.title}`, body `{typography.body}`. One `{components.button-primary}` action, one `{components.button-secondary}` exit — never two gradient pills in the same dialog. Destructive confirms set the secondary label in `{colors.semantic-error}` rather than adding a third button style. States: default / entering-exiting (fade+scale, `{motion.duration-base}`) / scrollable-body / destructive-confirm.
 
-**`empty-state`** — MIGI fills the silence before data does. "Chưa có số đo nào — đo chiều cao đầu tiên nhé!" pairs a mascot pose with a title and one CTA, never a blank white card. Container reuses `{components.mascot-slot}`, heading `{typography.title}` `{colors.ink}`, body `{typography.body-sm}` `{colors.ink-soft}`, CTA `{components.button-secondary}` (or `button-primary` if it's the page's one focal action). States: first-run (`migi-hello`/`migi-measure`) / error (`migi-cry`/`migi-sulk`, always with the real error text alongside — see Accessibility) / with-CTA / informational-only.
+**`empty-state`** — MIGI fills the silence before data does — never a blank white card. Slots, top-to-bottom:
+1. **Mascot** — one pose in a `{components.mascot-slot}`, ≥120px: `migi-hello`/`migi-measure` for first-run, `migi-cry`/`migi-sulk` for error/empty (soft, never blaming).
+2. **Heading** — `{typography.title}` `{colors.ink}`, e.g. "Chưa có số đo nào".
+3. **Body** — `{typography.body-sm}` `{colors.ink-soft}`, the real in-DOM text that carries the state (the mascot is reinforcement only — see Accessibility). For errors this is the actual error message, never mascot-only.
+4. **CTA** — `{components.button-secondary}` (or `button-primary` if this is the page's one focal action), e.g. "Đo chiều cao đầu tiên nhé!".
+States: first-run / error / with-CTA / informational-only.
 
 **`inline-alert`, `tooltip`** — real needs (page-level notices distinct from per-field errors; inline jargon explanations for "K2 MenaQ7®") identified but not yet spec'd at full detail; tracked as v0.3 backlog.
 
@@ -840,7 +860,13 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 **`tabs`** — The pill track `{typography.button}`'s own hierarchy row already anticipated ("All buttons and pill tabs") but no component ever formalized. Track `{colors.surface-soft}`, `{rounded.pill}`; active tab lifts onto `{colors.canvas}` with `{colors.primary}` text, inactive tabs stay `{colors.ink-soft}`. Usage: "Biểu đồ / Lịch sử / Mẹo hay" — sibling views once height-tracking has more than one screen. States: active / inactive / hover / disabled / scrollable-overflow (mobile).
 
-**`footer-gradient`** — The gradient reversed (magenta → indigo) as a full-bleed band, white text, white outline logo variant, `{spacing.xxl}` padding. The page's closing brand moment. Footer links get the same 44px hit-area treatment as `top-nav`.
+**`footer-gradient`** — The gradient reversed (magenta → indigo) as a full-bleed band, white outline logo variant, `{spacing.xxl}` padding. The page's closing brand moment. Slots, top-to-bottom:
+1. **Logo + link columns** — white logo variant left; link columns with heads in `{typography.body-sm}` weight 700 `{colors.on-primary}`, links in `{colors.on-primary-soft}` (hover → `{colors.on-primary}`). Every link keeps the 44px hit area (`inline-flex` + `padding-inline`) like `top-nav`; white `:focus-visible` ring.
+2. **Contact row** — hotline + Zalo, same link treatment as the columns.
+3. **`legal-band`** — separated from the columns above by a 1px `rgba(255,255,255,0.24)` hairline. Carries, in `{typography.caption}` `{colors.on-primary-soft}`: the © line, and the **mandatory Vietnamese supplement disclaimer**:
+   > "Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."
+
+The legal-band disclaimer is a **regulatory requirement on every MIDU product-facing page**, not decoration — its absence is a compliance failure, flagged as a Blocker in the brand-review checklist. Exact wording is pending brand/legal-team confirmation (see Known Gaps); ship the standard formula above as the placeholder of record.
 
 ### Mascot Usage (MIGI)
 
