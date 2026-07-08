@@ -34,8 +34,9 @@ __FONT_CSS__
   /* v0.2.0 additions */
   --hairline-strong:#8A8F9E;
   --disabled-bg:#EBECEF; --disabled-text:#9C9FAB;
-  --indigo-700:#2D3D7B; --indigo-800:#243061; --magenta-700:#7F245E; --indigo-50:#F4F5FB; --sun-500:#ECBF13;
-  --duration-fast:120ms; --duration-base:200ms; --duration-slow:400ms;
+  --indigo-700:#2D3D7B; --indigo-800:#243061; --magenta-700:#7F245E; --indigo-50:#F4F5FB; --indigo-100:#E5E8F5; --sun-500:#ECBF13;
+  --on-primary-soft:rgba(255,255,255,.94);
+  --duration-fast:120ms; --duration-base:200ms; --duration-slow:400ms; --duration-count:1600ms;
   --easing-standard:cubic-bezier(.4,0,.2,1); --easing-emphasized:cubic-bezier(.34,1.56,.64,1);
   --focus-ring:#384B98; --focus-ring-on-gradient:#fff;
 }
@@ -48,6 +49,10 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
+  /* reveal elements must appear at final state immediately, not stay stuck at opacity:0
+     waiting on scroll-intersection (the global transition:none above only kills the
+     animation, not the static hidden state) */
+  [data-reveal]:not(.is-visible){opacity:1!important;transform:none!important}
 }
 body{
   margin:0;background:var(--canvas);color:var(--ink);
@@ -260,9 +265,27 @@ nav{
 
 /* ============ MASCOT MAP ============ */
 .migi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
-.migi-card{background:var(--surface-tint);border-radius:28px;padding:20px;text-align:center;transition:transform .15s ease}
-.migi-card:hover{transform:translateY(-3px)}
+.migi-card{background:var(--surface-tint);border-radius:28px;padding:20px;text-align:center}
 .migi-card img{width:130px;height:130px;object-fit:contain}
+
+/* ===== v0.3.0 motion patterns (see DESIGN.md Motion) ===== */
+/* scroll-reveal: fade + 8px slide-up on first intersection; group stagger via --reveal-index */
+[data-reveal]{
+  --reveal-stagger:70ms;
+  opacity:1;transform:translateY(0);
+  transition:opacity var(--duration-slow) var(--easing-standard),transform var(--duration-slow) var(--easing-standard);
+  transition-delay:calc(min(var(--reveal-index,0),12) * var(--reveal-stagger));
+}
+[data-reveal]:not(.is-visible){opacity:0;transform:translateY(8px)}
+/* card-hover-lift: doubled selector (0,2,0) so it owns the transition after a reveal;
+   lift 2px + shadow-card -> shadow-float on hover/focus */
+.card-hover-lift.card-hover-lift{
+  transition:transform var(--duration-fast) var(--easing-standard),box-shadow var(--duration-fast) var(--easing-standard);
+}
+.card-hover-lift:hover,.card-hover-lift:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-float)}
+/* stat-counter */
+.stat-counter__value{font-variant-numeric:tabular-nums;font-weight:900;color:var(--primary);font-size:clamp(2rem,1.75rem + 1.111vw,2.75rem);line-height:1.125}
+.stat-counter__label{display:block;font-size:14px;font-weight:500;color:var(--ink-soft);margin-top:4px}
 .migi-cap{margin-top:8px}
 .migi-use{font-size:12px;color:var(--ink-soft);margin-top:4px}
 .migi-file{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--ink-soft);opacity:.7;margin-top:6px}
@@ -385,16 +408,16 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
     <span class="eyebrow">02 · Logo</span>
     <h2 class="sec-title">Logo</h2>
     <p class="sec-sub">Three ideas hide inside the wordmark: a lightbulb (the idea) dotting the "i", a ruler (height measurement) in the letter stem, and a child reaching upward inside the "U". Color version on light grounds; white version on the brand gradient or dark imagery.</p>
-    <div class="logo-grid">
-      <div class="logo-card">
+    <div class="logo-grid" data-reveal-group>
+      <div class="logo-card card-hover-lift">
         <div class="logo-stage"><img src="__IMG_logofull__" alt="MIDU logo, color version on white"></div>
         <div class="logo-meta"><div class="swatch-name">Primary — color</div><div class="swatch-role">White / light grounds · file: logo-midu.png</div></div>
       </div>
-      <div class="logo-card">
+      <div class="logo-card card-hover-lift">
         <div class="logo-stage" style="background:var(--grad-brand)"><img src="__IMG_logowhite__" alt="MIDU logo, white version on brand gradient"></div>
         <div class="logo-meta"><div class="swatch-name">White</div><div class="swatch-role">Gradient / dark imagery · file: logo-midu-white.png</div></div>
       </div>
-      <div class="logo-card">
+      <div class="logo-card card-hover-lift">
         <div class="logo-stage"><img src="__IMG_logotagline__" alt="MIDU logo lockup with tagline Chuyên gia chiều cao"></div>
         <div class="logo-meta"><div class="swatch-name">Tagline lockup</div><div class="swatch-role">Prefer on first appearance · file: logo-midu-tagline.png</div></div>
       </div>
@@ -437,7 +460,7 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
         <button class="btn btn-secondary">Tìm hiểu thêm</button>
       </div>
       <div class="row" style="margin-bottom:14px">
-        <button class="btn btn-sun">Nhận ưu đãi ☀</button>
+        <button class="btn btn-sun">Nhận ưu đãi</button>
         <button class="btn btn-primary" disabled>Đã hết hàng</button>
       </div>
       <p class="t-caption">Primary = the gradient pill, exactly one per viewport. Sun is for promos &amp; gamification only. Tab to any button to see the focus-visible ring (indigo; swaps to white on gradient surfaces).</p>
@@ -551,6 +574,20 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
     <div class="stat"><div class="t-display grad-text">5</div><div class="t-eyebrow lbl">dưỡng chất vàng</div><div class="src">Ca+ · D3 · K2 · Mg · Arg</div></div>
     <div class="stat"><div class="t-display grad-text">1.000</div><div class="t-eyebrow lbl">ngày vàng phát triển</div><div class="src">*Illustrative specimen figure</div></div>
   </div>
+
+  <p class="pal-group">Stat counter <span style="text-transform:none;font-weight:400">— new v0.3.0 · counts up when scrolled into view (scroll here to trigger)</span></p>
+  <div class="stat-row">
+    <div class="stat stat-counter" role="img" data-target="10000" data-suffix="+" aria-label="10.000+ khách hàng tin dùng">
+      <span class="stat-counter__value" aria-hidden="true">0</span><span class="stat-counter__label">khách hàng tin dùng</span>
+    </div>
+    <div class="stat stat-counter" role="img" data-target="98" data-suffix="%" aria-label="98% phụ huynh hài lòng">
+      <span class="stat-counter__value" aria-hidden="true">0</span><span class="stat-counter__label">phụ huynh hài lòng</span>
+    </div>
+    <div class="stat stat-counter" role="img" data-target="4.9" aria-label="4,9 trên 5 điểm đánh giá">
+      <span class="stat-counter__value" aria-hidden="true">0</span><span class="stat-counter__label">điểm đánh giá /5</span>
+    </div>
+  </div>
+  <p class="t-caption" style="margin-top:10px;text-align:center">*Illustrative figures. Counts once on scroll; under prefers-reduced-motion the final value shows immediately.</p>
 </section>
 
 <section id="mascot" class="sec-tint">
@@ -558,15 +595,15 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
     <span class="eyebrow">05 · Mascot</span>
     <h2 class="sec-title">MIGI — the giraffe doctor</h2>
     <p class="sec-sub">15+ poses available, each mapped to a UX moment. Rules: one MIGI per viewport · never mirror-flip · never recolor · minimum render height 120px so the glasses stay legible.</p>
-    <div class="migi-grid">
-      <div class="migi-card"><img src="__IMG_measure__" alt="MIGI measuring height with a ruler"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Height input · growth chart</div><div class="migi-file">migi-measure.png</div></div>
-      <div class="migi-card"><img src="__IMG_medicine__" alt="MIGI taking a supplement vial"><div class="t-sticker migi-cap">Đến giờ rồi!</div><div class="migi-use">Dose reminders · usage guide</div><div class="migi-file">migi-medicine.png</div></div>
-      <div class="migi-card"><img src="__IMG_cheer__" alt="MIGI cheering with both fists up"><div class="t-sticker migi-cap">Cố lên!</div><div class="migi-use">Goals reached · streaks</div><div class="migi-file">migi-cheer.png</div></div>
-      <div class="migi-card"><img src="__IMG_wow__" alt="MIGI surprised"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Achievements · feature reveals</div><div class="migi-file">migi-wow.png</div></div>
-      <div class="migi-card"><img src="__IMG_love__" alt="MIGI making finger hearts"><div class="t-sticker migi-cap">Thương ghê!</div><div class="migi-use">Reviews · thank-you · social proof</div><div class="migi-file">migi-love.png</div></div>
-      <div class="migi-card"><img src="__IMG_cry__" alt="MIGI crying, wiping tears"><div class="t-sticker migi-cap">Húhu…</div><div class="migi-use">Error pages · empty results (soft, never blaming)</div><div class="migi-file">migi-cry.png</div></div>
-      <div class="migi-card"><img src="__IMG_goodnight__" alt="MIGI sleeping on a pillow"><div class="t-sticker migi-cap">Ngủ ngon!</div><div class="migi-use">Evening reminders · sleep content</div><div class="migi-file">migi-goodnight.png</div></div>
-      <div class="migi-card"><img src="__IMG_exercise__" alt="MIGI jumping rope"><div class="t-sticker migi-cap">1… 2… 3!</div><div class="migi-use">Activity tips · challenges</div><div class="migi-file">migi-exercise.png</div></div>
+    <div class="migi-grid" data-reveal-group>
+      <div class="migi-card card-hover-lift"><img src="__IMG_measure__" alt="MIGI measuring height with a ruler"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Height input · growth chart</div><div class="migi-file">migi-measure.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_medicine__" alt="MIGI taking a supplement vial"><div class="t-sticker migi-cap">Đến giờ rồi!</div><div class="migi-use">Dose reminders · usage guide</div><div class="migi-file">migi-medicine.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_cheer__" alt="MIGI cheering with both fists up"><div class="t-sticker migi-cap">Cố lên!</div><div class="migi-use">Goals reached · streaks</div><div class="migi-file">migi-cheer.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_wow__" alt="MIGI surprised"><div class="t-sticker migi-cap">Wow!</div><div class="migi-use">Achievements · feature reveals</div><div class="migi-file">migi-wow.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_love__" alt="MIGI making finger hearts"><div class="t-sticker migi-cap">Thương ghê!</div><div class="migi-use">Reviews · thank-you · social proof</div><div class="migi-file">migi-love.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_cry__" alt="MIGI crying, wiping tears"><div class="t-sticker migi-cap">Húhu…</div><div class="migi-use">Error pages · empty results (soft, never blaming)</div><div class="migi-file">migi-cry.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_goodnight__" alt="MIGI sleeping on a pillow"><div class="t-sticker migi-cap">Ngủ ngon!</div><div class="migi-use">Evening reminders · sleep content</div><div class="migi-file">migi-goodnight.png</div></div>
+      <div class="migi-card card-hover-lift"><img src="__IMG_exercise__" alt="MIGI jumping rope"><div class="t-sticker migi-cap">1… 2… 3!</div><div class="migi-use">Activity tips · challenges</div><div class="migi-file">migi-exercise.png</div></div>
     </div>
   </div>
 </section>
@@ -610,3 +647,49 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
     <div class="foot-note">Vibecoder Kit · full spec in <strong>DESIGN.md</strong> · tokens in <strong>design-system/tokens.css</strong> · assets in <strong>design-system/assets/</strong></div>
   </div>
 </footer>
+
+<script>
+// ===== v0.3.0 motion (see DESIGN.md Motion) =====
+// scroll-reveal: auto-stagger sibling groups, then reveal-once via IntersectionObserver
+(function () {
+  document.querySelectorAll('[data-reveal-group]').forEach(function (g) {
+    Array.from(g.children).forEach(function (c, i) { c.style.setProperty('--reveal-index', i); c.setAttribute('data-reveal', ''); });
+  });
+  var ro = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(function (el) { ro.observe(el); });
+})();
+
+// stat-counter: count up from 0 on first intersection; respects reduced motion
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DURATION = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--duration-count')) || 1600;
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function decimalPlaces(s) { var i = s.indexOf('.'); return i === -1 ? 0 : s.length - i - 1; }
+  function paint(node, v, d, suffix) {
+    node.textContent = v.toLocaleString('vi-VN', { minimumFractionDigits: d, maximumFractionDigits: d }) + suffix;
+  }
+  function render(el, v) { paint(el.querySelector('.stat-counter__value'), v, decimalPlaces(el.dataset.target), el.dataset.suffix || ''); }
+  function animate(el) {
+    var t = parseFloat(el.dataset.target); if (isNaN(t)) return;
+    var d = decimalPlaces(el.dataset.target);
+    var node = el.querySelector('.stat-counter__value'); // resolve once, not per frame
+    var suffix = el.dataset.suffix || '';
+    if (prefersReduced) { paint(node, t, d, suffix); return; }
+    var start = null;
+    requestAnimationFrame(function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / DURATION, 1);
+      paint(node, t * easeOutCubic(p), d, suffix);
+      if (p < 1) requestAnimationFrame(step); else paint(node, t, d, suffix);
+    });
+  }
+  var counters = document.querySelectorAll('.stat-counter[data-target]');
+  if (!('IntersectionObserver' in window)) { counters.forEach(function (el) { render(el, parseFloat(el.dataset.target)); }); return; }
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  counters.forEach(function (el) { obs.observe(el); });
+})();
+</script>
