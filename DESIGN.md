@@ -421,6 +421,16 @@ components:
     fontVariantNumeric: tabular-nums
     duration: "{motion.duration-count}"
     easing: "{motion.easing-standard}"
+    numberLocale: vi-VN
+    role: img
+  card-hover-lift:
+    kind: behavior-mixin
+    liftY: -2px
+    elevationFrom: 2
+    elevationTo: 3
+    duration: "{motion.duration-fast}"
+    easing: "{motion.easing-standard}"
+    triggers: "hover, focus-visible"
   product-card:
     backgroundColor: "{colors.canvas}"
     rounded: "{rounded.lg}"
@@ -705,6 +715,8 @@ Three vanilla patterns (no animation library) that make a page feel alive withou
 
 **`scroll-reveal`** — sections/cards fade in + slide up 8px on first entry. Group siblings stagger via an inline `--reveal-index` × 70ms `transition-delay`; JS only assigns indices and toggles `.is-visible`, so all timing lives in CSS and no `setTimeout` stacks. One shared observer for all reveal elements; each reveals once (`unobserve` after firing). This is **decorative entrance motion** → fully disabled under reduced motion.
 
+**Prefer the `data-reveal-group` authoring path** (put the attribute on a container; the script adds `data-reveal` to each child and observes it). That path is self-safe: if the script never runs, no child ever gets the hidden `[data-reveal]` state, so content stays visible. If you author `data-reveal` directly in markup instead, add a no-JS fallback so a blocked/failed script can't hide content permanently — either a `<noscript>` rule setting `[data-reveal]{opacity:1}`, or a one-line `document.documentElement.classList.add('js')` gate with `.js [data-reveal]:not(.is-visible){opacity:0}`.
+
 ```css
 [data-reveal] {
   --reveal-stagger: 70ms;
@@ -756,10 +768,13 @@ document.querySelectorAll('[data-reveal]').forEach(function (el) { ro.observe(el
 ```css
 @media (prefers-reduced-motion: reduce) {
   [data-motion="decorative"] { animation: none !important; } /* bubble-float, any future mascot idle-loop */
+  [data-reveal]:not(.is-visible) { opacity: 1 !important; transform: none !important; } /* scroll-reveal: appear immediately, don't gate on intersection */
   :root {
-    --motion-duration-fast: 1ms;
-    --motion-duration-base: 1ms;
-    --motion-duration-slow: 1ms;
+    /* these are the token names the recipes actually consume (see tokens.css) — collapsing
+       them near-zero is how functional feedback like card-hover-lift stays visible-but-instant */
+    --midu-duration-fast: 1ms;
+    --midu-duration-base: 1ms;
+    --midu-duration-slow: 1ms;
   }
 }
 ```
@@ -844,13 +859,15 @@ No icon system existed before this revision — a real gap the moment any nav, f
 - Markup — the label is the accessible source of truth; the animated numeral is hidden from screen readers so they never hear intermediate frames:
 
 ```html
-<div class="stat-counter" data-target="10000" data-suffix="+" aria-label="10.000+ khách hàng tin dùng">
+<div class="stat-counter" role="img" data-target="10000" data-suffix="+" aria-label="10.000+ khách hàng tin dùng">
   <span class="stat-counter__value" aria-hidden="true">0</span>
   <span class="stat-counter__label">khách hàng tin dùng</span>
 </div>
 ```
 
+- **`role="img"` + `aria-label` carry the accessible name** — the full value ("10.000+ khách hàng tin dùng") lives in the label, the animating numeral is `aria-hidden`. `aria-label` on a bare `<div>` (implicit `generic` role) is unreliably announced; `role="img"` makes the name dependable and the children presentational, so a screen reader hears the final figure once, never the intermediate frames.
 - `.stat-counter__value` uses `font-variant-numeric: tabular-nums` so digit width is fixed and the layout doesn't jitter while counting. Value in `{typography.display}` `{colors.primary}`, label in `{typography.body-sm}` `{colors.ink-soft}`.
+- Numbers are formatted with the **`vi-VN`** locale so the visible numeral matches Vietnamese convention ("10.000+", "4,9") and the `aria-label`. Never `en-US` here — "10,000" reads as a decimal to a Vietnamese user, and would contradict the label.
 - Decimal precision is inferred from the `data-target` string: `data-target="4.9"` counts in tenths (0.0 → 4.9), never rounding through a wrong whole number. `data-suffix` appends `+`, `%`, etc.
 - Counts **once** (the observer unobserves after firing); under `prefers-reduced-motion` it paints the final value immediately with no rAF loop; with no `IntersectionObserver` it also paints the final value (progressive enhancement). Any placeholder figure still carries an `*Illustrative` caption.
 
@@ -860,24 +877,29 @@ No icon system existed before this revision — a real gap the moment any nav, f
   var DURATION = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--midu-duration-count')) || 1600;
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
   function decimalPlaces(s) { var i = s.indexOf('.'); return i === -1 ? 0 : s.length - i - 1; }
-  function paint(el, v, d) {
-    el.querySelector('.stat-counter__value').textContent =
-      v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d }) + (el.dataset.suffix || '');
+  function paint(node, v, d, suffix) {
+    node.textContent = v.toLocaleString('vi-VN', { minimumFractionDigits: d, maximumFractionDigits: d }) + suffix;
+  }
+  function render(el, v) {
+    var d = decimalPlaces(el.dataset.target);
+    paint(el.querySelector('.stat-counter__value'), v, d, el.dataset.suffix || '');
   }
   function animate(el) {
     var t = parseFloat(el.dataset.target); if (isNaN(t)) return;
     var d = decimalPlaces(el.dataset.target);
-    if (prefersReduced) { paint(el, t, d); return; }
+    var node = el.querySelector('.stat-counter__value'); // resolve once, not per frame
+    var suffix = el.dataset.suffix || '';
+    if (prefersReduced) { paint(node, t, d, suffix); return; }
     var start = null;
     requestAnimationFrame(function step(ts) {
       if (start === null) start = ts;
       var p = Math.min((ts - start) / DURATION, 1);
-      paint(el, t * easeOutCubic(p), d);
-      if (p < 1) requestAnimationFrame(step); else paint(el, t, d);
+      paint(node, t * easeOutCubic(p), d, suffix);
+      if (p < 1) requestAnimationFrame(step); else paint(node, t, d, suffix);
     });
   }
   var counters = document.querySelectorAll('.stat-counter[data-target]');
-  if (!('IntersectionObserver' in window)) { counters.forEach(function (el) { paint(el, parseFloat(el.dataset.target), decimalPlaces(el.dataset.target)); }); return; }
+  if (!('IntersectionObserver' in window)) { counters.forEach(function (el) { render(el, parseFloat(el.dataset.target)); }); return; }
   var obs = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
   }, { threshold: 0.4 });
