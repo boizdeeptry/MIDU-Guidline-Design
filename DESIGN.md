@@ -772,6 +772,7 @@ No icon system existed before this revision — a real gap the moment any nav, f
 - **Sizes**: `icon-sm` 16px (inline with `{typography.body-sm}`/`{typography.caption}`) · `icon-md` 20px (default; nav, buttons, `{typography.body}`) · `icon-lg` 24px (standalone tap targets, empty-state accents). Icons under `{spacing.touch-target-min-decorative}` get a padded invisible hit area per Accessibility.
 - **Color**: `{colors.ink}` on light surfaces, `{colors.on-primary}` on gradient/dark surfaces, `{colors.primary}` for interactive/link icons. Never gradient-fill an icon.
 - **Don't** mix in a second icon library for one missing glyph, and don't recolor icons into `{colors.sun}` or the mascot palette — those hues are illustration-only.
+- **Never use an emoji as a UI icon.** Emoji render differently per platform (Apple/Google/Windows/Android each ship their own) and carry uncontrollable color, breaking both visual consistency and the closed palette. Every glyph comes from Lucide; emoji remain legal only inside `{typography.sticker}` caption copy.
 
 ## Components
 
@@ -861,6 +862,8 @@ Assets live in `design-system/assets/` at 1871×1871 transparent PNG. Map poses 
 
 Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket badge break) · never recolor · minimum render height 120px so the glasses stay legible · `-plain` variants (no floating elements) are for tight layouts where bubbles would collide with UI · **every pose ships with a real, in-DOM text string conveying the same information — the illustration is reinforcement, never the sole carrier of state.** See Accessibility.
 
+**Framing standard (v0.3.0):** every pose PNG is normalized so the character's bounding box fills **85% of canvas height**, horizontally centered, vertical margins split **54:46 top:bottom** (a grounded stance with slight headroom). This keeps mascots visually consistent in any grid regardless of pose (full-body vs close-up). Run `design-system/scripts/normalize_mascots.py` on any new pose before adding it — unnormalized art renders visibly over- or under-sized next to existing poses. Normalization re-frames the transparent canvas only; it never crops into, flips, or recolors the character.
+
 ## Do's and Don'ts
 
 ### Do
@@ -874,6 +877,7 @@ Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket 
 - Give every growth claim a `{typography.caption}` source line — credibility is half the brand.
 - Give every interactive element a visible `:focus-visible` ring — see Accessibility. This is not the "no black outline" rule; it's a different pseudo-class, purpose, and color.
 - Pair every mascot pose that communicates state (error, success, reminder) with real text saying the same thing.
+- Give every **enabled** interactive element `cursor: pointer` — links, buttons, clickable cards and rows. It pairs with the disabled rule (`cursor: not-allowed`); a clickable surface that keeps the default arrow reads as broken.
 
 ### Don't
 
@@ -887,6 +891,7 @@ Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket 
 - Don't write shouting ALL-CAPS body copy; uppercase is reserved for `{typography.eyebrow}`.
 - Don't rely on color alone for success/error signaling — always pair with a glyph or text.
 - Don't suppress the focus ring to satisfy the "no outline" brand rule — that rule governs decorative comic strokes, not keyboard-navigation affordances.
+- Don't use emoji as UI icons. Emoji render differently per platform and carry their own uncontrollable color — both break the closed palette. UI glyphs come from the icon set (see Icons); emoji stay legal only inside `{typography.sticker}` caption copy.
 
 ## Responsive Behavior
 
