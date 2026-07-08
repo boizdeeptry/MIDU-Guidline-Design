@@ -898,6 +898,22 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 **`ingredient-facts-table`** — The dosage/composition table (Ca, D3, K2 MenaQ7, Mg, Arg per serving) — MIDU's whole premise is ingredient science, so this is a first-class component, not a generic table. Nutrient label left, per-dose value right. Row rule 1px `{colors.hairline}` below each row; header `{typography.body-sm}` weight 700; cells `{typography.body-sm}` with unit qualifiers in `{typography.caption}`; outer clip `{rounded.md}` (the ≥8px table-corner rule holds); optional zebra `{colors.surface-soft}`. Every efficacy claim printed next to the table keeps its own `{typography.caption}` source line (Voice §2).
 
+### Social Proof
+
+Social proof is the core trust surface for a pediatric supplement — attribution is the mechanism, not decoration. Both cards sit on the `{colors.surface-tint}` skin (the testimonial-band ground).
+
+**`testimonial-card`** — A parent's words. Slots, top-to-bottom:
+1. **Attribution row** — avatar `{rounded.full}` 48px → name `{typography.body-sm}` weight 700 + child's age in `{typography.caption}` `{colors.ink-soft}` (e.g. "Mẹ Bột · con 4 tuổi").
+2. **Excerpt** — `{typography.body}`, clamped to 3 lines (`-webkit-line-clamp: 3`).
+3. **Optional "Xem thêm"** — `{typography.link}` to the full review.
+Grid of 3 on desktop, horizontal scroll on mobile. A testimonial without a name + child's age fails brand review (attribution is what makes it trustworthy, not just a floating quote).
+
+**`expert-endorsement-card`** — A clinician's endorsement, higher-authority than a parent quote. Slots:
+1. **Attribution row** — doctor avatar 48px `{rounded.full}` → name `{typography.body-sm}` weight 700 + credential line in `{typography.caption}` `{colors.ink-soft}` (e.g. "BS.CKII · Nhi khoa").
+2. **Quote** — `{typography.body}`, one claim, with a **mandatory `{typography.caption}` source line** (Voice §2) — an expert claim without a citation is worse than no claim.
+3. **Optional `migi-love` accent** ≥120px (all Mascot rules apply; counts toward one-MIGI-per-viewport).
+An expert quote missing its credential + source fails brand review.
+
 ### Hero & Sections
 
 **`hero-gradient`** — Full-width brand-gradient panel, `{rounded.xl}` corners (full-bleed below `{breakpoints.mobile-l}`), `{spacing.xxl}` padding. One per page. Slots, top-to-bottom / left-to-right:
