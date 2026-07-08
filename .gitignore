@@ -12,3 +12,6 @@ __pycache__/
 
 # Claude Code runtime state (not part of the kit)
 .claude/scheduled_tasks.lock
+
+# claude-draft plugin planning artifacts (local-only)
+.planning/
