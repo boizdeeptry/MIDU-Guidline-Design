@@ -1,6 +1,6 @@
 ---
 name: midu-design-system
-description: Design system for the MIDU MenaQ7 brand (Vietnamese children's height-supplement, mascot MIGI the giraffe doctor). Use whenever building, styling, or modifying ANY user-facing UI for MIDU — landing pages, web apps, emails, banners, components. Triggers on "MIDU", "MenaQ7", "MIGI", "chuyên gia chiều cao", or any UI work inside a MIDU project. Load BEFORE writing the first line of markup or CSS.
+description: Design system + build workflow for the MIDU MenaQ7 brand (Vietnamese children's height-supplement, mascot MIGI the giraffe doctor). Use whenever building, styling, or modifying ANY user-facing UI for MIDU — landing pages, web apps, emails, banners, components. Runs a self-contained brainstorm → brief → plan → build → review pipeline (HARD-GATE: no code before the brief is confirmed). Triggers on "MIDU", "MenaQ7", "MIGI", "chuyên gia chiều cao", or any UI work inside a MIDU project. Load BEFORE writing the first line of markup or CSS.
 ---
 
 # MIDU MenaQ7 Design System
@@ -16,16 +16,38 @@ Full specification: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` (token frontmatte
 - Choosing colors, fonts, spacing, or imagery for MIDU content
 - Adding mascot/illustration to a MIDU screen
 
-## Before You Build (required)
+## Build Workflow (required for any new page/app)
 
-For any NEW page or app, do NOT write code yet. First resolve the points below — use the **AskUserQuestion** tool (one round, max 4 questions) when available, otherwise ask in chat. Skip anything the request already answers.
+This skill runs a self-contained pipeline — **brainstorm → brief → plan → build → review** — the same shape as `/discuss → /plan → /execute → /ship`, but bundled in the plugin so it works for anyone, with no `.planning/` folder or external skill needed. Run the phases in order. The phases are lightweight (a small edit is one quick loop; a full site is a fuller one) but **none is skippable for a new surface**.
 
-1. **Goal & audience** — what should this surface accomplish (drive a purchase, educate parents on height growth, in-app dashboard for existing customers), and who's it for (new visitor, existing customer, healthcare partner)? Decides which CTA leads, the tone of the copy, and how much disclaimer/citation weight it needs.
+**HARD-GATE: do not write a single line of markup or CSS until Phase 2's brief is confirmed by the user.** Auto-defaulting the deliverable (e.g. "it's a static HTML file so I'll just rebuild it") is the failure this gate exists to prevent — a source file's format is a hint, not a confirmed brief. If the request already answers a question, say so and skip only that question; never skip the whole gate.
+
+### Phase 1 — Brainstorm (ask, don't assume)
+
+Resolve these via the **AskUserQuestion** tool (one round, up to 4) when available, else ask in chat. Skip only what the request already pins down, and state what you inferred.
+
+1. **Goal & audience** — what should this surface accomplish (drive a purchase, educate parents on height growth, in-app dashboard for existing customers), and who's it for (new visitor, existing customer, healthcare partner)? Decides which CTA leads, tone, and how much disclaimer/citation weight it needs.
 2. **Deliverable & stack** — static HTML (kit default for one-pagers) · Next.js + Tailwind · React SPA · email template?
-3. **Deployment & data** — Vercel · Netlify · company server · files only (decides font loading, analytics, form handling)? If there's a form, submissions go where — Supabase, Google Sheets, existing API? Otherwise pure static or CMS content?
-4. **Content readiness** — approved copy/figures available, or build with placeholders? All placeholder claims MUST carry an `*Illustrative` caption; health copy needs the "not a medicine" disclaimer in the footer.
+3. **Deployment & data** — Vercel · Netlify · company server · files only (decides font loading, analytics, form handling)? If there's a form, submissions go where (Supabase, Sheets, existing API)? Otherwise pure static or CMS?
+4. **Content & data source** — is approved copy/figures available? **Where do the real facts come from?** For any MIDU product/medical/stat claim, the source is the company knowledge base (`Z:\DU LIEU MIDU\MIDU BRAIN` when present) or material the user provides — **never invented** (see Non-Negotiable #13 and DESIGN.md Voice §5). If a real figure isn't available, plan a labelled placeholder, not a fabricated number.
 
-Defaults when the user says "up to you": static HTML for one-pagers; Next.js + Tailwind on Vercel for anything with routes/data; Supabase for form storage. State the chosen goal/audience and stack in one line before building.
+Defaults when the user says "up to you": static HTML for one-pagers; Next.js + Tailwind on Vercel for anything with routes/data; Supabase for form storage.
+
+### Phase 2 — Brief (confirm before building)
+
+Write back a short brief (5–8 lines) and get an explicit "yes": goal + audience · chosen deliverable/stack + why · the page sections in order (per DESIGN.md → Page Anatomy) · which components/tokens each uses · where every real fact/figure comes from (or which are labelled placeholders). This is the gate — wait for confirmation. For a genuinely tiny change (one component tweak), a one-line brief is enough, but still confirm.
+
+### Phase 3 — Plan
+
+Turn the brief into an ordered build list: section by section, top to bottom, naming the component per slot (use the "What Do I Use For…" table below) and the exact token values. Note the one gradient CTA's location up front so the rest stay secondary.
+
+### Phase 4 — Build
+
+Implement against the plan using the tokens/components/recipes below. Obey every Non-Negotiable. Pull real facts from the data source resolved in Phase 1 — **never fabricate** dosages, prices, stats, names, or citations. State the chosen goal/stack in one line as you start.
+
+### Phase 5 — Review
+
+Before calling it done, run the "Before Marking UI Done" checklist at the end of this skill, then audit against the **midu-brand-review** skill (or its checklist). Fix blockers before shipping.
 
 ### Stack notes
 
@@ -51,6 +73,7 @@ These rules are load-bearing. Violating any of them breaks the brand:
 10. **Color is never the only signal.** Success/error always pair with a glyph or text, never a bare colored dot/pill. Mascot poses that communicate state (error, success, reminder) always ship with a real text string alongside — the illustration is reinforcement, never the sole carrier.
 11. **`cursor: pointer` on every enabled interactive element.** Links, buttons, clickable cards/rows. Pairs with the disabled rule (`cursor: not-allowed`). A clickable surface with the default arrow cursor reads as broken — this is the most common miss when a `<div onClick>` is used instead of a real `<button>`.
 12. **Emoji are never UI icons.** They render differently per platform and carry uncontrollable color — both break the closed palette. UI glyphs come from Lucide (see DESIGN.md → Icons); emoji are legal only inside `{typography.sticker}` caption copy.
+13. **Never fabricate data.** Product names, ingredient dosages, prices, customer counts, %, ratings, doctor names, and citations come from a real Midu source (the company knowledge base `Z:\DU LIEU MIDU\MIDU BRAIN`, or material the user gives) — never invented, not even as "*illustrative". K2 (MenaQ7) ships only in 45/180/360 mcg; a made-up mg is a health-claim fabrication. No real figure available → omit it, use a clearly-labelled placeholder ("[nội dung minh họa]"), or drop the element. Real fallbacks: ~20.000 chuyên gia đào tạo · 91+ khóa học · ~300.000 phác đồ (midu.vn). See DESIGN.md Voice §5.
 
 ## Token Quick Reference
 
