@@ -63,6 +63,8 @@ h1,h2,h3{margin:0;text-wrap:balance}
 p{margin:0}
 img{max-width:100%;height:auto}
 a{color:inherit}
+.lnk{color:var(--primary);text-decoration:underline;text-decoration-color:rgba(56,75,152,.4);font-weight:500}
+.lnk:hover{color:var(--magenta)}
 .wrap{max-width:1200px;margin:0 auto;padding-left:24px;padding-right:24px}
 section{padding:80px 0}
 .sec-tint{background:var(--surface-soft)}
@@ -286,6 +288,35 @@ nav{
 /* stat-counter */
 .stat-counter__value{font-variant-numeric:tabular-nums;font-weight:900;color:var(--primary);font-size:clamp(2rem,1.75rem + 1.111vw,2.75rem);line-height:1.125}
 .stat-counter__label{display:block;font-size:14px;font-weight:500;color:var(--ink-soft);margin-top:4px}
+
+/* ===== v0.3.0 new component demos ===== */
+.grad-panel{background:var(--grad-brand);border-radius:28px;padding:40px}
+.btn-on-grad{background:#fff;color:var(--primary)}
+.btn-on-grad:hover{background:var(--indigo-50)}
+.btn-on-grad:active{background:var(--indigo-100)}
+.btn-on-grad:disabled{background:rgba(255,255,255,.35);color:var(--on-primary-soft);cursor:not-allowed}
+.btn-on-grad-sec{background:transparent;color:#fff;border:2px solid #fff;padding:12px 26px}
+.btn-on-grad-sec:hover{background:rgba(255,255,255,.12)}
+.prod-card{background:var(--canvas);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-card);max-width:280px}
+.prod-img{position:relative;aspect-ratio:1;background:var(--surface-soft);display:flex;align-items:center;justify-content:center}
+.prod-img img{width:62%;height:62%;object-fit:contain}
+.prod-badge{position:absolute;top:12px;right:12px;background:var(--sun);color:var(--ink);font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
+.prod-body{padding:20px}
+.prod-name{font-size:22px;font-weight:700}
+.prod-price{font-size:18px;font-weight:700;color:var(--primary);margin:8px 0 16px}
+.facts{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid var(--hairline)}
+.facts th,.facts td{text-align:left;padding:12px 16px;font-size:14px;border-bottom:1px solid var(--hairline)}
+.facts th{font-weight:700;background:var(--surface-soft)}
+.facts td:last-child,.facts th:last-child{text-align:right;font-weight:700}
+.facts tr:last-child td{border-bottom:0}
+.testi{background:var(--surface-tint);border-radius:20px;padding:24px}
+.testi-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.testi-avatar{width:48px;height:48px;border-radius:50%;object-fit:contain;background:var(--canvas)}
+.testi-name{font-size:14px;font-weight:700}
+.testi-meta{font-size:12px;color:var(--ink-soft)}
+.testi-quote{font-size:16px;line-height:1.75}
+.testi-src{font-size:12px;color:var(--ink-soft);margin-top:10px}
+.legal-band{border-top:1px solid rgba(255,255,255,.24);margin-top:24px;padding-top:16px;font-size:12px;line-height:1.667;color:var(--on-primary-soft)}
 .migi-cap{margin-top:8px}
 .migi-use{font-size:12px;color:var(--ink-soft);margin-top:4px}
 .migi-file{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--ink-soft);opacity:.7;margin-top:6px}
@@ -608,8 +639,78 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
   </div>
 </section>
 
+<section id="v030" class="wrap">
+  <span class="eyebrow">06 · New in v0.3.0</span>
+  <h2 class="sec-title">On-gradient controls, commerce &amp; social proof</h2>
+  <p class="sec-sub">The completeness pass — controls that survive a gradient ground, product &amp; ingredient surfaces, and the trust cards a pediatric brand lives on.</p>
+
+  <p class="pal-group">On-gradient buttons</p>
+  <div class="grad-panel on-brand-gradient" style="margin-bottom:32px">
+    <div class="row" style="gap:14px;flex-wrap:wrap">
+      <button class="btn btn-on-grad">Mua ngay</button>
+      <button class="btn btn-on-grad-sec">Tìm hiểu thêm</button>
+      <button class="btn btn-on-grad" disabled>Đã hết hàng</button>
+    </div>
+    <p style="color:var(--on-primary-soft);font-size:14px;line-height:1.667;margin:16px 0 0">Subcopy on the gradient uses <code style="color:#fff">on-primary-soft</code> (4.61:1 at the magenta pole). The white pill <em>is</em> the primary CTA here — a gradient pill on a gradient ground would vanish.</p>
+  </div>
+
+  <div class="spec-grid" data-reveal-group>
+    <div class="spec">
+      <h3>Product card</h3>
+      <div class="prod-card card-hover-lift">
+        <div class="prod-img"><span class="prod-badge">-15%</span><img src="__IMG_medicine__" alt="Hộp thực phẩm bảo vệ sức khoẻ MIDU MenaQ7 (ảnh minh hoạ)"></div>
+        <div class="prod-body">
+          <div class="prod-name">MIDU MenaQ7</div>
+          <div class="prod-price">299.000đ</div>
+          <button class="btn btn-secondary" style="width:100%;padding:12px 0;font-size:15px">Mua ngay</button>
+        </div>
+      </div>
+      <p class="t-caption" style="margin-top:12px">*Illustrative. In a grid, cards use the secondary pill so the page keeps its one gradient CTA in the hero. Hover to lift.</p>
+    </div>
+
+    <div class="spec">
+      <h3>Ingredient facts</h3>
+      <table class="facts">
+        <thead><tr><th>Dưỡng chất</th><th>Hàm lượng / lần dùng</th></tr></thead>
+        <tbody>
+          <tr><td>Canxi (Ca)</td><td>500 mg</td></tr>
+          <tr><td>Vitamin D3</td><td>400 IU</td></tr>
+          <tr><td>Vitamin K2 (MenaQ7)</td><td>25 mcg</td></tr>
+          <tr><td>Magie (Mg)</td><td>60 mg</td></tr>
+          <tr><td>Arginine (Arg)</td><td>250 mg</td></tr>
+        </tbody>
+      </table>
+      <p class="t-caption" style="margin-top:12px">*Illustrative figures. Label left, value right, hairline rules, 12px rounded clip.</p>
+    </div>
+
+    <div class="spec">
+      <h3>Testimonial</h3>
+      <div class="testi">
+        <div class="testi-head">
+          <img class="testi-avatar" src="__IMG_love__" alt="">
+          <div><div class="testi-name">Chị Hương</div><div class="testi-meta">mẹ bé Sóc · 5 tuổi</div></div>
+        </div>
+        <p class="testi-quote">"Sau 6 tháng con tăng cân đều và chịu ăn hơn hẳn, cả nhà mừng lắm."</p>
+        <a href="#" class="lnk" style="font-size:14px">Xem thêm</a>
+      </div>
+    </div>
+
+    <div class="spec">
+      <h3>Expert endorsement</h3>
+      <div class="testi">
+        <div class="testi-head">
+          <img class="testi-avatar" src="__IMG_medicine__" alt="">
+          <div><div class="testi-name">BS. Nguyễn Văn A</div><div class="testi-meta">BS.CKII · Nhi khoa</div></div>
+        </div>
+        <p class="testi-quote">"Vitamin K2 dạng MenaQ7 giúp đưa canxi vào đúng mô xương — nền tảng cho phát triển chiều cao."</p>
+        <p class="testi-src">Nguồn: Tạp chí Dinh dưỡng Nhi khoa, 2023 *minh hoạ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap">
-  <span class="eyebrow">06 · Rules</span>
+  <span class="eyebrow">07 · Rules</span>
   <h2 class="sec-title">Do &amp; Don't</h2>
   <p class="sec-sub">Digest from DESIGN.md — the rules that keep every screen unmistakably MIDU.</p>
   <div class="dd">
@@ -638,13 +739,17 @@ footer{background:var(--grad-brand-rev);color:#fff;padding:48px 0}
   </div>
 </section>
 
-<footer>
+<footer class="on-brand-gradient">
   <div class="foot-in">
     <div>
       <div class="foot-brand">MIDU MenaQ7</div>
       <div class="foot-tag">Chuyên gia chiều cao</div>
     </div>
     <div class="foot-note">Vibecoder Kit · full spec in <strong>DESIGN.md</strong> · tokens in <strong>design-system/tokens.css</strong> · assets in <strong>design-system/assets/</strong></div>
+  </div>
+  <div class="foot-in legal-band">
+    <div>© 2026 MIDU MenaQ7 · Hotline 1900 xxxx · Zalo OA: MIDU</div>
+    <div>Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh.</div>
   </div>
 </footer>
 
