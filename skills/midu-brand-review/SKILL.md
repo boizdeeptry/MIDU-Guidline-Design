@@ -28,6 +28,7 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - **Color-only signaling:** a bare colored dot/pill/row-highlight conveying success or error with no glyph, icon, or text alongside it. `#2E7D46`/`#C93A3A` have near-identical luminance and sit on the color-blind-hardest axis — color alone is not sufficient.
 - **Mascot as sole state carrier:** an error/empty/success screen showing only a MIGI pose with no real, in-DOM text saying the same thing (`alt=""` decorative image + no text sibling = screen-reader user gets zero information).
 - **Fixed-px containers clipping text:** `chip-nutrient`/`top-nav`/similar using a hard `size`/`height` instead of `min-*` + `aspect-ratio`/`overflow: visible` — clips labels at 200% zoom or large-text overrides.
+- **Missing legal disclaimer:** any MIDU product-facing page whose footer lacks the mandatory Vietnamese supplement disclaimer band ("Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."). This is a regulatory requirement, not a style preference — its absence is a compliance liability.
 
 ### 🟠 Majors (visibly off-brand)
 
@@ -50,8 +51,12 @@ Audit a screen, page, or component against the MIDU MenaQ7 design system. Token 
 - Missing disabled states on buttons/inputs (should be `disabled-bg` `#EBECEF` / `disabled-text` `#9C9FAB`, not a faded brand color).
 - `text-input` border using plain `hairline` (`#DDE2F0`, 1.3:1) instead of `hairline-strong` (`#8A8F9E`, 3.2:1) — fails WCAG 1.4.11 for an interactive boundary.
 - ALL-CAPS body copy (uppercase is eyebrow-only).
-- Decorative animation (bubble float, mascot idle-loop) not fully disabled under `prefers-reduced-motion: reduce` — partial slowdown isn't enough, it must stop.
+- Decorative animation (bubble float, mascot idle-loop, scroll-reveal entrance, stat count-up) not fully disabled under `prefers-reduced-motion: reduce` — partial slowdown isn't enough, it must stop. (A stat-counter that still animates its count-up under reduced motion is a violation — it should snap to the final value.)
 - Voice/tone violations: fear or scarcity framing ("chỉ còn X suất", shortfall shaming), or mascot exclamations ("Wow!", "Cố lên!") used in body paragraphs or button labels instead of `{typography.sticker}` captions.
+- Clickable element missing `cursor: pointer` (links, buttons, clickable cards/rows).
+- Emoji used as a UI icon (platform-inconsistent, uncontrollable color) — glyphs come from Lucide; emoji only in `{typography.sticker}` captions.
+- Testimonial without a name + child's age, or an expert-endorsement quote without a credential line and a `{typography.caption}` source — attribution is the trust mechanism; an unattributed quote is decoration.
+- Stat number formatted with `en-US` grouping ("10,000") on Vietnamese copy — use `vi-VN` ("10.000") so the visible value matches the `aria-label`.
 
 ## Output Format
 

@@ -49,6 +49,8 @@ These rules are load-bearing. Violating any of them breaks the brand:
 8. **Focus rings are mandatory, not a brand-rule violation.** Every interactive element gets a `:focus-visible` ring (`#384B98`, 2px, swaps to white on gradient surfaces). This is a different pseudo-class/purpose than the "no black outline" rule — never suppress it to satisfy that rule.
 9. **Disabled state ≠ opacity hack.** Use `#EBECEF` background / `#9C9FAB` text + `cursor: not-allowed` — a faded brand color reads as "still clickable," not "inert."
 10. **Color is never the only signal.** Success/error always pair with a glyph or text, never a bare colored dot/pill. Mascot poses that communicate state (error, success, reminder) always ship with a real text string alongside — the illustration is reinforcement, never the sole carrier.
+11. **`cursor: pointer` on every enabled interactive element.** Links, buttons, clickable cards/rows. Pairs with the disabled rule (`cursor: not-allowed`). A clickable surface with the default arrow cursor reads as broken — this is the most common miss when a `<div onClick>` is used instead of a real `<button>`.
+12. **Emoji are never UI icons.** They render differently per platform and carry uncontrollable color — both break the closed palette. UI glyphs come from Lucide (see DESIGN.md → Icons); emoji are legal only inside `{typography.sticker}` caption copy.
 
 ## Token Quick Reference
 
@@ -71,7 +73,10 @@ These rules are load-bearing. Violating any of them breaks the brand:
 | success / error | `#2E7D46` / `#C93A3A` | AA-compliant on white — always pair with a glyph, never color-only |
 | hairline-strong | `#8A8F9E` | Interactive borders (text-input) — plain hairline is only 1.3:1, fails WCAG 1.4.11 |
 | disabled-bg / disabled-text | `#EBECEF` / `#9C9FAB` | Inert state for any button/input — pair with `cursor:not-allowed` |
+| on-primary-soft | `rgba(255,255,255,.94)` | Subcopy/captions/links on the brand gradient — 4.61:1 at the magenta pole (AA). Never below this for on-gradient body text. |
 | indigo/magenta/sun ramps (50–900) | see `${CLAUDE_SKILL_DIR}/references/DESIGN.md` | Lightness variants of the 3 base hues — hover fills (50), pressed states (700), dark surfaces (800–900). Not new colors. |
+
+Motion adds `duration-count` (1600ms) for the stat count-up — single-purpose, not collapsed under reduced motion (the JS disables counting there instead).
 
 Focus, motion, breakpoint, and container tokens (new in v0.2.0) live in `${CLAUDE_SKILL_DIR}/references/DESIGN.md` frontmatter — read it for exact values (`focus.ring-*`, `motion.duration-*`/`easing-*`, `breakpoints.*`, `container.*`).
 
@@ -140,9 +145,20 @@ Recipes use the variables from `${CLAUDE_SKILL_DIR}/references/tokens.css` — p
 /* Toast/snackbar — new v0.2.0 */
 .toast { background: var(--midu-indigo-800); color: #fff; border-radius: var(--midu-r-pill); padding: 12px 20px; box-shadow: var(--midu-shadow-float); }
 .toast.success { background: var(--midu-success); } .toast.error { background: var(--midu-error); }
+
+/* card-hover-lift — new v0.3.0. Doubled selector (0,2,0) so it owns the transition
+   even next to a scroll-reveal rule. Apply alongside .card / any card surface. */
+.card-hover-lift.card-hover-lift { transition: transform var(--midu-duration-fast) var(--midu-easing-standard), box-shadow var(--midu-duration-fast) var(--midu-easing-standard); }
+.card-hover-lift:hover, .card-hover-lift:focus-visible { transform: translateY(-2px); box-shadow: var(--midu-shadow-float); }
+
+/* on-gradient buttons — new v0.3.0. The primary/secondary pair for controls on a gradient panel. */
+.btn-primary-on-gradient { background: var(--midu-on-primary); color: var(--midu-primary); border-radius: var(--midu-r-pill); padding: 14px 28px; font-weight: 700; }
+.btn-secondary-on-gradient { background: transparent; color: var(--midu-on-primary); border: 2px solid var(--midu-on-primary); border-radius: var(--midu-r-pill); padding: 12px 26px; }
 ```
 
-Full component specs — including new v0.2.0 additions (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`, `product-grid`): `${CLAUDE_SKILL_DIR}/references/DESIGN.md` → Components.
+**stat-counter** (new v0.3.0) — count-up-on-scroll trust number. Markup: `<div class="stat-counter" role="img" data-target="10000" data-suffix="+" aria-label="10.000+ …"><span class="stat-counter__value" aria-hidden="true">0</span><span class="stat-counter__label">…</span></div>`. `role="img"` + `aria-label` carry the accessible name; format numbers with the **`vi-VN`** locale (never `en-US` — "10,000" misreads as a decimal in Vietnamese); counts once, snaps to final value under reduced motion. Full CSS+JS: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` → Motion / Components.
+
+Full component specs — v0.2.0 (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`, `product-grid`) and v0.3.0 (`stat-counter`, `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-*-on-gradient`, `card-hover-lift`, `scroll-reveal`): `${CLAUDE_SKILL_DIR}/references/DESIGN.md` → Components / Motion.
 
 ## Logo
 
@@ -189,4 +205,23 @@ Transparent PNGs in `${CLAUDE_SKILL_DIR}/assets/` (560px; full-res 1871px lives 
 - [ ] Every interactive element shows a visible `:focus-visible` ring when tabbed to (white on gradient surfaces)
 - [ ] Every button/input has a disabled state (`disabled-bg`/`disabled-text`), not just an opacity fade
 - [ ] Success/error signaling pairs color with a glyph or text — never a bare colored dot/pill
+- [ ] Every clickable element shows `cursor: pointer`; no emoji used as a UI icon
+- [ ] Product-facing pages carry the legal disclaimer band in the footer ("Thực phẩm này không phải là thuốc…")
 - [ ] `<html lang="vi">` set
+
+## What Do I Use For…
+
+| You want | Use |
+|---|---|
+| Primary CTA | `{components.button-primary}` (one/viewport; on gradient → `button-primary-on-gradient`) |
+| Secondary action | `{components.button-secondary}` (`-on-gradient` on gradient grounds) |
+| Promo / gamified action | `{components.button-sun}` (max one/viewport) |
+| Section kicker / label | `{components.eyebrow-badge}` (`-on-tint` on surface-soft) |
+| Trust number that counts up | `{components.stat-counter}` |
+| Progress toward a height goal | `{components.progress-ruler}` |
+| Product tile with price + buy | `{components.product-card}` |
+| Dosage / composition facts | `{components.ingredient-facts-table}` |
+| Parent quote | `{components.testimonial-card}` |
+| Doctor endorsement | `{components.expert-endorsement-card}` |
+| Decorative delight | `{components.chip-nutrient}` cluster (one/section, one orange max) |
+| Emotional state (error/empty/success) | MIGI pose + real text alongside |

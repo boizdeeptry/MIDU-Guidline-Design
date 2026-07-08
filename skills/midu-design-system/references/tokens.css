@@ -4,6 +4,7 @@
   --midu-primary: #384B98;
   --midu-magenta: #C1368D;
   --midu-on-primary: #FFFFFF;
+  --midu-on-primary-soft: rgba(255, 255, 255, 0.94); /* subcopy/captions/links on the brand gradient; 4.61:1 vs the magenta pole #C1368D (AA), ~7:1 vs indigo — see DESIGN.md Colors */
   --midu-grad-brand: linear-gradient(90deg, #384B98 0%, #C1368D 100%);
   --midu-grad-brand-reverse: linear-gradient(90deg, #C1368D 0%, #384B98 100%);
   --midu-sun: #EFCA3D;
@@ -134,6 +135,7 @@
   --midu-duration-base: 200ms;
   --midu-duration-slow: 400ms;
   --midu-duration-float: 7000ms;
+  --midu-duration-count: 1600ms; /* stat count-up only; single-purpose like duration-float; pairs with easing-standard. NOT collapsed under reduced-motion — the stat-counter JS disables counting entirely there. */
   --midu-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --midu-easing-emphasized: cubic-bezier(0.34, 1.56, 0.64, 1);
 

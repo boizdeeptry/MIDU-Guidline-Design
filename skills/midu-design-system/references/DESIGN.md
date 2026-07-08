@@ -1,5 +1,5 @@
 ---
-version: 0.2.0
+version: 0.3.0
 status: alpha
 name: MIDU-MenaQ7-design-system
 description: "A joyful pediatric-health brand built on one signature move: an indigo-to-magenta gradient that carries every hero, every primary CTA, and the wordmark itself — cooled down by white clinical surfaces and warmed up by MIGI, a bespectacled giraffe doctor in a lab coat. Sunshine yellow is the energy accent, floating nutrient bubbles (Ca+, D3, K2, Mg, Arg) are the decorative vocabulary, and a ruler motif runs through the identity because the product's whole promise is measurable height growth for kids. Science you can trust, drawn like a cartoon your child already loves."
@@ -8,6 +8,7 @@ colors:
   primary: "#384B98"
   magenta: "#C1368D"
   on-primary: "#FFFFFF"
+  on-primary-soft: "rgba(255,255,255,0.94)"
   grad-brand-start: "#384B98"
   grad-brand-end: "#C1368D"
   grad-sun-start: "#EFCA3D"
@@ -198,6 +199,7 @@ motion:
   duration-base: 200ms
   duration-slow: 400ms
   duration-float: 7000ms
+  duration-count: 1600ms
   easing-standard: "cubic-bezier(0.4, 0, 0.2, 1)"
   easing-emphasized: "cubic-bezier(0.34, 1.56, 0.64, 1)"
 
@@ -390,6 +392,90 @@ components:
     activeTextColor: "{colors.primary}"
     activeBackgroundColor: "{colors.canvas}"
     inactiveTextColor: "{colors.ink-soft}"
+  button-primary-on-gradient:
+    backgroundColor: "{colors.on-primary}"
+    textColor: "{colors.primary}"
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: 14px 28px
+    hoverBackgroundColor: "{colors.indigo-50}"
+    pressedBackgroundColor: "{colors.indigo-100}"
+    disabledBackgroundColor: "rgba(255,255,255,0.35)"
+    disabledTextColor: "{colors.on-primary-soft}"
+    focusRing: "{focus.ring-color-on-gradient}"
+  button-secondary-on-gradient:
+    backgroundColor: transparent
+    textColor: "{colors.on-primary}"
+    borderColor: "{colors.on-primary}"
+    borderWidth: 2px
+    typography: "{typography.button}"
+    rounded: "{rounded.pill}"
+    padding: 12px 26px
+    hoverBackgroundColor: "rgba(255,255,255,0.12)"
+    focusRing: "{focus.ring-color-on-gradient}"
+  stat-counter:
+    valueTypography: "{typography.display}"
+    valueColor: "{colors.primary}"
+    labelTypography: "{typography.body-sm}"
+    labelColor: "{colors.ink-soft}"
+    fontVariantNumeric: tabular-nums
+    duration: "{motion.duration-count}"
+    easing: "{motion.easing-standard}"
+    numberLocale: vi-VN
+    role: img
+  card-hover-lift:
+    kind: behavior-mixin
+    liftY: -2px
+    elevationFrom: 2
+    elevationTo: 3
+    duration: "{motion.duration-fast}"
+    easing: "{motion.easing-standard}"
+    triggers: "hover, focus-visible"
+  product-card:
+    backgroundColor: "{colors.canvas}"
+    rounded: "{rounded.lg}"
+    imageRounded: "{rounded.md}"
+    imageAspectRatio: 1
+    imageFadeIn: "{motion.duration-base}"
+    promoBadgeBackground: "{colors.sun}"
+    promoBadgeText: "{colors.ink}"
+    name: "{typography.title}"
+    price: "{typography.body-lg}"
+    priceColor: "{colors.primary}"
+    cta: "{components.button-primary}"
+    hover: "{components.card-hover-lift}"
+    outOfStockBackground: "{colors.disabled-bg}"
+    outOfStockText: "{colors.disabled-text}"
+  ingredient-facts-table:
+    rounded: "{rounded.md}"
+    header: "{typography.body-sm}"
+    cell: "{typography.body-sm}"
+    valueColor: "{colors.ink}"
+    rowRuleColor: "{colors.hairline}"
+    rowRuleWidth: 1px
+    zebraBackground: "{colors.surface-soft}"
+  testimonial-card:
+    backgroundColor: "{colors.surface-tint}"
+    rounded: "{rounded.lg}"
+    avatarSize: 48px
+    avatarRounded: "{rounded.full}"
+    name: "{typography.body-sm}"
+    meta: "{typography.caption}"
+    metaColor: "{colors.ink-soft}"
+    excerpt: "{typography.body}"
+    excerptLineClamp: 3
+    link: "{typography.link}"
+  expert-endorsement-card:
+    backgroundColor: "{colors.surface-tint}"
+    rounded: "{rounded.lg}"
+    avatarSize: 48px
+    avatarRounded: "{rounded.full}"
+    name: "{typography.body-sm}"
+    credential: "{typography.caption}"
+    credentialColor: "{colors.ink-soft}"
+    quote: "{typography.body}"
+    source: "{typography.caption}"
+    mascotAccent: migi-love
 ---
 
 ## Overview
@@ -464,6 +550,7 @@ Every brand hue now has a 10-step ramp (50 lightest → 900 darkest), all at the
 - **Hairline** ({colors.hairline}): 1px passive dividers and table rules only — see Elevation for why interactive boundaries use `{colors.hairline-strong}` instead.
 - **Hairline Strong** ({colors.hairline-strong}): 1px borders on `{components.text-input}` and any hairline-only interactive boundary. `{colors.hairline}` measures 1.30:1 against white, which fails WCAG 1.4.11's 3:1 minimum for interactive component boundaries; `{colors.hairline-strong}` clears ~3.2:1.
 - **Disabled Bg / Disabled Text** ({colors.disabled-bg} / {colors.disabled-text}): The inert state for any button or input. Deliberately desaturated indigo-grey so a disabled control reads as "off," not as "a paler brand color." `{colors.disabled-text}` is intentionally sub-AA (~2.6:1) — disabled controls are exempt under WCAG 1.4.3/1.4.11 — but always pair it with `cursor: not-allowed` and `aria-disabled`, since color alone won't communicate "disabled" to everyone.
+- **On-Primary Soft** ({colors.on-primary-soft}): Dimmed white for subcopy, captions, and links sitting on the brand gradient — footer link descriptions, the legal-band disclaimer, hero subheads. Measured **4.61:1 against the magenta pole `{colors.magenta}`** (the weaker end of the gradient) and ~7:1 against indigo, so it clears WCAG AA for text at any size across the whole gradient. It reads as a distinct, softer tier next to full-strength `{colors.on-primary}` headings — most visibly over the indigo half; near the magenta pole it is necessarily close to opaque white (pure white itself is only 5.02:1 there). Headings and buttons on the gradient stay full `{colors.on-primary}`; never drop on-gradient body text below this token.
 
 ### Mascot (illustration-only palette)
 - **MIGI Yellow** ({colors.migi-yellow}): The giraffe's coat. Warmer than `{colors.sun}` — do not swap them.
@@ -571,6 +658,30 @@ Tokenized as `{breakpoints.*}` (see frontmatter) so implementers reference `@med
 
 White space is the credibility layer. The gradient and the mascot are loud, so everything between them must be quiet: white canvas, one focal point per viewport, decoration budget of one bubble cluster per section. When a section feels empty, add breathing room or one nutrient bubble — not another color.
 
+## Page Anatomy
+
+The default skeleton for a MIDU marketing/landing page — not a straitjacket, but the order an agent should reach for before inventing one. The white→`{colors.surface-soft}` alternation (see Layout) is what drives the rhythm; each band below flips the ground.
+
+1. **`{components.top-nav}`** — white bar, logo left, one `{components.button-primary}` right.
+2. **`{components.hero-gradient}`** — the gradient panel, ~55/45 copy|mascot split, one bubble cluster, on-gradient CTA pair. This surface holds the page's single gradient CTA.
+3. **Benefits band (white)** — `{components.product-grid}` of `{components.card}`; **every efficacy/growth claim pairs with a stat or visual and a `{typography.caption}` source line** (Voice §2). Claims never float unsupported.
+4. **Social-proof band (`{colors.surface-soft}`)** — `{components.testimonial-card}` grid + optional `{components.expert-endorsement-card}`.
+5. **Stat/CTA row (white)** — `{components.stat-counter}` trust numbers, then the closing call to action.
+6. **`{components.footer-gradient}`** — reversed gradient, link columns, and the mandatory `legal-band` disclaimer.
+
+Sections may be added, removed, or reordered, but two rules always hold: **no two tinted sections are ever adjacent**, and **only one gradient CTA is visible per viewport**.
+
+### Density
+
+Section rhythm is not one-size-fits-all — a marketing page breathes, an in-app data screen packs tighter:
+
+| Surface | Section gap | Card-grid gap |
+|---|---|---|
+| Marketing / landing | `{spacing.section}` (80px) | `{spacing.lg}` (24px) |
+| App / height-tracker screens | 32–48px (`{spacing.xl}`–`{spacing.xxl}`) | `{spacing.md}` (16px) |
+
+The 80px `{spacing.section}` rhythm is the landing-page default; app screens (growth charts, dose logs, settings) use the tighter scale so functional density doesn't force endless scrolling.
+
 ## Elevation and Depth
 
 | Level | Treatment | Use |
@@ -590,6 +701,7 @@ Two timing families, referenced by every animated component — never a hand-rol
 - `{motion.duration-fast}` (120ms) / `{motion.duration-base}` (200ms) / `{motion.duration-slow}` (400ms) + `{motion.easing-standard}` for **functional** UI feedback: hover, focus, pressed, error, sweep, dismiss.
 - `{motion.easing-emphasized}` (slight overshoot) is reserved for **playful, mascot-triggered** moments only — never for ordinary hover/focus feedback.
 - `{motion.duration-float}` (7s) is specifically the nutrient-bubble ambient float; not reused elsewhere.
+- `{motion.duration-count}` (1600ms) is specifically the stat count-up (`{components.stat-counter}`); single-purpose like `duration-float`, pairs with `{motion.easing-standard}`. 400ms `duration-slow` was measured unreadable for a count-up (~56% through at cutoff), so counting gets its own token rather than stretching a functional one.
 
 Applied to existing components:
 - `{components.button-primary}` hover/pressed: `transform/box-shadow {motion.duration-fast} {motion.easing-standard}` — lift 1px + deepen shadow on hover; on press, swap to `pressedGradientStart`/`pressedGradientEnd` (one ramp step darker) *and* remove the lift, since a fixed 1px lift alone is barely visible on touch devices with no hover state.
@@ -597,20 +709,77 @@ Applied to existing components:
 - `{components.chip-nutrient}` tap (if ever made interactive): scale `1 → 1.12 → 1` on `{motion.duration-fast} {motion.easing-emphasized}` — the brand's first signature micro-interaction.
 - `{components.progress-ruler}` value change: fill-width sweep over `{motion.duration-slow} {motion.easing-standard}`, tick labels count up in place rather than snapping — this is the highest-leverage micro-interaction available, since the ruler *is* the brand's core measurement metaphor.
 
+### Scroll and reveal patterns
+
+Three vanilla patterns (no animation library) that make a page feel alive without breaking the two-family discipline. All are `IntersectionObserver`-driven — never a scroll listener.
+
+**`scroll-reveal`** — sections/cards fade in + slide up 8px on first entry. Group siblings stagger via an inline `--reveal-index` × 70ms `transition-delay`; JS only assigns indices and toggles `.is-visible`, so all timing lives in CSS and no `setTimeout` stacks. One shared observer for all reveal elements; each reveals once (`unobserve` after firing). This is **decorative entrance motion** → fully disabled under reduced motion.
+
+**Prefer the `data-reveal-group` authoring path** (put the attribute on a container; the script adds `data-reveal` to each child and observes it). That path is self-safe: if the script never runs, no child ever gets the hidden `[data-reveal]` state, so content stays visible. If you author `data-reveal` directly in markup instead, add a no-JS fallback so a blocked/failed script can't hide content permanently — either a `<noscript>` rule setting `[data-reveal]{opacity:1}`, or a one-line `document.documentElement.classList.add('js')` gate with `.js [data-reveal]:not(.is-visible){opacity:0}`.
+
+```css
+[data-reveal] {
+  --reveal-stagger: 70ms;
+  opacity: 1; transform: translateY(0);
+  transition: opacity var(--midu-duration-slow) var(--midu-easing-standard),
+              transform var(--midu-duration-slow) var(--midu-easing-standard);
+  transition-delay: calc(min(var(--reveal-index, 0), 12) * var(--reveal-stagger)); /* cap 12 so a long list can't stack a multi-second tail */
+}
+/* Hidden state on the negation, NOT on .is-visible — keeps the settled post-reveal
+   specificity at one attribute (0,1,0) so .card-hover-lift:hover (0,2,0) reliably
+   wins `transform` after reveal, regardless of stylesheet order. */
+[data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(8px); }
+@media (prefers-reduced-motion: reduce) {
+  /* scoped to :not(.is-visible), not bare [data-reveal]: a bare !important transform
+     here would also override .card-hover-lift:hover's lift on any element carrying both. */
+  [data-reveal]:not(.is-visible) { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+```
+
+```js
+document.querySelectorAll('[data-reveal-group]').forEach(function (g) {
+  Array.from(g.children).forEach(function (c, i) { c.style.setProperty('--reveal-index', i); c.setAttribute('data-reveal', ''); });
+});
+var ro = new IntersectionObserver(function (entries, obs) {
+  entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('[data-reveal]').forEach(function (el) { ro.observe(el); });
+```
+
+**`card-hover-lift`** — the reusable form of the mascot-card hover: lift 2px + deepen shadow (`shadow-card` → `shadow-float`) on `{motion.duration-fast} {motion.easing-standard}`, on both `:hover` and `:focus-visible`. This is **functional feedback** → collapses to ~1ms under reduced motion (via the global override), never removed. 2px sits between `button-primary`'s 1px press and a card's larger surface, keeping a size-based motion hierarchy.
+
+```css
+/* Selector doubled to (0,2,0): CSS doesn't merge two rules' transition lists — an
+   equal-specificity tie lets [data-reveal]'s 400ms transition silently win the whole
+   property (including box-shadow). Doubling guarantees this rule owns the hover transition. */
+.card-hover-lift.card-hover-lift {
+  transition: transform var(--midu-duration-fast) var(--midu-easing-standard),
+              box-shadow var(--midu-duration-fast) var(--midu-easing-standard);
+}
+.card-hover-lift:hover, .card-hover-lift:focus-visible {
+  transform: translateY(-2px); box-shadow: var(--midu-shadow-float);
+}
+```
+
+**`stat-counter`** (motion contract; full recipe in Components) — a number counts up from 0 to its target on first intersection (threshold 0.4), ease-out-cubic over `{motion.duration-count}`, landing on the exact target. **Decorative** → under reduced motion the value is painted at its final state immediately, with no `requestAnimationFrame` loop at all.
+
 **Reduced motion is a global rule, not a per-component afterthought:**
 
 ```css
 @media (prefers-reduced-motion: reduce) {
   [data-motion="decorative"] { animation: none !important; } /* bubble-float, any future mascot idle-loop */
+  [data-reveal]:not(.is-visible) { opacity: 1 !important; transform: none !important; } /* scroll-reveal: appear immediately, don't gate on intersection */
   :root {
-    --motion-duration-fast: 1ms;
-    --motion-duration-base: 1ms;
-    --motion-duration-slow: 1ms;
+    /* these are the token names the recipes actually consume (see tokens.css) — collapsing
+       them near-zero is how functional feedback like card-hover-lift stays visible-but-instant */
+    --midu-duration-fast: 1ms;
+    --midu-duration-base: 1ms;
+    --midu-duration-slow: 1ms;
   }
 }
 ```
 
-Rule of thumb: **decorative/ambient/infinite motion (bubble float, mascot idle-loops) is removed entirely; functional state-feedback motion (hover, focus, pressed, error) collapses to near-zero duration but is never removed** — a button still needs to visually register a click.
+Rule of thumb: **decorative/ambient/infinite motion (bubble float, mascot idle-loops, scroll-reveal entrance, stat count-up) is removed entirely; functional state-feedback motion (hover, focus, pressed, error, card-hover-lift) collapses to near-zero duration but is never removed** — a button still needs to visually register a click.
 
 ## Shapes
 
@@ -643,6 +812,7 @@ No icon system existed before this revision — a real gap the moment any nav, f
 - **Sizes**: `icon-sm` 16px (inline with `{typography.body-sm}`/`{typography.caption}`) · `icon-md` 20px (default; nav, buttons, `{typography.body}`) · `icon-lg` 24px (standalone tap targets, empty-state accents). Icons under `{spacing.touch-target-min-decorative}` get a padded invisible hit area per Accessibility.
 - **Color**: `{colors.ink}` on light surfaces, `{colors.on-primary}` on gradient/dark surfaces, `{colors.primary}` for interactive/link icons. Never gradient-fill an icon.
 - **Don't** mix in a second icon library for one missing glyph, and don't recolor icons into `{colors.sun}` or the mascot palette — those hues are illustration-only.
+- **Never use an emoji as a UI icon.** Emoji render differently per platform (Apple/Google/Windows/Android each ship their own) and carry uncontrollable color, breaking both visual consistency and the closed palette. Every glyph comes from Lucide; emoji remain legal only inside `{typography.sticker}` caption copy.
 
 ## Components
 
@@ -662,6 +832,15 @@ No icon system existed before this revision — a real gap the moment any nav, f
 - Hover/active: swap to `{colors.sun-500}` (one ramp step darker; `{colors.ink}` text stays comfortably AA).
 - Disabled: `{colors.disabled-bg}` background, `{colors.disabled-text}` text.
 
+**`button-primary-on-gradient`** — The primary CTA *when the surface behind it is already the brand gradient* (hero panel, footer band). A gradient pill on a gradient ground is invisible, so on these surfaces the primary action inverts: white fill `{colors.on-primary}`, `{colors.primary}` text, same `{typography.button}` / `{rounded.pill}` / `14px 28px` padding as `button-primary`. This does **not** create a second gradient — it *is* the one primary CTA for that view (the one-gradient-CTA law counts the gradient surface itself; the white pill sitting on it is the call to action).
+- Hover: fill `{colors.indigo-50}`. Pressed: `{colors.indigo-100}`.
+- Disabled: `rgba(255,255,255,0.35)` fill, `{colors.on-primary-soft}` text, `cursor: not-allowed`.
+- Focus: global `:focus-visible` ring in `{focus.ring-color-on-gradient}` (white).
+
+**`button-secondary-on-gradient`** — The calm partner beside `button-primary-on-gradient` on a gradient ground. Transparent fill, 2px `{colors.on-primary}` outline, white text.
+- Hover: fill `rgba(255,255,255,0.12)` behind the existing outline/text.
+- Focus: white `:focus-visible` ring. Neither on-gradient variant uses the gradient itself — that keeps the "one gradient per view" rule intact.
+
 ### Nutrient Chips
 
 **`chip-nutrient`** — 48px-minimum circle, radial gradient `{colors.bubble-purple-light}` → `{colors.bubble-purple}` → `{colors.migi-deep}` (top-left to bottom-right), white specular dot top-right, uppercase white label (Ca+, K2, D3, Mg).
@@ -675,11 +854,96 @@ No icon system existed before this revision — a real gap the moment any nav, f
 **`card`** — White, `{rounded.lg}`, `{spacing.lg}` padding, level-2 indigo shadow. Benefit cards, article cards, product tiles.
 **`card-tinted`** — `{colors.surface-soft}` ground, no shadow. Use inside white sections for FAQs, testimonials.
 **`stat-tile`** — White card whose number is set in `{typography.display}` `{colors.primary}` (or gradient-filled) with tabular figures, label in `{typography.eyebrow}` `{colors.magenta}`. For "+3–5cm/năm"-style claims, always with a source footnote in `{typography.caption}` — see Voice and Tone §2.
+**`stat-counter`** — A `stat-tile` whose number **counts up from 0 to its target when it scrolls into view** (see Motion for the timing contract). The trust-number workhorse for the stat/CTA row.
+
+- Markup — the label is the accessible source of truth; the animated numeral is hidden from screen readers so they never hear intermediate frames:
+
+```html
+<div class="stat-counter" role="img" data-target="10000" data-suffix="+" aria-label="10.000+ khách hàng tin dùng">
+  <span class="stat-counter__value" aria-hidden="true">0</span>
+  <span class="stat-counter__label">khách hàng tin dùng</span>
+</div>
+```
+
+- **`role="img"` + `aria-label` carry the accessible name** — the full value ("10.000+ khách hàng tin dùng") lives in the label, the animating numeral is `aria-hidden`. `aria-label` on a bare `<div>` (implicit `generic` role) is unreliably announced; `role="img"` makes the name dependable and the children presentational, so a screen reader hears the final figure once, never the intermediate frames.
+- `.stat-counter__value` uses `font-variant-numeric: tabular-nums` so digit width is fixed and the layout doesn't jitter while counting. Value in `{typography.display}` `{colors.primary}`, label in `{typography.body-sm}` `{colors.ink-soft}`.
+- Numbers are formatted with the **`vi-VN`** locale so the visible numeral matches Vietnamese convention ("10.000+", "4,9") and the `aria-label`. Never `en-US` here — "10,000" reads as a decimal to a Vietnamese user, and would contradict the label.
+- Decimal precision is inferred from the `data-target` string: `data-target="4.9"` counts in tenths (0.0 → 4.9), never rounding through a wrong whole number. `data-suffix` appends `+`, `%`, etc.
+- Counts **once** (the observer unobserves after firing); under `prefers-reduced-motion` it paints the final value immediately with no rAF loop; with no `IntersectionObserver` it also paints the final value (progressive enhancement). Any placeholder figure still carries an `*Illustrative` caption.
+
+```js
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DURATION = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--midu-duration-count')) || 1600;
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function decimalPlaces(s) { var i = s.indexOf('.'); return i === -1 ? 0 : s.length - i - 1; }
+  function paint(node, v, d, suffix) {
+    node.textContent = v.toLocaleString('vi-VN', { minimumFractionDigits: d, maximumFractionDigits: d }) + suffix;
+  }
+  function render(el, v) {
+    var d = decimalPlaces(el.dataset.target);
+    paint(el.querySelector('.stat-counter__value'), v, d, el.dataset.suffix || '');
+  }
+  function animate(el) {
+    var t = parseFloat(el.dataset.target); if (isNaN(t)) return;
+    var d = decimalPlaces(el.dataset.target);
+    var node = el.querySelector('.stat-counter__value'); // resolve once, not per frame
+    var suffix = el.dataset.suffix || '';
+    if (prefersReduced) { paint(node, t, d, suffix); return; }
+    var start = null;
+    requestAnimationFrame(function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / DURATION, 1);
+      paint(node, t * easeOutCubic(p), d, suffix);
+      if (p < 1) requestAnimationFrame(step); else paint(node, t, d, suffix);
+    });
+  }
+  var counters = document.querySelectorAll('.stat-counter[data-target]');
+  if (!('IntersectionObserver' in window)) { counters.forEach(function (el) { render(el, parseFloat(el.dataset.target)); }); return; }
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); } });
+  }, { threshold: 0.4 });
+  counters.forEach(function (el) { obs.observe(el); });
+})();
+```
+
 **`mascot-slot`** — `{colors.surface-tint}` rounded-`{rounded.xl}` stage for a MIGI pose + `{typography.sticker}` hand-lettered caption. The pose may overflow the slot edge by up to 15%. The mascot illustration is reinforcement only — a real text string carrying the same information sits alongside it; see Accessibility.
+
+### Commerce & Data
+
+**`product-card`** — The online-store tile for a MenaQ7 SKU. Slots, top-to-bottom:
+1. **Image slot** — 1:1, clipped to `{rounded.md}`, `opacity {motion.duration-base} {motion.easing-standard}` fade-in on load. Optional promo badge top-right on `{colors.sun}` with `{colors.ink}` text (ink-on-yellow law — never white).
+2. **Name** — `{typography.title}`.
+3. **Price** — đ-format, `{typography.body-lg}` weight 700 `{colors.primary}`.
+4. **CTA** — "Mua ngay". **In a `{components.product-grid}` the cards use `{components.button-secondary}`** so the page keeps its single gradient CTA elsewhere (one-gradient-CTA law); a lone featured product outside a grid may use `{components.button-primary}`.
+- States: default / hover (`{components.card-hover-lift}`) / out-of-stock (`{colors.disabled-bg}` image veil + `{colors.disabled-text}` "Hết hàng" text — never color-only).
+
+**`ingredient-facts-table`** — The dosage/composition table (Ca, D3, K2 MenaQ7, Mg, Arg per serving) — MIDU's whole premise is ingredient science, so this is a first-class component, not a generic table. Nutrient label left, per-dose value right. Row rule 1px `{colors.hairline}` below each row; header `{typography.body-sm}` weight 700; cells `{typography.body-sm}` with unit qualifiers in `{typography.caption}`; outer clip `{rounded.md}` (the ≥8px table-corner rule holds); optional zebra `{colors.surface-soft}`. Every efficacy claim printed next to the table keeps its own `{typography.caption}` source line (Voice §2).
+
+### Social Proof
+
+Social proof is the core trust surface for a pediatric supplement — attribution is the mechanism, not decoration. Both cards sit on the `{colors.surface-tint}` skin (the testimonial-band ground).
+
+**`testimonial-card`** — A parent's words. Slots, top-to-bottom:
+1. **Attribution row** — avatar `{rounded.full}` 48px → name `{typography.body-sm}` weight 700 + child's age in `{typography.caption}` `{colors.ink-soft}` (e.g. "Mẹ Bột · con 4 tuổi").
+2. **Excerpt** — `{typography.body}`, clamped to 3 lines (`-webkit-line-clamp: 3`).
+3. **Optional "Xem thêm"** — `{typography.link}` to the full review.
+Grid of 3 on desktop, horizontal scroll on mobile. A testimonial without a name + child's age fails brand review (attribution is what makes it trustworthy, not just a floating quote).
+
+**`expert-endorsement-card`** — A clinician's endorsement, higher-authority than a parent quote. Slots:
+1. **Attribution row** — doctor avatar 48px `{rounded.full}` → name `{typography.body-sm}` weight 700 + credential line in `{typography.caption}` `{colors.ink-soft}` (e.g. "BS.CKII · Nhi khoa").
+2. **Quote** — `{typography.body}`, one claim, with a **mandatory `{typography.caption}` source line** (Voice §2) — an expert claim without a citation is worse than no claim.
+3. **Optional `migi-love` accent** ≥120px (all Mascot rules apply; counts toward one-MIGI-per-viewport).
+An expert quote missing its credential + source fails brand review.
 
 ### Hero & Sections
 
-**`hero-gradient`** — Full-width panel, brand gradient, `{rounded.xl}` corners (full-bleed below `{breakpoints.mobile-l}`), `{spacing.xxl}` padding. White display type left, MIGI pose right, bubble cluster scattered between. One per page.
+**`hero-gradient`** — Full-width brand-gradient panel, `{rounded.xl}` corners (full-bleed below `{breakpoints.mobile-l}`), `{spacing.xxl}` padding. One per page. Slots, top-to-bottom / left-to-right:
+1. **Copy column (~55% width)** — `{typography.eyebrow}` badge (use `eyebrow-badge`, white ground) → `{typography.display-xl}` headline in `{colors.on-primary}` → optional subhead in `{colors.on-primary-soft}`.
+2. **CTA row** (in the copy column) — `{components.button-primary-on-gradient}` + optional `{components.button-secondary-on-gradient}`. These are the view's CTAs; do not add a gradient pill here (the panel is already the gradient).
+3. **Mascot column (~45% width)** — one MIGI pose ≥120px (`migi-hello`/`migi-measure` for a landing hero), may overflow the panel edge ≤15%.
+4. **Bubble cluster** — one cluster only, scattered around the mascot, never overlapping the headline or CTAs.
+Below `{breakpoints.mobile-l}` the columns stack (copy above mascot) and the split no longer applies.
 **`section-tint`** — `{colors.surface-soft}` band for alternating rhythm: white → tint → white. Never two tinted sections adjacent.
 
 ### Forms
@@ -700,7 +964,12 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 **`modal-dialog`** — The component that finally uses the elevation-3 + `{colors.overlay-scrim}` tokens this system already reserved. Background `{colors.canvas}`, `{rounded.xl}`, `{spacing.xl}` padding, scrim at ~50% opacity. Title `{typography.title}`, body `{typography.body}`. One `{components.button-primary}` action, one `{components.button-secondary}` exit — never two gradient pills in the same dialog. Destructive confirms set the secondary label in `{colors.semantic-error}` rather than adding a third button style. States: default / entering-exiting (fade+scale, `{motion.duration-base}`) / scrollable-body / destructive-confirm.
 
-**`empty-state`** — MIGI fills the silence before data does. "Chưa có số đo nào — đo chiều cao đầu tiên nhé!" pairs a mascot pose with a title and one CTA, never a blank white card. Container reuses `{components.mascot-slot}`, heading `{typography.title}` `{colors.ink}`, body `{typography.body-sm}` `{colors.ink-soft}`, CTA `{components.button-secondary}` (or `button-primary` if it's the page's one focal action). States: first-run (`migi-hello`/`migi-measure`) / error (`migi-cry`/`migi-sulk`, always with the real error text alongside — see Accessibility) / with-CTA / informational-only.
+**`empty-state`** — MIGI fills the silence before data does — never a blank white card. Slots, top-to-bottom:
+1. **Mascot** — one pose in a `{components.mascot-slot}`, ≥120px: `migi-hello`/`migi-measure` for first-run, `migi-cry`/`migi-sulk` for error/empty (soft, never blaming).
+2. **Heading** — `{typography.title}` `{colors.ink}`, e.g. "Chưa có số đo nào".
+3. **Body** — `{typography.body-sm}` `{colors.ink-soft}`, the real in-DOM text that carries the state (the mascot is reinforcement only — see Accessibility). For errors this is the actual error message, never mascot-only.
+4. **CTA** — `{components.button-secondary}` (or `button-primary` if this is the page's one focal action), e.g. "Đo chiều cao đầu tiên nhé!".
+States: first-run / error / with-CTA / informational-only.
 
 **`inline-alert`, `tooltip`** — real needs (page-level notices distinct from per-field errors; inline jargon explanations for "K2 MenaQ7®") identified but not yet spec'd at full detail; tracked as v0.3 backlog.
 
@@ -710,7 +979,13 @@ No icon system existed before this revision — a real gap the moment any nav, f
 
 **`tabs`** — The pill track `{typography.button}`'s own hierarchy row already anticipated ("All buttons and pill tabs") but no component ever formalized. Track `{colors.surface-soft}`, `{rounded.pill}`; active tab lifts onto `{colors.canvas}` with `{colors.primary}` text, inactive tabs stay `{colors.ink-soft}`. Usage: "Biểu đồ / Lịch sử / Mẹo hay" — sibling views once height-tracking has more than one screen. States: active / inactive / hover / disabled / scrollable-overflow (mobile).
 
-**`footer-gradient`** — The gradient reversed (magenta → indigo) as a full-bleed band, white text, white outline logo variant, `{spacing.xxl}` padding. The page's closing brand moment. Footer links get the same 44px hit-area treatment as `top-nav`.
+**`footer-gradient`** — The gradient reversed (magenta → indigo) as a full-bleed band, white outline logo variant, `{spacing.xxl}` padding. The page's closing brand moment. Slots, top-to-bottom:
+1. **Logo + link columns** — white logo variant left; link columns with heads in `{typography.body-sm}` weight 700 `{colors.on-primary}`, links in `{colors.on-primary-soft}` (hover → `{colors.on-primary}`). Every link keeps the 44px hit area (`inline-flex` + `padding-inline`) like `top-nav`; white `:focus-visible` ring.
+2. **Contact row** — hotline + Zalo, same link treatment as the columns.
+3. **`legal-band`** — separated from the columns above by a 1px `rgba(255,255,255,0.24)` hairline. Carries, in `{typography.caption}` `{colors.on-primary-soft}`: the © line, and the **mandatory Vietnamese supplement disclaimer**:
+   > "Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."
+
+The legal-band disclaimer is a **regulatory requirement on every MIDU product-facing page**, not decoration — its absence is a compliance failure, flagged as a Blocker in the brand-review checklist. Exact wording is pending brand/legal-team confirmation (see Known Gaps); ship the standard formula above as the placeholder of record.
 
 ### Mascot Usage (MIGI)
 
@@ -732,6 +1007,8 @@ Assets live in `design-system/assets/` at 1871×1871 transparent PNG. Map poses 
 
 Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket badge break) · never recolor · minimum render height 120px so the glasses stay legible · `-plain` variants (no floating elements) are for tight layouts where bubbles would collide with UI · **every pose ships with a real, in-DOM text string conveying the same information — the illustration is reinforcement, never the sole carrier of state.** See Accessibility.
 
+**Framing standard (v0.3.0):** every pose PNG is normalized so the character's bounding box fills **85% of canvas height**, horizontally centered, vertical margins split **54:46 top:bottom** (a grounded stance with slight headroom). This keeps mascots visually consistent in any grid regardless of pose (full-body vs close-up). Run `design-system/scripts/normalize_mascots.py` on any new pose before adding it — unnormalized art renders visibly over- or under-sized next to existing poses. Normalization re-frames the transparent canvas only; it never crops into, flips, or recolors the character.
+
 ## Do's and Don'ts
 
 ### Do
@@ -745,6 +1022,7 @@ Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket 
 - Give every growth claim a `{typography.caption}` source line — credibility is half the brand.
 - Give every interactive element a visible `:focus-visible` ring — see Accessibility. This is not the "no black outline" rule; it's a different pseudo-class, purpose, and color.
 - Pair every mascot pose that communicates state (error, success, reminder) with real text saying the same thing.
+- Give every **enabled** interactive element `cursor: pointer` — links, buttons, clickable cards and rows. It pairs with the disabled rule (`cursor: not-allowed`); a clickable surface that keeps the default arrow reads as broken.
 
 ### Don't
 
@@ -758,6 +1036,7 @@ Rules: one MIGI per viewport · never mirror-flip (the coat, tie and "m" pocket 
 - Don't write shouting ALL-CAPS body copy; uppercase is reserved for `{typography.eyebrow}`.
 - Don't rely on color alone for success/error signaling — always pair with a glyph or text.
 - Don't suppress the focus ring to satisfy the "no outline" brand rule — that rule governs decorative comic strokes, not keyboard-navigation affordances.
+- Don't use emoji as UI icons. Emoji render differently per platform and carry their own uncontrollable color — both break the closed palette. UI glyphs come from the icon set (see Icons); emoji stay legal only inside `{typography.sticker}` caption copy.
 
 ## Responsive Behavior
 
@@ -815,6 +1094,38 @@ This is the one outline permitted on UI chrome — a different color, purpose, a
 
 ## Iteration Guide
 
+### What do I use for…
+
+The fastest way to stay on-system: pick the component by the job, not by eyeballing a layout.
+
+| You want | Use |
+|---|---|
+| Primary CTA | `{components.button-primary}` (one per viewport; on a gradient ground use `{components.button-primary-on-gradient}`) |
+| Secondary action | `{components.button-secondary}` (`-on-gradient` variant on gradient grounds) |
+| Promo / gamified action | `{components.button-sun}` (max one per viewport) |
+| Section kicker / label | `{components.eyebrow-badge}` (`-on-tint` variant on `{colors.surface-soft}`) |
+| Trust number that counts up | `{components.stat-counter}` |
+| Progress toward a height goal | `{components.progress-ruler}` |
+| Product tile with price + buy | `{components.product-card}` |
+| Dosage / composition facts | `{components.ingredient-facts-table}` |
+| Parent quote | `{components.testimonial-card}` |
+| Doctor endorsement | `{components.expert-endorsement-card}` |
+| Decorative delight | `{components.chip-nutrient}` cluster (one per section, one orange max) |
+| Emotional state (error/empty/success) | MIGI pose per Mascot table + real text alongside |
+
+#### Worked prompts
+
+Copy-pasteable starting points — each names the components/tokens so the output stays on-system:
+
+1. "Build a MIDU hero: `{components.hero-gradient}` slots in order — display-xl white headline left (~55%), `migi-hello.png` right at ≥120px, one bubble cluster, `{components.button-primary-on-gradient}` + `{components.button-secondary-on-gradient}`."
+2. "Build a benefits band on white: three columns, each `{components.card}` with an icon-lg glyph, headline title, body copy, and a `{typography.caption}` source line under every efficacy claim."
+3. "Add a stat row: three `{components.stat-counter}` on white — 10.000+ khách hàng, 98% phụ huynh hài lòng, 4.9 điểm — tabular numerals, `*Illustrative` caption if figures are placeholders."
+4. "Build a product grid: `{components.product-grid}` of `{components.product-card}` — cards use `{components.button-secondary}`, the page keeps its single gradient CTA in the hero."
+5. "Build a testimonial band on `{colors.surface-tint}`: three `{components.testimonial-card}` with avatar, name + tuổi con, 3-line excerpt; one `{components.expert-endorsement-card}` with credential + source line."
+6. "Build an error state: `{components.empty-state}` with `migi-cry.png`, a soft never-blaming headline, real body text explaining the fix, and a `{components.button-secondary}` retry — no gradient CTA on error surfaces."
+
+### Working rules
+
 1. Reference components by token name (`{components.button-primary}`, `{components.progress-ruler}`) when asking for changes.
 2. Choose the section ground first — `{colors.canvas}` or `{colors.surface-soft}` — before styling anything inside it.
 3. Default text to `{typography.body}`; escalate to display sizes only for the one focal message per viewport.
@@ -832,11 +1143,21 @@ This is the one outline permitted on UI chrome — a different color, purpose, a
 - **The guideline PDF documents only palette, logo variations, and font weights** — spacing, radii, elevation, components, breakpoints, motion, focus, and the tint/shade ramps in this file are *derived* from the brand's visual logic, not from an official spec. Treat them as the proposed system, adjustable as the brand team weighs in.
 - **Dark mode: starting palette only, no component pass.** Canvas `{colors.indigo-900}`, surface `{colors.indigo-800}` — not `{colors.migi-deep}`, which is a saturated brand purple that would vibrate against gradient CTAs on a dark ground. Text/link accents: `{colors.indigo-300}`/`{colors.magenta-300}`; larger fills: `{colors.indigo-400}`/`{colors.magenta-400}`. `{colors.sun}`/`{colors.ink}` pairing (`button-sun`) is already dark-mode-agnostic — no change needed there. This commits only the palette; no component has an actual dark variant built yet.
 - **Photography is out of scope for this round.** The system as specified is 100% illustrated (MIGI + nutrient bubbles); zero real-photo guidance exists. Before any real parent+child photography ships (testimonials, packaging, ads), this file needs a Photography section — color grade to sit next to the indigo/magenta palette, cropping against the shape system, and whether bubbles/gradient may overlay a photo.
-- **Form controls beyond text-input and date-picker are backlog, not spec'd.** `select-dropdown`, `checkbox`/`radio`, `toggle-switch`, `textarea`, `inline-alert`, `tooltip`, `avatar`, `skeleton`/`loading`, `accordion`, `stepper`, `table`, `tag`/`badge` (non-nutrient), `breadcrumb`/`pagination` are all real, identified needs — see the component gap-analysis that produced this revision — but capped at the top 5 highest-priority specs (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`) to keep this round focused. Track as v0.3.
+- **Form controls beyond text-input and date-picker are backlog, not spec'd.** `select-dropdown`, `checkbox`/`radio`, `toggle-switch`, `textarea`, `inline-alert`, `tooltip`, `avatar`, `skeleton`/`loading`, `accordion`, `stepper`, `tag`/`badge` (non-nutrient), `breadcrumb`/`pagination` are all real, identified needs — see the component gap-analysis that produced this revision. (`table` shipped in v0.3.0 as `{components.ingredient-facts-table}`; the generic-`table` and remaining form controls stay backlog.) Track as a future round.
+- **Legal disclaimer wording pending confirmation.** The footer `legal-band` ships the standard Ministry-of-Health supplement formula ("Thực phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh."); confirm the exact required wording with the brand/legal team before print or paid-media use.
 - **Print values**: the guideline lists CMYK equivalents (e.g. indigo 95/82/3/0, magenta 6/93/1/0); this file is screen-first and records hex only.
 - **Vector sources are not in this kit.** The original `.ai`/`.pdf` files (mascot vectors, logo, guideline) live in the brand team's Drive folder; the kit ships rasterized PNGs (1871px mascot poses, 1224px logo), which cover web use but not large-format print. Request the vector files from the brand team for print work.
 
 ## Changelog
+
+### 0.3.0 — this round
+- Added: `stat-counter`, `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-primary-on-gradient`, `button-secondary-on-gradient` components.
+- Added: `colors.on-primary-soft` (contrast-verified 4.61:1 at the magenta pole) and `motion.duration-count` (1600ms, single-purpose) tokens.
+- Added: Page Anatomy section (canonical landing order + density table); Motion scroll-reveal / card-hover-lift / stat-counter contracts; footer `legal-band` with the mandatory Vietnamese supplement disclaimer.
+- Added: `cursor: pointer` rule for enabled interactive elements; explicit no-emoji-as-icons rule (Icons + Do/Don't).
+- Added: mascot framing standard (85% canvas-height, 54:46 margins) + `design-system/scripts/normalize_mascots.py`; all 19 MIGI poses normalized.
+- Added: Iteration Guide role→token lookup table and six worked prompts.
+- Changed: `hero-gradient`, `empty-state`, `footer-gradient` rewritten as numbered slot lists; `table` need shipped as `ingredient-facts-table` (removed from backlog).
 
 ### 0.2.0 — this round
 - Added: indigo/magenta/sun tint-shade ramps (50–900), `disabled-bg`/`disabled-text`, `hairline-strong`.
