@@ -116,8 +116,18 @@ def check_manifests() -> None:
 
 
 # 4. generated artifacts are current (template edited but not rebuilt?) -------
+def _norm_generated(raw: bytes) -> str:
+    """Normalize away environment noise before comparing a rebuilt HTML artifact:
+    - line endings (Windows-built vs Linux-CI), and
+    - base64 data URIs — PNG re-encoding is NOT byte-stable across Pillow
+      versions/platforms, so comparing embedded image/font bytes gives false
+      'stale' hits. We only care that the markup/CSS/text is up to date."""
+    s = raw.decode("utf-8", "replace").replace("\r\n", "\n")
+    return re.sub(r"data:[a-z/;+-]*base64,[A-Za-z0-9+/=]+", "data:BASE64", s)
+
+
 def check_generated_current() -> None:
-    print("[4] generated artifacts current")
+    print("[4] generated artifacts current (markup/CSS, ignoring embedded-asset bytes)")
     builds = [
         ("design-system/preview.html", "design-system/preview-src/build-preview.py"),
         ("examples/midu-landing/midu-landing.html", "examples/midu-landing/build.py"),
@@ -132,10 +142,10 @@ def check_generated_current() -> None:
         after = (ROOT / out).read_bytes()
         if before is None:
             fail(f"{out} did not exist; now built")
-        elif before == after:
+        elif _norm_generated(before) == _norm_generated(after):
             ok(f"{out} up to date")
         else:
-            fail(f"{out} was stale — rebuilt now differs; commit the rebuild")
+            fail(f"{out} was stale — template changed but not rebuilt; run its build script and commit")
 
 
 # 5. mascot normalize self-test ----------------------------------------------
