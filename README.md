@@ -25,7 +25,7 @@ A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…)
 **Option 1 — Plugin marketplace (recommended for the whole company):** push this folder to a company Git repo, then everyone installs with two commands in Claude Code:
 
 ```
-/plugin marketplace add <company-org>/<repo>
+/plugin marketplace add boizdeeptry/MIDU-Guidline-Design
 /plugin install midu-vibecoder-kit@midu-skills
 ```
 

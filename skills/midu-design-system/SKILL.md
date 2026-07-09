@@ -9,6 +9,8 @@ One signature gradient, one giraffe doctor, floating nutrient bubbles, everythin
 
 Full specification: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` (token frontmatter + complete spec). Ready-to-paste CSS variables: `${CLAUDE_SKILL_DIR}/references/tokens.css`. Mascot art + logo lockup: `${CLAUDE_SKILL_DIR}/assets/`.
 
+**Locating bundled files (fonts, mascots, logos).** `${CLAUDE_SKILL_DIR}` and `${CLAUDE_PLUGIN_ROOT}` are auto-substituted to real paths when the plugin is installed — use them directly. **If you ever see the literal string `${CLAUDE_PLUGIN_ROOT}` unresolved** (older Claude Code, or you only have a copied `DESIGN.md`), don't go hunting blindly: the files are in the installed plugin cache at `~/.claude/plugins/cache/midu-skills/midu-vibecoder-kit/<version>/design-system/` (fonts under `fonts/`, art under `assets/`), or in the kit repo **https://github.com/boizdeeptry/MIDU-Guidline-Design**. Fonts: **FZ Rubik ships as TTF** (`fonts/FzRubik/*.ttf`), **Lexend as woff2** (`fonts/Lexend/*.woff2`) — for a self-contained page just inline the pre-built `design-system/preview-src/fonts.css` (every face, data-URI). For a self-contained page, mascot/logo PNGs must likewise be embedded as data URIs (see the build scripts in `examples/`), not linked by path.
+
 ## When to Activate
 
 - Building any MIDU-branded surface: landing page, app screen, email, ad banner, packaging mock
@@ -53,9 +55,9 @@ Before calling it done, run the "Before Marking UI Done" checklist at the end of
 
 ### Stack notes
 
-- **Static HTML**: self-contained page; embed FZ Rubik as woff2 data URIs or copy `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/`. Always start with `<meta charset="utf-8">` — Vietnamese text renders as mojibake without it when opened locally.
+- **Static HTML**: self-contained page. **Don't hunt for or hand-embed font binaries** — inline the ready-made `${CLAUDE_PLUGIN_ROOT}/design-system/preview-src/fonts.css`, which already carries FZ Rubik + Lexend (+ Quicksand/Patrick Hand) as base64 data URIs. (Note the shipped raw files are **FZ Rubik = TTF** in `fonts/FzRubik/`, **Lexend = woff2** in `fonts/Lexend/` — if you embed by hand, use those exact formats, not an assumed woff2 for Rubik.) Always start with `<meta charset="utf-8">` — Vietnamese renders as mojibake without it when opened locally.
 - **Tailwind**: map tokens into `theme.extend` (colors from the quick-reference table, `borderRadius: {pill:'999px'}`, `boxShadow` with the indigo-tinted values). Do not use default Tailwind grays/shadows.
-- **Next.js**: load FZ Rubik via `next/font/local` (weights 400/500/700/900) from `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/`; expose as a CSS variable and wire it into Tailwind `fontFamily`.
+- **Next.js**: load FZ Rubik (display) via `next/font/local` (weights 400/500/700/900) from `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/`, and Lexend (body) via `next/font/google` (`subsets: ["vietnamese","latin"]`, weights 400/500/700); expose both as CSS variables and wire into Tailwind — a display family (Rubik) and body family (Lexend). See `examples/midu-landing-next/` for the exact wiring.
 - **Vercel/Netlify**: nothing brand-specific; confirm the FZ Rubik license covers public web embedding before deploying.
 - **Supabase forms**: validate inputs client + server side; error states use `#C93A3A` with a helpful Vietnamese message, never a bare red banner — pair empty/error states with MIGI cry/sulk poses.
 
