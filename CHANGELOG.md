@@ -9,6 +9,11 @@ See CONTRIBUTING.md → Versioning.
 
 ## [Unreleased]
 
+## [1.4.2] — 2026-07-09  (DESIGN.md 0.4.0)
+
+### Fixed
+- **Tailwind `<button>` cursor.** Tailwind v4's Preflight removed `cursor:pointer` from `<button>`, so button CTAs (e.g. the example's form submit) showed the default arrow — a Non-Negotiable #11 miss on the primary conversion control. Added `button:not(:disabled){cursor:pointer}` / `button:disabled{cursor:not-allowed}` to `examples/midu-landing-next` global CSS, and documented the gotcha + fix in the `midu-design-system` skill's Tailwind stack note so every Tailwind build carries it. (`<a>` links were unaffected.)
+
 ## [1.4.1] — 2026-07-09  (DESIGN.md 0.4.0)
 
 ### Fixed
@@ -76,7 +81,8 @@ See CONTRIBUTING.md → Versioning.
 - Initial MIDU MenaQ7 design system: DESIGN.md (getdesign.md format) + `tokens.css`, FZ Rubik font, MIGI mascot poses + logos, self-contained `preview.html`, static + Next.js landing examples.
 - Skills `midu-design-system` (build) and `midu-brand-review` (audit); packaged as a Claude Code plugin installable via marketplace.
 
-[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.1...HEAD
+[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.2...HEAD
+[1.4.2]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.2
 [1.4.1]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.1
 [1.4.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.0
 [1.3.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.3.0
