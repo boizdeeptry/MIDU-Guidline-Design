@@ -220,11 +220,40 @@ def check_hooks() -> None:
         ok(f"hooks.json valid, exec form, {len(entries)} hooks resolve")
 
 
+# 9. every ${CLAUDE_PLUGIN_ROOT}/${CLAUDE_SKILL_DIR} path in a SKILL.md resolves
+#    on the installed tree (the kit's #1 recurring bug: "teammate can't find file")
+def check_skill_paths() -> None:
+    print("[9] skill file references resolve")
+    pat = re.compile(r"\$\{CLAUDE_(PLUGIN_ROOT|SKILL_DIR)\}(/[^\s\"'`)\]<>]*)")
+    keep = re.compile(r"[A-Za-z0-9._/*-]+")
+    dangling = []
+    checked = 0
+    for skill_md in sorted(ROOT.glob("skills/*/SKILL.md")):
+        base_skill = skill_md.parent
+        for var, rest in pat.findall(read(str(skill_md.relative_to(ROOT)))):
+            m = keep.match(rest.lstrip("/"))
+            if not m:
+                continue
+            rel = m.group(0)
+            base = ROOT if var == "PLUGIN_ROOT" else base_skill
+            checked += 1
+            if "*" in rel:
+                if not list(base.glob(rel)):
+                    dangling.append(f"{skill_md.parent.name}: ${{CLAUDE_{var}}}/{rel} (no glob match)")
+            elif not (base / rel).exists():
+                dangling.append(f"{skill_md.parent.name}: ${{CLAUDE_{var}}}/{rel}")
+    if dangling:
+        for d in dangling[:12]:
+            fail(f"unresolved skill ref — {d}")
+    else:
+        ok(f"all {checked} ${{CLAUDE_*}} refs across skills resolve")
+
+
 def main() -> int:
     print("MIDU kit consistency check\n" + "=" * 34)
     for chk in (check_design_built, check_refs_in_sync, check_token_graph, check_manifests,
                 check_generated_current, check_mascot_selftest, check_fonts, check_theme_aliases,
-                check_hooks):
+                check_hooks, check_skill_paths):
         chk()
     print("=" * 34)
     print(f"{len(PASSES)} passed, {len(FAILS)} failed")

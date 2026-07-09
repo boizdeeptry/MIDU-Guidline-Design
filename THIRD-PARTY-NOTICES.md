@@ -7,18 +7,26 @@ not to MIDU's own brand content.
 
 ---
 
-## ⚠️ Action required: proprietary font in a public repository
+## ⚠️ Action required: keep distribution internal (proprietary font)
 
-This repository is **currently public** and ships the proprietary **FZ Rubik**
-TrueType files (`design-system/fonts/FzRubik/*.ttf`, plus web copies under
+This kit ships the proprietary **FZ Rubik** TrueType files
+(`design-system/fonts/FzRubik/*.ttf`, plus web copies under
 `examples/midu-landing-next/src/fonts/`). FZ Rubik is a company font pack, **not
-open source**, and publicly redistributing it may not be permitted by its
-license.
+open source**; it is **not licensed for redistribution outside Midu Group**.
 
-**The MIDU brand/legal owner must confirm the FZ Rubik license permits public
-redistribution.** If it does not, the font must be moved out of the public tree
-— for example into a private repository, a release asset behind access control,
-or another access-gated location — before this repo remains or goes public.
+**Distribution decision (2026-07-09): internal-only.** This kit is shared with
+Midu teammates only — not published or promoted publicly. Because the fonts ship
+inside the repo, every `/plugin install` copies them to the installer's machine,
+so the install audience must be limited to the company.
+
+**The one owner action to enforce this: set the GitHub repository to _private_**
+(Settings → General → Danger Zone → Change visibility). Internal teammates who
+have repo access still install with the exact same commands — `/plugin
+marketplace add boizdeeptry/MIDU-Guidline-Design` uses their configured git
+credentials — so the install stays "works right away" for them, while the font
+is no longer exposed to the public. Do **not** publish this repo or the
+marketplace publicly until the FZ Rubik license is cleared for public
+redistribution by the brand/legal owner.
 
 ---
 
