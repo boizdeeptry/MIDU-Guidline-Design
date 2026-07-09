@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-kit:
+    name: Kit consistency (refs, tokens, manifests, generated files, fonts)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: pip install Pillow PyYAML
+      - name: Run consistency lint
+        run: python scripts/check_kit.py
+
+  next-build:
+    name: Next.js example builds
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/midu-landing-next
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build

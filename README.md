@@ -1,5 +1,7 @@
 # MIDU MenaQ7 — Vibecoder Kit
 
+**New here?** → [QUICKSTART.md](QUICKSTART.md) — up and running in 30 seconds.
+
 A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…) build on-brand, well-engineered MIDU MenaQ7 web projects without a designer or a senior reviewer in every loop: brand tokens/mascot on one side, a Next.js/React frontend standard and a TypeScript backend standard on the other.
 
 ## Contents

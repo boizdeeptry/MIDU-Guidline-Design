@@ -1,0 +1,36 @@
+MIDU MenaQ7 — Vibecoder Kit
+Proprietary — Internal MIDU Use Only
+
+Copyright (c) 2026 MIDU MenaQ7 / Midu Group. All rights reserved.
+
+This repository and its original content — including but not limited to DESIGN.md,
+design-system/tokens.css, the fonts, the documentation, the Claude skills, the
+preview and example code, and every brand token, color, and layout rule it
+defines — are the confidential and proprietary property of Midu Group. They are
+made available for internal use by MIDU staff and authorized contractors only.
+
+You MAY, within the company:
+  - use the kit to build and maintain official MIDU MenaQ7 web projects;
+  - copy, adapt, and reference its contents in internal work.
+
+You MAY NOT, without prior written permission from Midu Group:
+  - publicly redistribute, republish, sell, sublicense, or open-source the brand
+    assets or any original content of this kit;
+  - use the MIDU MenaQ7 brand identity — logos, the MIGI mascot, colors,
+    typography, and design tokens — outside official MIDU work;
+  - remove or alter this notice or the attribution notices in
+    THIRD-PARTY-NOTICES.md.
+
+THE BRAND ASSETS IN THIS KIT ARE NOT OPEN SOURCE. In particular the FZ Rubik
+font, the MIGI mascot artwork, and the MIDU logos are proprietary MIDU assets
+and are not licensed for redistribution outside the company. See
+THIRD-PARTY-NOTICES.md before publishing or sharing this repository.
+
+Third-party open-source components bundled or referenced by this kit are covered
+by their own licenses, listed in THIRD-PARTY-NOTICES.md. Those upstream licenses
+govern only their respective components; they do not grant any rights to MIDU's
+own proprietary content.
+
+THE KIT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+
+Questions about licensing or permitted use: contact the MIDU brand team.
