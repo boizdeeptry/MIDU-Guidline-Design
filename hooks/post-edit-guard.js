@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { isMiduProject } = require('./detect-midu');
 
 let event;
 try {
@@ -19,12 +20,7 @@ const filePath = event.tool_input && event.tool_input.file_path;
 if (!filePath || !/\.(html|css|tsx|jsx)$/i.test(filePath)) process.exit(0);
 
 const cwd = event.cwd || process.cwd();
-try {
-  const design = fs.readFileSync(path.join(cwd, 'DESIGN.md'), 'utf8');
-  if (!/MenaQ7/.test(design)) process.exit(0);
-} catch (e) {
-  process.exit(0);
-}
+if (!isMiduProject(cwd)) process.exit(0);
 
 let content;
 try {

@@ -122,7 +122,7 @@ export function LeadForm() {
       <button
         type="submit"
         disabled={status.kind === "submitting"}
-        className="btn-primary mt-5 w-full disabled:opacity-60 md:w-auto"
+        className="btn-primary mt-5 w-full disabled:cursor-not-allowed disabled:bg-none disabled:bg-disabled-bg disabled:text-disabled-text disabled:shadow-none md:w-auto"
       >
         {status.kind === "submitting" ? "Đang gửi…" : "Nhận tư vấn miễn phí"}
       </button>

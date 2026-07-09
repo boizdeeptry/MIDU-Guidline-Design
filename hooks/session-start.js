@@ -5,7 +5,7 @@
 // "MIDU" (skill auto-invoke is keyword-triggered; this isn't).
 
 const fs = require('fs');
-const path = require('path');
+const { isMiduProject } = require('./detect-midu');
 
 let cwd = process.cwd();
 try {
@@ -15,18 +15,12 @@ try {
   // no stdin JSON — fall back to process.cwd()
 }
 
-let design;
-try {
-  design = fs.readFileSync(path.join(cwd, 'DESIGN.md'), 'utf8');
-} catch (e) {
-  process.exit(0);
-}
-if (!/MenaQ7/.test(design)) process.exit(0);
+if (!isMiduProject(cwd)) process.exit(0);
 
 const context = [
-  'MIDU Vibecoder Kit active (DESIGN.md found in this project).',
+  'MIDU Vibecoder Kit active (MIDU project detected).',
   'Non-negotiables: closed palette only (indigo #384B98, magenta #C1368D, sun #EFCA3D + documented neutrals);',
-  'FZ Rubik font — never substitute Google Fonts Rubik (no Vietnamese diacritics);',
+  'FZ Rubik for display + Lexend for body text — never substitute Google Fonts Rubik (no Vietnamese diacritics);',
   'max one gradient CTA per viewport; every interactive element needs a :focus-visible ring (WCAG 2.4.7).',
   'Skills: midu-design-system (build), midu-brand-review (audit), nextjs-frontend, typescript-backend.',
 ].join(' ');

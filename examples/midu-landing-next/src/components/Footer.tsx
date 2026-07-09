@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="bg-grad-brand-rev mt-20 py-12 text-white">
+    <footer className="bg-grad-brand-rev on-brand-gradient mt-20 py-12 text-white">
       <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-6 px-6">
         <div>
           <Image src="/images/logo-midu-white.png" alt="MIDU" width={116} height={44} />

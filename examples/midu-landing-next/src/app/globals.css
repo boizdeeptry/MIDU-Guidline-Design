@@ -14,6 +14,8 @@
   --color-hairline: #dde2f0;
   --color-success: #2e7d46;
   --color-error: #c93a3a;
+  --color-disabled-bg: #ebecef;
+  --color-disabled-text: #9c9fab;
 
   --radius-lg: 20px;
   --radius-xl: 28px;
@@ -66,6 +68,20 @@
     transform: translateY(-1px);
     box-shadow: var(--shadow-float);
   }
+  /* White pill for a CTA on the brand gradient (Hero) — gradient-on-gradient is banned (NN #1). */
+  .btn-primary-on-gradient {
+    background: #fff;
+    color: var(--color-primary);
+    border-radius: var(--radius-pill);
+    padding: 0.875rem 1.75rem;
+    font-weight: 700;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary-on-gradient:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-float);
+  }
 }
 
 html {
@@ -75,6 +91,14 @@ html {
 /* Tailwind v4 Preflight drops button cursor:pointer — restore it for enabled controls (NN #11). */
 button:not(:disabled), [role="button"]:not(:disabled) { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
+
+/* Mandatory branded focus ring on every interactive element (WCAG 2.4.7, NN #8); white on gradient. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.on-brand-gradient :focus-visible { outline-color: #fff; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -90,7 +114,7 @@ body {
 
 /* Display type stays on Rubik; eyebrow/button/stat use the .font-display utility. */
 h1, h2, h3, h4, h5, h6,
-.btn-primary {
+.btn-primary, .btn-primary-on-gradient {
   font-family: var(--font-display);
 }
 

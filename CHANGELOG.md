@@ -9,6 +9,18 @@ See CONTRIBUTING.md → Versioning.
 
 ## [Unreleased]
 
+## [1.4.3] — 2026-07-09  (DESIGN.md 0.4.0)
+
+Final polish pass before internal launch (from a 3-lens release-readiness audit).
+
+### Fixed
+- **Gradient-on-gradient hero CTA (NN #1) in both examples.** The hero primary CTA was a gradient pill sitting on the gradient hero panel — its indigo half vanished into the ground. Both now use a white on-gradient pill (`btn-primary-on-gradient` / white-fill), keeping the gradient `btn-primary` for on-canvas CTAs (the form submit).
+- **Static example was an HTML fragment** (no `<!doctype html>` / `<html lang="vi">`) → rendered in quirks mode and failed WCAG 3.1.1. `examples/midu-landing/template.html` is now a full document (+ viewport meta); rebuilt `midu-landing.html`.
+- **Focus ring (NN #8) missing in the Next example.** Its hardcoded `@theme` never inherited `tokens.css`'s `:focus-visible` rule, so keyboard focus fell back to the browser default. Added the branded ring + `.on-brand-gradient` white variant (wired onto the Hero/Footer panels); removed an invalid `focus-visible:outline-3` on the FAQ summary.
+- **Disabled submit was a bare opacity fade (NN #9).** Added `--color-disabled-bg`/`--color-disabled-text` tokens and switched the form submit to them.
+- **Guardrail hooks were dormant for the recommended install.** Both hooks detected a MIDU project only via `DESIGN.md`, but the plugin install drops `tokens.css`/`midu-theme.css` instead — so they silently no-op'd in teammates' projects. New shared `hooks/detect-midu.js` also recognizes a `--midu-` token file. The `session-start` reminder now names the Rubik+Lexend pairing.
+- **Doc consistency:** `design/17-known-gaps.md` + CONTRIBUTING now state the settled internal-only/stay-public decision (was still "make the repo private / Phase-3 package will be private", contradicting CHANGELOG + THIRD-PARTY-NOTICES). Corrected the "15 MIGI poses" count in README/QUICKSTART. Skill Tailwind note now also prescribes the focus ring + disabled tokens + on-gradient CTA.
+
 ## [1.4.2] — 2026-07-09  (DESIGN.md 0.4.0)
 
 ### Fixed
@@ -81,7 +93,8 @@ See CONTRIBUTING.md → Versioning.
 - Initial MIDU MenaQ7 design system: DESIGN.md (getdesign.md format) + `tokens.css`, FZ Rubik font, MIGI mascot poses + logos, self-contained `preview.html`, static + Next.js landing examples.
 - Skills `midu-design-system` (build) and `midu-brand-review` (audit); packaged as a Claude Code plugin installable via marketplace.
 
-[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.2...HEAD
+[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.3...HEAD
+[1.4.3]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.3
 [1.4.2]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.2
 [1.4.1]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.1
 [1.4.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.0

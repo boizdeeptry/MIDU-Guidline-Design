@@ -31,7 +31,7 @@ export function Faq() {
             key={faq.q}
             className="mb-3 rounded-lg border border-hairline bg-canvas px-6 py-4.5 open:shadow-card"
           >
-            <summary className="cursor-pointer font-bold focus-visible:outline-3 focus-visible:outline-sun">
+            <summary className="cursor-pointer font-bold">
               {faq.q}
             </summary>
             <p className="mt-2.5 text-[15px] text-ink-soft">{faq.a}</p>

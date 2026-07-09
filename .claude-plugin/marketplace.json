@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "MIDU MenaQ7 vibecoder kit — brand design system + Next.js/TypeScript engineering standard for AI-assisted web development",
-    "version": "1.4.2"
+    "version": "1.4.3"
   },
   "plugins": [
     {
@@ -13,7 +13,7 @@
       "displayName": "MIDU Vibecoder Kit",
       "source": "./",
       "description": "Build on-brand MIDU MenaQ7 web UI (tokens, FZ Rubik, MIGI mascot) with a full Next.js/React frontend and TypeScript backend engineering standard, and audit output against both the brand and the engineering rules",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "author": {
         "name": "TruongMV"
       },

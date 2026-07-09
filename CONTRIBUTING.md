@@ -71,6 +71,8 @@ component/section), PATCH for fixes/docs, MAJOR for a breaking token rename/remo
 ## Fonts & assets
 
 FZ Rubik and the MIGI/logo art are **proprietary MIDU** assets (see
-THIRD-PARTY-NOTICES.md). Do not redistribute them outside the company. The repo's
-public status vs the committed FZ Rubik font is an open compliance item — see
-DESIGN.md → Known Gaps.
+THIRD-PARTY-NOTICES.md). Do not redistribute them outside the company. Distribution
+is **internal-only** by owner decision (2026-07-09): the repo stays public for
+friction-free install, the link is shared with teammates only, and the residual
+exposure is accepted. The only open item is FZ Rubik license clearance before any
+**public** promotion — see DESIGN.md → Known Gaps and THIRD-PARTY-NOTICES.md.

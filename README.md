@@ -13,7 +13,7 @@ A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…)
 | `design-system/tokens.css` | CSS custom properties — paste straight into any project. |
 | `design-system/midu-theme.css` | **Tailwind 4** drop-in — `@import` it and get `bg-primary`, `rounded-lg`, `shadow-card`, `font-display`… It only aliases `tokens.css` (which it imports), so hex lives in one place. |
 | `design-system/fonts/` | **FZ Rubik** (display/titles, TTF, weights 400/500/700/900, full Vietnamese) + `fzrubik.css`, and **Lexend** (body/reading text, woff2, weights 400/500/700, full Vietnamese) + `lexend.css` — each `.css` registers its own face. |
-| `design-system/assets/` | Logo (color / white / tagline lockup) + 15 MIGI mascot poses, transparent full-res PNGs with semantic names. |
+| `design-system/assets/` | Logo (color / white / tagline lockup) + the full set of MIGI mascot poses, transparent full-res PNGs with semantic names. |
 | `design-system/preview.html` | Self-contained visual style guide (build artifact — open in a browser). |
 | `design-system/preview-src/` | Template + `build-preview.py` that generate `preview.html`. Edit here, then rebuild. |
 | `examples/midu-landing/` | Example landing page as self-contained HTML (template + build script). |

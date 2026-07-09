@@ -12,7 +12,7 @@ const BUBBLES = [
 export function Hero() {
   return (
     <header id="top" className="mx-auto max-w-[1200px] px-6 pb-20 pt-12">
-      <div className="relative grid items-center gap-8 rounded-[28px] bg-grad-brand p-12 text-white max-md:p-7 md:grid-cols-[1.2fr_.8fr]">
+      <div className="relative grid items-center gap-8 rounded-[28px] bg-grad-brand on-brand-gradient p-12 text-white max-md:p-7 md:grid-cols-[1.2fr_.8fr]">
         <div aria-hidden className="pointer-events-none absolute inset-0 max-md:hidden">
           {BUBBLES.map((b) => (
             <span
@@ -34,7 +34,7 @@ export function Hero() {
             tháng đo lại là một lần &ldquo;wow&rdquo; của cả nhà.
           </p>
           <div className="flex flex-wrap gap-3.5">
-            <a href="#dangky" className="btn-primary">
+            <a href="#dangky" className="btn-primary-on-gradient">
               Nhận tư vấn miễn phí
             </a>
             <a
