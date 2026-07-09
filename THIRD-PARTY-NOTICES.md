@@ -7,26 +7,25 @@ not to MIDU's own brand content.
 
 ---
 
-## ⚠️ Action required: keep distribution internal (proprietary font)
+## Distribution policy: internal-only (proprietary font)
 
 This kit ships the proprietary **FZ Rubik** TrueType files
 (`design-system/fonts/FzRubik/*.ttf`, plus web copies under
 `examples/midu-landing-next/src/fonts/`). FZ Rubik is a company font pack, **not
 open source**; it is **not licensed for redistribution outside Midu Group**.
 
-**Distribution decision (2026-07-09): internal-only.** This kit is shared with
-Midu teammates only — not published or promoted publicly. Because the fonts ship
-inside the repo, every `/plugin install` copies them to the installer's machine,
-so the install audience must be limited to the company.
+**Owner decision (2026-07-09): internal-only distribution.** The install link is
+shared with Midu teammates only and is not published or promoted publicly. The
+repository is kept **public** so `/plugin install` stays friction-free (no git
+auth), and the owner has accepted the residual exposure this implies: a public
+repo means the bundled font is technically discoverable by anyone who finds the
+repo, even though the link is not advertised.
 
-**The one owner action to enforce this: set the GitHub repository to _private_**
-(Settings → General → Danger Zone → Change visibility). Internal teammates who
-have repo access still install with the exact same commands — `/plugin
-marketplace add boizdeeptry/MIDU-Guidline-Design` uses their configured git
-credentials — so the install stays "works right away" for them, while the font
-is no longer exposed to the public. Do **not** publish this repo or the
-marketplace publicly until the FZ Rubik license is cleared for public
-redistribution by the brand/legal owner.
+If that residual exposure ever needs to be closed, set the GitHub repository to
+**private** (install commands are unchanged for teammates who have repo access).
+Either way, do **not** actively publish or promote this repo or the marketplace
+publicly until the FZ Rubik license is cleared for public redistribution by the
+brand/legal owner.
 
 ---
 

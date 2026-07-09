@@ -24,7 +24,7 @@ See CONTRIBUTING.md → Versioning.
 - Font/asset findability: corrected "FZ Rubik as woff2" → TTF; added the repo URL to DESIGN.md + README; added a `${CLAUDE_PLUGIN_ROOT}` fallback note.
 
 ### Known risk
-- The proprietary FZ Rubik TTF ships in the repo. **Distribution decision (2026-07-09): internal-only** — share with Midu teammates only. To enforce, set the GitHub repo to **private** (install commands are unchanged for teammates with access); do not publish publicly until the FZ Rubik license is cleared for public redistribution. See THIRD-PARTY-NOTICES.md and DESIGN.md → Known Gaps.
+- The proprietary FZ Rubik TTF ships in the repo. **Owner decision (2026-07-09): internal-only distribution** — the install link is shared with Midu teammates only, not promoted publicly. The repo is kept public for friction-free install; the owner accepts that the bundled font is then technically discoverable by anyone who finds the repo. Setting the repo private would close that exposure (install unchanged for teammates) but is not being done. Do not actively publish/promote the repo or marketplace publicly until the FZ Rubik license is cleared. See THIRD-PARTY-NOTICES.md and DESIGN.md → Known Gaps.
 
 ## [1.3.0] — 2026-07-08  (DESIGN.md 0.4.0)
 
