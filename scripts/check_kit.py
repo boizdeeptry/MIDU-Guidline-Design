@@ -36,6 +36,17 @@ def read(rel: str) -> str:
     return (ROOT / rel).read_text(encoding="utf-8")
 
 
+# 0. DESIGN.md is the current concatenation of design/ parts -------------------
+def check_design_built() -> None:
+    print("[0] DESIGN.md built from design/ parts")
+    r = subprocess.run([sys.executable, str(ROOT / "scripts/build_design.py"), "--check"],
+                       cwd=ROOT, capture_output=True, text=True)
+    if r.returncode == 0:
+        ok("DESIGN.md matches design/ parts")
+    else:
+        fail(f"DESIGN.md stale vs design/ — run build_design.py: {(r.stdout + r.stderr).strip()[:160]}")
+
+
 # 1. references byte-identical to canonical sources ---------------------------
 def check_refs_in_sync() -> None:
     print("[1] references in sync")
@@ -157,7 +168,7 @@ def check_fonts() -> None:
 
 def main() -> int:
     print("MIDU kit consistency check\n" + "=" * 34)
-    for chk in (check_refs_in_sync, check_token_graph, check_manifests,
+    for chk in (check_design_built, check_refs_in_sync, check_token_graph, check_manifests,
                 check_generated_current, check_mascot_selftest, check_fonts):
         chk()
     print("=" * 34)

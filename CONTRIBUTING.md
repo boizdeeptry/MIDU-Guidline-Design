@@ -5,7 +5,12 @@ gate, versioning, and how to cut a release.
 
 ## Golden rule: one source of truth
 
-- **`DESIGN.md`** (repo root) and **`design-system/tokens.css`** are canonical.
+- **`DESIGN.md`** (repo root) is **generated** — author the small topic files under **`design/`** (`00-frontmatter.md`, `01-overview.md`, … `19-governance.md`), then rebuild:
+  ```bash
+  python scripts/build_design.py          # design/*.md  →  DESIGN.md
+  ```
+  The parts are exact slices, so the rebuild is byte-identical; the lint (`build_design.py --check`) fails if DESIGN.md is stale. Don't hand-edit DESIGN.md — edit the part, rebuild, then re-sync references (below).
+- **`design-system/tokens.css`** is canonical (edit directly).
 - After editing either, **re-copy BOTH into `skills/midu-design-system/references/`**:
   ```powershell
   Copy-Item DESIGN.md, design-system\tokens.css "skills\midu-design-system\references\"

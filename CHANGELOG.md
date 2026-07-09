@@ -10,6 +10,7 @@ See CONTRIBUTING.md → Versioning.
 ## [Unreleased]
 
 ### Added
+- `DESIGN.md` is now **generated** from per-section source files in `design/` (`00-frontmatter.md` … `19-governance.md`) via `scripts/build_design.py` — small files to maintain, one file for AI to read. The lint enforces DESIGN.md == the rebuild.
 - `QUICKSTART.md` — 30-second onboarding, linked from the top of README.
 - `scripts/check_kit.py` — consistency lint (references-in-sync, token-graph resolves, manifests parse + versions agree, generated preview/example current, mascot self-test, fonts present). Run before every push.
 - `.github/workflows/ci.yml` — CI running the lint (Python + Pillow + PyYAML) and the Next.js example build (Node 20).
@@ -34,7 +35,8 @@ See CONTRIBUTING.md → Versioning.
 ## [1.2.0] — 2026-07-08  (DESIGN.md 0.3.0)
 
 ### Added
-- Components: `stat-counter` (count-up), `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-primary-on-gradient`, `button-secondary-on-gradient`, `card-hover-lift`, `scroll-reveal`.
+- Components: `stat-counter` (count-up), `product-card`, `ingredient-facts-table`, `testimonial-card`, `expert-endorsement-card`, `button-primary-on-gradient`, `button-secondary-on-gradient`.
+- Motion contracts: `scroll-reveal`, `card-hover-lift`, and the `stat-counter` count-up.
 - Sections: Page Anatomy (canonical landing order + density), footer `legal-band` with the mandatory supplement disclaimer.
 - Tokens: `on-primary-soft` (contrast-verified 4.61:1), `duration-count` (1600ms).
 - Mascot framing standard + `design-system/scripts/normalize_mascots.py`; all MIGI poses normalized to ~85% frame height.
@@ -50,7 +52,7 @@ See CONTRIBUTING.md → Versioning.
 ### Added
 - Engineering skills: `nextjs-frontend` (Vercel performance rules + Next.js conventions + component patterns) and `typescript-backend` (code-style + API/architecture patterns).
 - Plugin renamed to `midu-vibecoder-kit`; `displayName` "MIDU Vibecoder Kit"; SessionStart + PostToolUse hooks.
-- Design-director review pass: tint/shade ramps (50–900), disabled/hairline-strong tokens, breakpoints/container/motion/focus token blocks, fluid `clamp()` type, global `:focus-visible` ring, 5 v0.2.0 components (toast, empty-state, modal, date-picker, tabs), Voice/Icons/Motion/Accessibility/Governance sections.
+- Design-director review pass: tint/shade ramps (50–900), disabled/hairline-strong tokens, breakpoints/container/motion/focus token blocks, fluid `clamp()` type, global `:focus-visible` ring, 6 v0.2.0 components (`toast-snackbar`, `empty-state`, `modal-dialog`, `date-picker`, `tabs`, `product-grid`), Voice/Icons/Motion/Accessibility/Governance sections.
 
 ### Fixed
 - Anchored all skill-internal / plugin-root file references with `${CLAUDE_SKILL_DIR}` / `${CLAUDE_PLUGIN_ROOT}` so they resolve regardless of install location.

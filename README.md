@@ -8,7 +8,8 @@ A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…)
 
 | Path | Role |
 |---|---|
-| `DESIGN.md` | **The core** — design tokens (colors, typography, radius, spacing, components) + full spec in the [getdesign.md](https://getdesign.md) format. AI assistants read this before writing UI. |
+| `DESIGN.md` | **The core** — design tokens (colors, typography, radius, spacing, components) + full spec in the [getdesign.md](https://getdesign.md) format. AI assistants read this one file before writing UI. **Generated** by `scripts/build_design.py` from the topic files in `design/` — edit those, not this. |
+| `design/` | The maintainable source of `DESIGN.md`: one file per section (`00-frontmatter.md` … `19-governance.md`). Rebuild the single file with `python scripts/build_design.py`. |
 | `design-system/tokens.css` | CSS custom properties — paste straight into any project. |
 | `design-system/fonts/` | **FZ Rubik** (display/titles, TTF, weights 400/500/700/900, full Vietnamese) + `fzrubik.css`, and **Lexend** (body/reading text, woff2, weights 400/500/700, full Vietnamese) + `lexend.css` — each `.css` registers its own face. |
 | `design-system/assets/` | Logo (color / white / tagline lockup) + 15 MIGI mascot poses, transparent full-res PNGs with semantic names. |
@@ -50,13 +51,14 @@ Copy-Item -Recurse "skills\*" "$env:USERPROFILE\.claude\skills\"
 
 ## Maintenance
 
-- **Source of truth & sync:** root `DESIGN.md` and `design-system/tokens.css` are canonical. After editing them, re-copy into the skill:
+- **Source of truth & sync:** edit `DESIGN.md` via its parts in `design/` then rebuild (`python scripts/build_design.py`); `design-system/tokens.css` is edited directly. After either changes, re-copy both into the skill:
 
   ```powershell
+  python scripts\build_design.py   # design\*.md -> DESIGN.md
   Copy-Item DESIGN.md, design-system\tokens.css "skills\midu-design-system\references\"
   ```
 
-  Never edit the copies in `references/` directly — that forks the spec.
+  Never edit `DESIGN.md` or the `references/` copies directly — edit `design/` and rebuild. `python scripts\check_kit.py` enforces both links. See CONTRIBUTING.md.
 - **Preview:** `design-system/preview.html` is generated. Edit `design-system/preview-src/preview-template.html`, then run `python design-system/preview-src/build-preview.py`.
 - **Fonts:** FZ Rubik comes from the company font pack — confirm the license covers web `@font-face` embedding before public deployment. Never substitute Google-Fonts Rubik for Vietnamese copy (it has no Vietnamese subset).
 - **Vector sources:** the original `.ai`/`.pdf` brand files are not in this kit — they live in the brand team's Drive folder. The kit ships rasterized PNGs (web-sufficient); request vectors for large-format print.
