@@ -57,7 +57,25 @@ Before calling it done, run the "Before Marking UI Done" checklist at the end of
 
 ### Stack notes
 
-- **Static HTML**: self-contained page. **Don't hunt for or hand-embed font binaries** — inline the ready-made `${CLAUDE_PLUGIN_ROOT}/design-system/preview-src/fonts.css`, which already carries FZ Rubik + Lexend (+ Quicksand/Patrick Hand) as base64 data URIs. (Note the shipped raw files are **FZ Rubik = TTF** in `fonts/FzRubik/`, **Lexend = woff2** in `fonts/Lexend/` — if you embed by hand, use those exact formats, not an assumed woff2 for Rubik.) Always start with `<meta charset="utf-8">` — Vietnamese renders as mojibake without it when opened locally.
+- **Static HTML** (self-contained single file): assemble it with a **Node** build script. Two hard rules learned the hard way:
+  - **Use Node, not Python.** Node ships with Claude Code; many machines have **no Python** (`node build.mjs`, never `python build.py`, for a page you generate for a user).
+  - **NEVER open `${CLAUDE_PLUGIN_ROOT}/design-system/preview-src/fonts.css` with the Read tool** — it's ~600KB (~600k tokens) and blows past the tool's 25k-token cap, so the read just fails. A build script reads it **from disk by path**; the bytes never enter your context.
+
+  Pattern — a `template.html` with `__FONT_CSS__` and image placeholders, plus a tiny `build.mjs`:
+  ```js
+  // build.mjs — run: node build.mjs   (Node only; no Python, no Read-tool on fonts.css)
+  import { readFileSync, writeFileSync } from "node:fs";
+  const KIT = "${CLAUDE_PLUGIN_ROOT}/design-system"; // or a local copy of design-system/
+  let html = readFileSync("template.html", "utf8")
+    .replace("__FONT_CSS__", readFileSync(`${KIT}/preview-src/fonts.css`, "utf8"));
+  for (const [token, file] of [["__LOGO_WHITE__", `${KIT}/assets/logo-midu-white.png`]]) {
+    html = html.replaceAll(token, `data:image/png;base64,${readFileSync(file).toString("base64")}`);
+  }
+  writeFileSync("index.html", html);
+  ```
+  `fonts.css` already carries FZ Rubik + Lexend (+ Quicksand/Patrick Hand) as base64 — the script splices it in untouched. (Embedding by hand instead? Raw files are **FZ Rubik = TTF** in `fonts/FzRubik/`, **Lexend = woff2** in `fonts/Lexend/`.)
+  - **Simpler, no-build option:** copy `design-system/fonts/` next to your HTML and `<link>` its `fzrubik.css` + `lexend.css` — a small portable folder, no script and no giant file at all.
+  - Either way, start the HTML with `<meta charset="utf-8">` or Vietnamese renders as mojibake when opened locally.
 - **Tailwind**: map tokens into `theme.extend` (colors from the quick-reference table, `borderRadius: {pill:'999px'}`, `boxShadow` with the indigo-tinted values). Do not use default Tailwind grays/shadows.
 - **Next.js**: load FZ Rubik (display) via `next/font/local` (weights 400/500/700/900) from `${CLAUDE_PLUGIN_ROOT}/design-system/fonts/FzRubik/`, and Lexend (body) via `next/font/google` (`subsets: ["vietnamese","latin"]`, weights 400/500/700); expose both as CSS variables and wire into Tailwind — a display family (Rubik) and body family (Lexend). See `examples/midu-landing-next/` for the exact wiring.
 - **Vercel/Netlify**: nothing brand-specific; confirm the FZ Rubik license covers public web embedding before deploying.

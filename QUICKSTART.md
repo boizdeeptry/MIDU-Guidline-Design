@@ -38,7 +38,7 @@ Or invoke a skill directly:
 
 - Fonts live in `design-system/fonts/`: **FZ Rubik** (display, TTF, proprietary MIDU) + **Lexend** (body, woff2, OFL) — full Vietnamese.
 - Logos + 15 MIGI mascot poses live in `design-system/assets/` (transparent PNGs).
-- **Self-contained page?** Inline `design-system/preview-src/fonts.css` — it already carries every face (FZ Rubik, Lexend, Quicksand, Patrick Hand) as base64 data URIs, so no path resolution or binary hunting. Embed the PNGs as data URIs too (see `examples/` build scripts).
+- **Self-contained page?** Build it with a small **Node** script (Node comes with Claude Code — don't assume Python is installed). The script splices in `design-system/preview-src/fonts.css` (every face as base64) and base64-encodes the images. **Don't open `fonts.css` directly — it's ~600KB, too big to read into context; let the script read it by path.** Simplest of all: copy `design-system/fonts/` next to your HTML and `<link>` its `fzrubik.css` + `lexend.css`.
 
 ## 5. No plugin? Fallbacks
 

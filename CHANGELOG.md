@@ -9,6 +9,11 @@ See CONTRIBUTING.md → Versioning.
 
 ## [Unreleased]
 
+## [1.4.1] — 2026-07-09  (DESIGN.md 0.4.0)
+
+### Fixed
+- **Static-HTML build path unblocked for teammates.** The skill said "inline `fonts.css`," which led the model to `Read` the ~600KB file (≈600k tokens) and hit the Read tool's 25k-token cap, and the build scripts assumed Python (absent on many machines — the build errored with "Python was not found"). The `midu-design-system` skill + QUICKSTART now: (1) build self-contained pages with a **Node** script (`node build.mjs` — Node ships with Claude Code; no Python), (2) **never** open `fonts.css` with the Read tool — a build script reads it from disk by path so the bytes never enter context, and (3) offer a no-build fallback (copy `design-system/fonts/` + `<link>` its CSS). Includes a copy-paste `build.mjs`.
+
 ## [1.4.0] — 2026-07-09  (DESIGN.md 0.4.0)
 
 ### Changed
@@ -71,7 +76,8 @@ See CONTRIBUTING.md → Versioning.
 - Initial MIDU MenaQ7 design system: DESIGN.md (getdesign.md format) + `tokens.css`, FZ Rubik font, MIGI mascot poses + logos, self-contained `preview.html`, static + Next.js landing examples.
 - Skills `midu-design-system` (build) and `midu-brand-review` (audit); packaged as a Claude Code plugin installable via marketplace.
 
-[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.0...HEAD
+[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.1...HEAD
+[1.4.1]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.1
 [1.4.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.0
 [1.3.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.3.0
 [1.2.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.2.0
