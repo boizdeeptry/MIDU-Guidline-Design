@@ -44,7 +44,7 @@ def check_design_built() -> None:
     if r.returncode == 0:
         ok("DESIGN.md matches design/ parts")
     else:
-        fail(f"DESIGN.md stale vs design/ — run build_design.py: {(r.stdout + r.stderr).strip()[:160]}")
+        fail(f"DESIGN.md stale vs design/ — run build_design.py: {(r.stdout + r.stderr).strip()[-600:]}")
 
 
 # 1. references byte-identical to canonical sources ---------------------------
@@ -137,7 +137,7 @@ def check_generated_current() -> None:
         r = subprocess.run([sys.executable, str(ROOT / script)],
                            cwd=ROOT, capture_output=True, text=True)
         if r.returncode != 0:
-            fail(f"{script} errored: {r.stderr.strip()[:200]}")
+            fail(f"{script} errored: {r.stderr.strip()[-400:]}")
             continue
         after = (ROOT / out).read_bytes()
         if before is None:
@@ -156,7 +156,7 @@ def check_mascot_selftest() -> None:
     if r.returncode == 0 and "selftest OK" in (r.stdout + r.stderr):
         ok("normalize_mascots.py --selftest")
     else:
-        fail(f"mascot selftest failed: {(r.stdout + r.stderr).strip()[:200]}")
+        fail(f"mascot selftest failed: {(r.stdout + r.stderr).strip()[-400:]}")
 
 
 # 6. fonts present + css references resolve ----------------------------------

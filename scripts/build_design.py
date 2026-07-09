@@ -25,21 +25,23 @@ def build() -> str:
     parts = sorted(PARTS_DIR.glob("*.md"))
     if not parts:
         raise SystemExit(f"no parts found in {PARTS_DIR}")
-    # exact slices — concatenate raw, no separator
-    return "".join(p.read_text(encoding="utf-8", newline="") for p in parts)
+    # exact slices — concatenate raw, no separator. read_bytes (not
+    # read_text(newline=...)) so line endings pass through untouched on every
+    # Python: the newline kwarg on Path.read_text only exists in 3.13+, CI is 3.12.
+    return "".join(p.read_bytes().decode("utf-8") for p in parts)
 
 
 def main() -> int:
     built = build()
     check = "--check" in sys.argv
-    current = OUT.read_text(encoding="utf-8", newline="") if OUT.exists() else None
+    current = OUT.read_bytes().decode("utf-8") if OUT.exists() else None
     if check:
         if built == current:
             print("DESIGN.md is up to date with design/ parts.")
             return 0
         print("DESIGN.md is STALE — run: python scripts/build_design.py (then re-sync references)")
         return 1
-    OUT.write_text(built, encoding="utf-8", newline="")
+    OUT.write_bytes(built.encode("utf-8"))
     n = len(sorted(PARTS_DIR.glob("*.md")))
     print(f"built DESIGN.md from {n} parts ({len(built)} chars)")
     return 0
