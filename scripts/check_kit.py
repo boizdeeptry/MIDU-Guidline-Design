@@ -192,10 +192,39 @@ def check_theme_aliases() -> None:
         ok(f"all {len(referenced)} theme aliases map to defined tokens")
 
 
+# 8. hooks.json valid + cross-platform (no dead per-OS fields) ---------------
+def check_hooks() -> None:
+    print("[8] hooks.json valid + portable")
+    raw = read("hooks/hooks.json")
+    try:
+        data = json.loads(raw)
+    except Exception as e:
+        fail(f"hooks/hooks.json invalid JSON: {e}")
+        return
+    # commandWindows is NOT a real Claude Code hook field — it is silently dropped,
+    # so relying on it (with `exec` in the POSIX command) breaks native Windows/PowerShell.
+    if "commandWindows" in raw:
+        fail("hooks.json uses `commandWindows` (not a valid field) — use exec form: command+args")
+        return
+    entries = [h for group in data.get("hooks", {}).values()
+               for m in group for h in m.get("hooks", [])]
+    missing = []
+    for h in entries:
+        for a in h.get("args", []):
+            rel = a.replace("${CLAUDE_PLUGIN_ROOT}/", "")
+            if rel.endswith(".js") and not (ROOT / rel).exists():
+                missing.append(rel)
+    if missing:
+        fail(f"hooks.json points at missing scripts: {', '.join(missing)}")
+    else:
+        ok(f"hooks.json valid, exec form, {len(entries)} hooks resolve")
+
+
 def main() -> int:
     print("MIDU kit consistency check\n" + "=" * 34)
     for chk in (check_design_built, check_refs_in_sync, check_token_graph, check_manifests,
-                check_generated_current, check_mascot_selftest, check_fonts, check_theme_aliases):
+                check_generated_current, check_mascot_selftest, check_fonts, check_theme_aliases,
+                check_hooks):
         chk()
     print("=" * 34)
     print(f"{len(PASSES)} passed, {len(FAILS)} failed")

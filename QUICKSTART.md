@@ -19,6 +19,8 @@ claude plugin details midu-vibecoder-kit@midu-skills
 
 You should see **4 skills** (`midu-design-system`, `midu-brand-review`, `nextjs-frontend`, `typescript-backend`) and **2 hooks** (SessionStart, PostToolUse).
 
+> **Prerequisite:** the hooks run a tiny Node script, so **Node.js must be on PATH** (Claude Code needs it anyway). No Node → the skills still work, the hooks just no-op. If you see **0 hooks**, your Claude Code is old — run `/plugin update` or update the CLI.
+
 ## 3. Use
 
 Just ask for MIDU UI — *"build a MIDU landing page"*, *"style this MenaQ7 form"*. The `midu-design-system` skill auto-activates and runs its **brainstorm → brief → plan → build → review** pipeline.
@@ -40,7 +42,9 @@ Or invoke a skill directly:
 
 ## 5. No plugin? Fallbacks
 
-- **Manual skill copy:** `Copy-Item -Recurse "skills\*" "$env:USERPROFILE\.claude\skills\"` (or into a project's `.claude\skills\`).
+- **Manual skill copy** (into `~/.claude/skills/`, or a project's `.claude/skills/`):
+  - Windows: `Copy-Item -Recurse "skills\*" "$env:USERPROFILE\.claude\skills\"`
+  - macOS/Linux: `cp -r skills/* ~/.claude/skills/`
 - **Other AI tools (Cursor, Windsurf…):** copy `DESIGN.md` (+ `design-system/tokens.css` and `fonts/` as needed) into the project, then tell the assistant *"Read DESIGN.md before writing any UI."*
 
 See [README.md](README.md) → Usage for the detailed fallback steps.

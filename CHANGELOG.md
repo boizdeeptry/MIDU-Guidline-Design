@@ -13,12 +13,14 @@ See CONTRIBUTING.md → Versioning.
 - `design-system/midu-theme.css` — a **Tailwind 4** drop-in that aliases the `--midu-*` tokens into Tailwind's `@theme` namespaces (`bg-primary`, `rounded-lg`, `shadow-card`, `font-display`, …). It `@import`s `tokens.css`, so hex/values stay single-sourced; verified to compile on Tailwind 4.3, and `check_kit.py` fails if any alias points at a token missing from `tokens.css`. Beginners on Tailwind now `@import` one file instead of hand-mapping `@theme`.
 - `DESIGN.md` is now **generated** from per-section source files in `design/` (`00-frontmatter.md` … `19-governance.md`) via `scripts/build_design.py` — small files to maintain, one file for AI to read. The lint enforces DESIGN.md == the rebuild.
 - `QUICKSTART.md` — 30-second onboarding, linked from the top of README.
-- `scripts/check_kit.py` — consistency lint (references-in-sync, token-graph resolves, manifests parse + versions agree, generated preview/example current, mascot self-test, fonts present, tailwind theme aliases resolve). Run before every push.
+- `scripts/check_kit.py` — consistency lint (references-in-sync, token-graph resolves, manifests parse + versions agree, generated preview/example current, mascot self-test, fonts present, tailwind theme aliases resolve, hooks.json valid + portable). Run before every push.
 - `.github/workflows/ci.yml` — CI running the lint (Python + Pillow + PyYAML) and the Next.js example build (Node 22, on Node-24 action runtimes).
 - `LICENSE` (proprietary, internal MIDU use) + `THIRD-PARTY-NOTICES.md` (Lexend OFL, Lucide ISC, Vercel MIT; FZ Rubik / MIGI / logos flagged proprietary).
 - `CONTRIBUTING.md` — release process, pre-push gate, references-sync discipline, versioning policy.
 
 ### Fixed
+- **Hooks now run cross-platform.** `hooks/hooks.json` used `exec node …` plus a `commandWindows` field that isn't a real Claude Code hook field (silently dropped) — so on native Windows without Git Bash both hooks errored on every session start and every edit (PowerShell has no `exec`). Switched to the docs-blessed **exec form** (`"command": "node"`, `"args": ["${CLAUDE_PLUGIN_ROOT}/hooks/…"]`) — no shell, works on macOS/Linux/Windows. New lint check `[8]` guards against reintroducing `commandWindows`.
+- Fresh-install UX: documented Node.js as a prerequisite (hooks) and the 0-hooks→`/plugin update` fix in QUICKSTART; added a macOS/Linux `cp -r` manual-copy path (was Windows-only `Copy-Item`); added the "can't find a bundled file" fallback note to all four skills (was only in `midu-design-system`); corrected the `midu-theme.css` locating hint (it ships at plugin root beside `design-system/tokens.css`, not in `references/`).
 - Font/asset findability: corrected "FZ Rubik as woff2" → TTF; added the repo URL to DESIGN.md + README; added a `${CLAUDE_PLUGIN_ROOT}` fallback note.
 
 ### Known risk

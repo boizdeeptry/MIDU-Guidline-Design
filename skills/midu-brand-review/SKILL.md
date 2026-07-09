@@ -7,6 +7,8 @@ description: Audit UI, pages, or components against the MIDU MenaQ7 brand system
 
 Audit a screen, page, or component against the MIDU MenaQ7 design system. Token source of truth: the `midu-design-system` skill (`${CLAUDE_PLUGIN_ROOT}/skills/midu-design-system/references/DESIGN.md`) — install both skills together. Hex values below are transcribed from DESIGN.md; re-verify them after any token change.
 
+> **Can't find a referenced file?** If `${CLAUDE_PLUGIN_ROOT}` shows up literally (older Claude Code), the files are under `~/.claude/plugins/cache/midu-skills/midu-vibecoder-kit/<version>/` or in the repo (https://github.com/boizdeeptry/MIDU-Guidline-Design). Run `/plugin update` to fix substitution.
+
 ## How to Run a Review
 
 1. Read the code/screenshot under review fully before judging.

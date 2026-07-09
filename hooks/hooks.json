@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "exec node \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js\"",
-            "commandWindows": "if (Get-Command node -ErrorAction SilentlyContinue) { node \"$env:CLAUDE_PLUGIN_ROOT\\hooks\\session-start.js\" }",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js"],
             "timeout": 5,
             "statusMessage": "Checking for MIDU project..."
           }
@@ -20,8 +20,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "exec node \"${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-guard.js\"",
-            "commandWindows": "if (Get-Command node -ErrorAction SilentlyContinue) { node \"$env:CLAUDE_PLUGIN_ROOT\\hooks\\post-edit-guard.js\" }",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-guard.js"],
             "timeout": 5,
             "statusMessage": "Checking brand guardrails..."
           }

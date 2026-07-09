@@ -13,6 +13,8 @@ Two reference files, loaded on demand.
 | `${CLAUDE_SKILL_DIR}/references/typescript-style.md` | Code-level rules: error handling, async/await, type safety, validation, null-handling, module structure, naming, testing. Read this for "is this idiomatic" questions. |
 | `${CLAUDE_SKILL_DIR}/references/api-patterns.md` | Architecture-level patterns: REST structure, repository/service layers, middleware, N+1 prevention, transactions, caching (Redis/in-memory/cache-aside), JWT + RBAC, rate limiting, background jobs, structured logging. Read this for "how should this be structured" questions. |
 
+> **Can't find a reference file?** If `${CLAUDE_SKILL_DIR}` shows up literally (older Claude Code), the files are under `~/.claude/plugins/cache/midu-skills/midu-vibecoder-kit/<version>/skills/typescript-backend/` or in the repo (https://github.com/boizdeeptry/MIDU-Guidline-Design). Run `/plugin update` to fix substitution.
+
 ## Before You Build (required for a new endpoint/service)
 
 Don't write code before resolving these — ask via **AskUserQuestion** if not already answered by the request:

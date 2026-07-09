@@ -14,6 +14,8 @@ Three reference bundles, loaded on demand — this file is the router, not the c
 | `${CLAUDE_SKILL_DIR}/references/nextjs/*.md` | Next.js framework conventions — see topic index below. |
 | `${CLAUDE_SKILL_DIR}/references/component-patterns.md` | Component-API architecture: composition vs. inheritance, compound components, render props, custom hooks, context+reducer, error boundaries, forms, a11y. |
 
+> **Can't find a reference file?** If `${CLAUDE_SKILL_DIR}` shows up literally (older Claude Code), the files are under `~/.claude/plugins/cache/midu-skills/midu-vibecoder-kit/<version>/skills/nextjs-frontend/` or in the repo (https://github.com/boizdeeptry/MIDU-Guidline-Design). Run `/plugin update` to fix substitution.
+
 ### `${CLAUDE_SKILL_DIR}/references/nextjs/` topic index
 
 | File | Topic |
