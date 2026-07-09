@@ -22,24 +22,26 @@ Full specification: `${CLAUDE_SKILL_DIR}/references/DESIGN.md` (token frontmatte
 
 This skill runs a self-contained pipeline — **brainstorm → brief → plan → build → review** — the same shape as `/discuss → /plan → /execute → /ship`, but bundled in the plugin so it works for anyone, with no `.planning/` folder or external skill needed. Run the phases in order. The phases are lightweight (a small edit is one quick loop; a full site is a fuller one) but **none is skippable for a new surface**.
 
-**HARD-GATE: do not write a single line of markup or CSS until you've stated the brief and the user has confirmed (a simple "OK" counts).** The gate is on *confirming the plan*, not on interrogating the user — the failure it prevents is silently auto-defaulting the deliverable (e.g. "it's a static HTML file so I'll just rebuild it") and shipping before anyone agreed to it.
+**HARD-GATE: do not write a single line of markup or CSS until (a) you've ASKED the user the deliverable/stack (Phase 1, item 2) and (b) you've stated the brief and the user has confirmed it (a simple "OK" counts).** The gate is on *the user choosing the stack and confirming the plan*, not on interrogating them about everything — the failure it prevents is silently auto-defaulting the deliverable (e.g. "it's a static HTML file so I'll just rebuild it") and shipping before anyone agreed to it. The stack is a real fork in the deliverable; it is asked, never assumed.
 
 ### Phase 1 — Brainstorm (infer first, ask only what's load-bearing)
 
-**Don't interrogate. Asking a stack of questions you could answer yourself is its own failure** — it annoys the user and stalls the work. Infer aggressively from the request, the source files, and the context; then ask **only the genuinely load-bearing unknowns** — usually 0–2, one AskUserQuestion round at most. If nothing is truly ambiguous, ask nothing: state your assumptions in the brief and let the user correct them.
+Two opposite failures are in tension here — **interrogating** the user with questions you could answer yourself, and **silently auto-deciding** something material and burying it as a default. Resolve it with one rule: **infer everything you can, but ASK the deliverable/stack — always.**
 
-The four things the brief must resolve (infer each unless it's genuinely unclear *and* the wrong guess would be costly to redo):
+**The deliverable/stack is the ONE required question. Ask it up front with a single AskUserQuestion, before you write the brief — never infer it, never fold it into the brief as a "default" for the user to rubber-stamp.** It changes the entire build (a share-and-view file vs a web-app with a real form/DB), so the user must actually choose it. Everything else you infer and state as assumptions in the brief for the user to correct.
 
-1. **Goal & audience** — what the surface accomplishes and who it's for. Usually inferable from the request/source; ask only if it flips the whole design.
-2. **Deliverable & stack** — static HTML (default for one-pagers; an existing `.html` source strongly implies this) · Next.js + Tailwind · React SPA · email. Infer from the source/context; default static HTML for a one-pager.
-3. **Deployment & data** — matters only if there's a form or routing. No form → don't ask; it's static.
-4. **Content & data source** — **this one is non-negotiable to get right, but it's usually answerable without asking:** real facts come from the user's provided material or the company KB (`Z:\DU LIEU MIDU\MIDU BRAIN` when present) — **never invented** (Non-Negotiable #13, DESIGN.md Voice §5). No real figure available → labelled placeholder, not a fabricated number.
+The four things the brief must resolve:
 
-Rule of thumb: a rebuild of a provided document needs ~0 questions (infer, state assumptions); a brand-new site from a one-line request may warrant 1–2. When you do ask, batch into a single AskUserQuestion round.
+1. **Goal & audience** — what the surface accomplishes and who it's for. **Infer** from the request/source; state it in the brief. Ask only if it genuinely flips the whole design.
+2. **Deliverable & stack** — **ALWAYS ASK (do not infer, do not default).** Present the real options with their tradeoff so the choice is informed: **static self-contained HTML** (one file, opens/shares anywhere, no server — fits a stand-alone one-pager) · **Next.js + Tailwind** (real forms saved to a DB, SEO/analytics, part of a larger site — needs Node + deploy) · React SPA · email. You MAY mark a recommendation, but the user picks. (Even when a source `.html` or "just a one-pager" strongly implies static — still ask; confirming a strong inference costs one click, auto-defaulting it is the exact miss to avoid.)
+3. **Deployment & data** — follows from the stack answer. If they picked a form-bearing stack, confirm where data goes; otherwise it's static, don't belabor it.
+4. **Content & data source** — **non-negotiable to get right, usually answerable without asking:** real facts come from the user's provided material or the company KB (`Z:\DU LIEU MIDU\MIDU BRAIN` when present) — **never invented** (Non-Negotiable #13, DESIGN.md Voice §5). No real figure available → labelled placeholder, not a fabricated number.
+
+Rule of thumb: **the stack question always fires** (item 2). Beyond it, a rebuild of provided content needs ~0 further questions (infer, state assumptions); a brand-new site from a one-line request maybe 1 more. Batch any extra into the **same** AskUserQuestion round as the stack — one round, never a barrage.
 
 ### Phase 2 — Brief (confirm before building)
 
-Write back a short brief (5–8 lines) and get an explicit "yes": goal + audience · chosen deliverable/stack + why · the page sections in order (per DESIGN.md → Page Anatomy) · which components/tokens each uses · where every real fact/figure comes from (or which are labelled placeholders). This is the gate — wait for confirmation. For a genuinely tiny change (one component tweak), a one-line brief is enough, but still confirm.
+Write back a short brief (5–8 lines) and get an explicit "yes": goal + audience · **the deliverable/stack the user picked in Phase 1** · the page sections in order (per DESIGN.md → Page Anatomy) · which components/tokens each uses · where every real fact/figure comes from (or which are labelled placeholders). This is the gate — wait for confirmation. For a genuinely tiny change (one component tweak), a one-line brief is enough, but still confirm.
 
 ### Phase 3 — Plan
 

@@ -2,7 +2,7 @@
   "name": "midu-vibecoder-kit",
   "displayName": "MIDU Vibecoder Kit",
   "description": "MIDU MenaQ7 vibecoder kit: brand design system (tokens, FZ Rubik, MIGI mascot, brand-review checklist) plus a general Next.js/React frontend and TypeScript backend engineering standard, for AI-assisted web development",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": {
     "name": "TruongMV"
   },

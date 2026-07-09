@@ -9,6 +9,11 @@ See CONTRIBUTING.md → Versioning.
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-07-09  (DESIGN.md 0.4.0)
+
+### Changed
+- **`midu-design-system` build workflow now ASKS the deliverable/stack up front** — one AskUserQuestion (static self-contained HTML · Next.js + Tailwind · React SPA · email) *before* the brief, instead of inferring it and folding a default into the brief for the user to rubber-stamp. The stack is the one material fork in a build (a share-and-view file vs a web-app with a real form/DB), so it is an explicit choice, never an assumption. Everything else is still inferred and stated as assumptions — no interrogation.
+
 ### Added
 - `design-system/midu-theme.css` — a **Tailwind 4** drop-in that aliases the `--midu-*` tokens into Tailwind's `@theme` namespaces (`bg-primary`, `rounded-lg`, `shadow-card`, `font-display`, …). It `@import`s `tokens.css`, so hex/values stay single-sourced; verified to compile on Tailwind 4.3, and `check_kit.py` fails if any alias points at a token missing from `tokens.css`. Beginners on Tailwind now `@import` one file instead of hand-mapping `@theme`.
 - `DESIGN.md` is now **generated** from per-section source files in `design/` (`00-frontmatter.md` … `19-governance.md`) via `scripts/build_design.py` — small files to maintain, one file for AI to read. The lint enforces DESIGN.md == the rebuild.
@@ -66,7 +71,8 @@ See CONTRIBUTING.md → Versioning.
 - Initial MIDU MenaQ7 design system: DESIGN.md (getdesign.md format) + `tokens.css`, FZ Rubik font, MIGI mascot poses + logos, self-contained `preview.html`, static + Next.js landing examples.
 - Skills `midu-design-system` (build) and `midu-brand-review` (audit); packaged as a Claude Code plugin installable via marketplace.
 
-[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.3.0...HEAD
+[Unreleased]: https://github.com/boizdeeptry/MIDU-Guidline-Design/compare/midu-vibecoder-kit--v1.4.0...HEAD
+[1.4.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.4.0
 [1.3.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.3.0
 [1.2.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.2.0
 [1.1.0]: https://github.com/boizdeeptry/MIDU-Guidline-Design/releases/tag/midu-vibecoder-kit--v1.1.0
