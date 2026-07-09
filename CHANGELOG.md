@@ -10,9 +10,10 @@ See CONTRIBUTING.md → Versioning.
 ## [Unreleased]
 
 ### Added
+- `design-system/midu-theme.css` — a **Tailwind 4** drop-in that aliases the `--midu-*` tokens into Tailwind's `@theme` namespaces (`bg-primary`, `rounded-lg`, `shadow-card`, `font-display`, …). It `@import`s `tokens.css`, so hex/values stay single-sourced; verified to compile on Tailwind 4.3, and `check_kit.py` fails if any alias points at a token missing from `tokens.css`. Beginners on Tailwind now `@import` one file instead of hand-mapping `@theme`.
 - `DESIGN.md` is now **generated** from per-section source files in `design/` (`00-frontmatter.md` … `19-governance.md`) via `scripts/build_design.py` — small files to maintain, one file for AI to read. The lint enforces DESIGN.md == the rebuild.
 - `QUICKSTART.md` — 30-second onboarding, linked from the top of README.
-- `scripts/check_kit.py` — consistency lint (references-in-sync, token-graph resolves, manifests parse + versions agree, generated preview/example current, mascot self-test, fonts present). Run before every push.
+- `scripts/check_kit.py` — consistency lint (references-in-sync, token-graph resolves, manifests parse + versions agree, generated preview/example current, mascot self-test, fonts present, tailwind theme aliases resolve). Run before every push.
 - `.github/workflows/ci.yml` — CI running the lint (Python + Pillow + PyYAML) and the Next.js example build (Node 22, on Node-24 action runtimes).
 - `LICENSE` (proprietary, internal MIDU use) + `THIRD-PARTY-NOTICES.md` (Lexend OFL, Lucide ISC, Vercel MIT; FZ Rubik / MIGI / logos flagged proprietary).
 - `CONTRIBUTING.md` — release process, pre-push gate, references-sync discipline, versioning policy.

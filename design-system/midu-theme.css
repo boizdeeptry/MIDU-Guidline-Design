@@ -1,0 +1,57 @@
+/* MIDU MenaQ7 — Tailwind 4 theme mapping.
+   Values live ONLY in tokens.css (imported below); this file just ALIASES the
+   --midu-* tokens into Tailwind's @theme namespaces so you get utilities like
+   `bg-primary`, `rounded-lg`, `shadow-card`, `font-display` for free.
+
+   Usage in a Tailwind 4 project (keep this file next to tokens.css):
+     @import "tailwindcss";
+     @import "midu-theme.css";
+   Also load the brand fonts (design-system/fonts/fzrubik.css + lexend.css). In
+   Next.js, override --font-display / --font-sans with your next/font `variable`.
+
+   Never edit hex here — edit tokens.css. `python scripts/check_kit.py` fails if any
+   var(--midu-*) below is missing from tokens.css (drift guard).
+   Numeric ramps (indigo/magenta/sun 50–900) stay raw as var(--midu-indigo-500) etc.
+   in tokens.css — they're deliberately not mapped, to avoid clobbering Tailwind's
+   own indigo/… scales. */
+@import "./tokens.css";
+
+@theme {
+  /* Colors — brand + surfaces + semantic */
+  --color-primary: var(--midu-primary);
+  --color-magenta: var(--midu-magenta);
+  --color-sun: var(--midu-sun);
+  --color-lime: var(--midu-lime);
+  --color-ink: var(--midu-ink);
+  --color-ink-soft: var(--midu-ink-soft);
+  --color-canvas: var(--midu-canvas);
+  --color-surface-soft: var(--midu-surface-soft);
+  --color-surface-tint: var(--midu-surface-tint);
+  --color-hairline: var(--midu-hairline);
+  --color-hairline-strong: var(--midu-hairline-strong);
+  --color-success: var(--midu-success);
+  --color-error: var(--midu-error);
+
+  /* Radius */
+  --radius-sm: var(--midu-r-sm);
+  --radius-md: var(--midu-r-md);
+  --radius-lg: var(--midu-r-lg);
+  --radius-xl: var(--midu-r-xl);
+  --radius-pill: var(--midu-r-pill);
+  --radius-full: var(--midu-r-full);
+
+  /* Elevation (indigo-tinted) */
+  --shadow-card: var(--midu-shadow-card);
+  --shadow-float: var(--midu-shadow-float);
+
+  /* Easing */
+  --ease-standard: var(--midu-easing-standard);
+  --ease-emphasized: var(--midu-easing-emphasized);
+
+  /* Type — Fz Rubik for display, Lexend for body (register via design-system/fonts/*.css).
+     In Next.js, override --font-display / --font-sans with your next/font variables. */
+  --font-display: var(--midu-font-display);
+  --font-sans: var(--midu-font-body);
+  --font-tagline: var(--midu-font-tagline);
+  --font-sticker: var(--midu-font-sticker);
+}

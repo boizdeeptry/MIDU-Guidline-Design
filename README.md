@@ -11,6 +11,7 @@ A packaged standard that lets AI coding tools (Claude Code, Cursor, Windsurf…)
 | `DESIGN.md` | **The core** — design tokens (colors, typography, radius, spacing, components) + full spec in the [getdesign.md](https://getdesign.md) format. AI assistants read this one file before writing UI. **Generated** by `scripts/build_design.py` from the topic files in `design/` — edit those, not this. |
 | `design/` | The maintainable source of `DESIGN.md`: one file per section (`00-frontmatter.md` … `19-governance.md`). Rebuild the single file with `python scripts/build_design.py`. |
 | `design-system/tokens.css` | CSS custom properties — paste straight into any project. |
+| `design-system/midu-theme.css` | **Tailwind 4** drop-in — `@import` it and get `bg-primary`, `rounded-lg`, `shadow-card`, `font-display`… It only aliases `tokens.css` (which it imports), so hex lives in one place. |
 | `design-system/fonts/` | **FZ Rubik** (display/titles, TTF, weights 400/500/700/900, full Vietnamese) + `fzrubik.css`, and **Lexend** (body/reading text, woff2, weights 400/500/700, full Vietnamese) + `lexend.css` — each `.css` registers its own face. |
 | `design-system/assets/` | Logo (color / white / tagline lockup) + 15 MIGI mascot poses, transparent full-res PNGs with semantic names. |
 | `design-system/preview.html` | Self-contained visual style guide (build artifact — open in a browser). |
@@ -48,6 +49,13 @@ Copy-Item -Recurse "skills\*" "$env:USERPROFILE\.claude\skills\"
 1. Copy `DESIGN.md` (plus `design-system/tokens.css` and `design-system/fonts/` as needed) into your project root.
 2. Tell the AI assistant: **"Read DESIGN.md before writing any UI."**
 3. Reference tokens by name when iterating: *"switch this button to `{components.button-sun}`"*.
+
+**Tailwind 4 project?** Copy `design-system/tokens.css` + `design-system/midu-theme.css` (keep them together), then:
+```css
+@import "tailwindcss";
+@import "midu-theme.css";   /* now: bg-primary, text-ink, rounded-lg, shadow-card, font-display … */
+```
+Load the brand fonts too (`design-system/fonts/fzrubik.css` + `lexend.css`). In Next.js, override `--font-display` / `--font-sans` with your `next/font` variables (see `examples/midu-landing-next`).
 
 ## Maintenance
 

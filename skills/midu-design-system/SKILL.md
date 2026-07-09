@@ -137,6 +137,8 @@ Weights: 900 for moments, 700 for structure, 400–500 for reading. Skip 600. Fl
 
 Recipes use the variables from `${CLAUDE_SKILL_DIR}/references/tokens.css` — paste that file into the project first, so token values live in exactly one place.
 
+**Tailwind 4 project?** Also ship `design-system/midu-theme.css` (next to `tokens.css` in the kit — see "Locating bundled files") and `@import "tailwindcss"; @import "midu-theme.css";`. It aliases the tokens into `@theme` (`bg-primary`, `rounded-lg`, `shadow-card`, `font-display`). Don't hand-write the `@theme` block — the aliases are lint-checked against `tokens.css`.
+
 ```css
 /* Global focus ring — the one outline permitted on UI chrome (not the "no black outline" rule) */
 :focus-visible { outline: var(--midu-focus-ring-width) solid var(--midu-focus-ring-color); outline-offset: var(--midu-focus-ring-offset); }

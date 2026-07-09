@@ -176,10 +176,26 @@ def check_fonts() -> None:
             ok(f"{css} references resolve")
 
 
+# 7. Tailwind theme file aliases resolve to real tokens ----------------------
+def check_theme_aliases() -> None:
+    print("[7] tailwind theme aliases resolve")
+    theme = read("design-system/midu-theme.css")
+    tokens = read("design-system/tokens.css")
+    if '@import "./tokens.css"' not in theme and '@import "tokens.css"' not in theme:
+        fail("midu-theme.css must @import tokens.css (values live there)")
+    defined = set(re.findall(r"^\s*(--(?:midu|migi)-[a-z0-9-]+)\s*:", tokens, re.M))
+    referenced = set(re.findall(r"var\((--midu-[a-z0-9-]+)\)", theme))
+    missing = sorted(referenced - defined)
+    if missing:
+        fail(f"midu-theme.css references tokens not in tokens.css: {', '.join(missing)}")
+    else:
+        ok(f"all {len(referenced)} theme aliases map to defined tokens")
+
+
 def main() -> int:
     print("MIDU kit consistency check\n" + "=" * 34)
     for chk in (check_design_built, check_refs_in_sync, check_token_graph, check_manifests,
-                check_generated_current, check_mascot_selftest, check_fonts):
+                check_generated_current, check_mascot_selftest, check_fonts, check_theme_aliases):
         chk()
     print("=" * 34)
     print(f"{len(PASSES)} passed, {len(FAILS)} failed")
